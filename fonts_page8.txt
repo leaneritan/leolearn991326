@@ -1,0 +1,32 @@
+Text: 7, Size: 12.0, Font: VAGRounded-Light
+Text: Exercise 1, Size: 20.0, Font: URWGroteskT-Medi
+Text: Circle the letters that should be CAPITALS. Then write , Size: 16.0, Font: VAGRounded-Bold
+Text: the correct letter in the space above them., Size: 16.0, Font: VAGRounded-Bold
+Text: 	1	, Size: 16.0, Font: VAGRounded-Light
+Text: peter and i are good friends., Size: 16.0, Font: VAGRounded-Light
+Text: 	2	, Size: 16.0, Font: VAGRounded-Light
+Text: we are going to chicago during our summer 	, Size: 16.0, Font: VAGRounded-Light
+Text: 	, Size: 16.0, Font: VAGRounded-Light
+Text: 	, Size: 16.0, Font: VAGRounded-Light
+Text: 	, Size: 16.0, Font: VAGRounded-Light
+Text: 	, Size: 16.0, Font: VAGRounded-Light
+Text: vacation.	, Size: 16.0, Font: VAGRounded-Light
+Text: 3	, Size: 16.0, Font: VAGRounded-Light
+Text: there is an interesting football game on sunday., Size: 16.0, Font: VAGRounded-Light
+Text: 	4	, Size: 16.0, Font: VAGRounded-Light
+Text: jason lives on thomson avenue., Size: 16.0, Font: VAGRounded-Light
+Text: 	5	, Size: 16.0, Font: VAGRounded-Light
+Text: january is the first month of the year., Size: 16.0, Font: VAGRounded-Light
+Text: Exercise 2, Size: 20.0, Font: URWGroteskT-Medi
+Text: Look at the signs on the left. Can you find the 	 	, Size: 16.0, Font: VAGRounded-Bold
+Text: 	, Size: 16.0, Font: VAGRounded-Bold
+Text: 	, Size: 16.0, Font: VAGRounded-Bold
+Text: 	, Size: 16.0, Font: VAGRounded-Bold
+Text: mistakes? Write the names correctly., Size: 16.0, Font: VAGRounded-Bold
+Text: hopkins hotel, Size: 14.0, Font: VAGRounded-Light
+Text: lincoln school, Size: 14.0, Font: VAGRounded-Light
+Text: newton road, Size: 14.0, Font: VAGRounded-Light
+Text: orchard street, Size: 14.0, Font: VAGRounded-Light
+Text: botanic gardens, Size: 14.0, Font: VAGRounded-Light
+Text: national library, Size: 14.0, Font: VAGRounded-Light
+Text: shea stadium, Size: 14.0, Font: VAGRounded-Light

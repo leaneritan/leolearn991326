@@ -1,0 +1,133 @@
+Text: 6, Size: 12.0, Font: VAGRounded-Light
+Text: The , Size: 18.0, Font: VAGRounded-Light
+Text: capital letter, Size: 18.0, Font: VAGRounded-Bold
+Text:  is also called a , Size: 18.0, Font: VAGRounded-Light
+Text: big letter, Size: 18.0, Font: VAGRounded-Bold
+Text:  or , Size: 18.0, Font: VAGRounded-Light
+Text: upper-	, Size: 18.0, Font: VAGRounded-Bold
+Text: 	, Size: 18.0, Font: VAGRounded-Bold
+Text: case, Size: 18.0, Font: VAGRounded-Bold
+Text:  letter, or sometimes just a , Size: 18.0, Font: VAGRounded-Light
+Text: capital, Size: 18.0, Font: VAGRounded-Bold
+Text: ., Size: 18.0, Font: VAGRounded-Light
+Text: A	 B	, Size: 17.0, Font: VAGRounded-Light
+Text: C	, Size: 17.0, Font: VAGRounded-Light
+Text: D	, Size: 17.0, Font: VAGRounded-Light
+Text: E	, Size: 17.0, Font: VAGRounded-Light
+Text: F	, Size: 17.0, Font: VAGRounded-Light
+Text: G	, Size: 17.0, Font: VAGRounded-Light
+Text: H	, Size: 17.0, Font: VAGRounded-Light
+Text: I	, Size: 17.0, Font: VAGRounded-Light
+Text: J	, Size: 17.0, Font: VAGRounded-Light
+Text: K	, Size: 17.0, Font: VAGRounded-Light
+Text: L 	 M, Size: 17.0, Font: VAGRounded-Light
+Text: N	 O	, Size: 17.0, Font: VAGRounded-Light
+Text: P	, Size: 17.0, Font: VAGRounded-Light
+Text: Q	, Size: 17.0, Font: VAGRounded-Light
+Text: R	, Size: 17.0, Font: VAGRounded-Light
+Text: S	, Size: 17.0, Font: VAGRounded-Light
+Text: T	, Size: 17.0, Font: VAGRounded-Light
+Text: U	, Size: 17.0, Font: VAGRounded-Light
+Text: V	, Size: 17.0, Font: VAGRounded-Light
+Text: W	, Size: 17.0, Font: VAGRounded-Light
+Text: X	, Size: 17.0, Font: VAGRounded-Light
+Text: Y	, Size: 17.0, Font: VAGRounded-Light
+Text: Z, Size: 17.0, Font: VAGRounded-Light
+Text: When do you use a capital letter?, Size: 18.0, Font: VAGRounded-Light
+Text: 4, Size: 18.0, Font: Webdings
+Text:  , Size: 18.0, Font: Webdings
+Text: Use a capital letter for the first letter in a  , Size: 18.0, Font: VAGRounded-Light
+Text: 	, Size: 18.0, Font: VAGRounded-Light
+Text: sentence:, Size: 18.0, Font: VAGRounded-Light
+Text: 	, Size: 17.0, Font: VAGRounded-Light
+Text:  T, Size: 17.0, Font: VAGRounded-Bold
+Text: he dog is barking., Size: 17.0, Font: VAGRounded-Light
+Text: 	, Size: 17.0, Font: VAGRounded-Bold
+Text:  C, Size: 17.0, Font: VAGRounded-Bold
+Text: ome here!, Size: 17.0, Font: VAGRounded-Light
+Text: 4, Size: 18.0, Font: Webdings
+Text: 	Always use a capital letter for the word    :, Size: 18.0, Font: VAGRounded-Light
+Text: 	  , Size: 17.0, Font: VAGRounded-Bold
+Text:  , Size: 17.0, Font: VAGRounded-Bold
+Text: am eight years old., Size: 17.0, Font: VAGRounded-Light
+Text: 	, Size: 17.0, Font: VAGRounded-Bold
+Text:  Tom and , Size: 17.0, Font: VAGRounded-Light
+Text:  , Size: 17.0, Font: VAGRounded-Bold
+Text:  are good friends., Size: 17.0, Font: VAGRounded-Light
+Text: 4, Size: 18.0, Font: Webdings
+Text: 	Use a capital letter for the names of people:, Size: 18.0, Font: VAGRounded-Light
+Text: 	, Size: 17.0, Font: VAGRounded-Light
+Text: A, Size: 17.0, Font: VAGRounded-Bold
+Text: lice, , Size: 17.0, Font: VAGRounded-Light
+Text: T, Size: 17.0, Font: VAGRounded-Bold
+Text: om, , Size: 17.0, Font: VAGRounded-Light
+Text: J, Size: 17.0, Font: VAGRounded-Bold
+Text: ames, , Size: 17.0, Font: VAGRounded-Light
+Text: K, Size: 17.0, Font: VAGRounded-Bold
+Text: im, , Size: 17.0, Font: VAGRounded-Light
+Text: S, Size: 17.0, Font: VAGRounded-Bold
+Text: now , Size: 17.0, Font: VAGRounded-Light
+Text: W, Size: 17.0, Font: VAGRounded-Bold
+Text: hite, Size: 17.0, Font: VAGRounded-Light
+Text: 4, Size: 18.0, Font: Webdings
+Text:  , Size: 16.0, Font: Webdings
+Text: Use a capital letter for the names of places:, Size: 18.0, Font: VAGRounded-Light
+Text: 	N, Size: 17.0, Font: VAGRounded-Bold
+Text: ational , Size: 17.0, Font: VAGRounded-Light
+Text: M, Size: 17.0, Font: VAGRounded-Bold
+Text: useum, , Size: 17.0, Font: VAGRounded-Light
+Text: B, Size: 17.0, Font: VAGRounded-Bold
+Text: ronx , Size: 17.0, Font: VAGRounded-Light
+Text: Z, Size: 17.0, Font: VAGRounded-Bold
+Text: oo,, Size: 17.0, Font: VAGRounded-Light
+Text:  L, Size: 17.0, Font: VAGRounded-Bold
+Text: ondon,, Size: 17.0, Font: VAGRounded-Light
+Text:  S, Size: 17.0, Font: VAGRounded-Bold
+Text: acramento, Size: 17.0, Font: VAGRounded-Light
+Text: 4, Size: 18.0, Font: Webdings
+Text:  , Size: 16.0, Font: Webdings
+Text: Use a capital letter for festivals, holidays,  , Size: 18.0, Font: VAGRounded-Light
+Text: 	, Size: 18.0, Font: VAGRounded-Light
+Text: days of the week, months of the year:, Size: 18.0, Font: VAGRounded-Light
+Text: 		, Size: 18.0, Font: VAGRounded-Light
+Text: N, Size: 18.0, Font: VAGRounded-Bold
+Text: ew , Size: 18.0, Font: VAGRounded-Light
+Text: Y, Size: 18.0, Font: VAGRounded-Bold
+Text: ear’s , Size: 18.0, Font: VAGRounded-Light
+Text: D, Size: 18.0, Font: VAGRounded-Bold
+Text: ay, , Size: 18.0, Font: VAGRounded-Light
+Text: C, Size: 18.0, Font: VAGRounded-Bold
+Text: hristmas, , Size: 18.0, Font: VAGRounded-Light
+Text: L, Size: 18.0, Font: VAGRounded-Bold
+Text: abor , Size: 18.0, Font: VAGRounded-Light
+Text: D, Size: 18.0, Font: VAGRounded-Bold
+Text: ay, , Size: 18.0, Font: VAGRounded-Light
+Text: M, Size: 18.0, Font: VAGRounded-Bold
+Text: other’s , Size: 18.0, Font: VAGRounded-Light
+Text: D, Size: 18.0, Font: VAGRounded-Bold
+Text: ay, , Size: 18.0, Font: VAGRounded-Light
+Text: 	, Size: 18.0, Font: VAGRounded-Bold
+Text: 	, Size: 18.0, Font: VAGRounded-Bold
+Text: 	 S, Size: 18.0, Font: VAGRounded-Bold
+Text: unday, , Size: 18.0, Font: VAGRounded-Light
+Text: M, Size: 18.0, Font: VAGRounded-Bold
+Text: onday,, Size: 18.0, Font: VAGRounded-Light
+Text:  , Size: 18.0, Font: VAGRounded-Bold
+Text: F, Size: 18.0, Font: VAGRounded-Bold
+Text: riday, , Size: 18.0, Font: VAGRounded-Light
+Text: J, Size: 18.0, Font: VAGRounded-Bold
+Text: anuary,, Size: 18.0, Font: VAGRounded-Light
+Text:  , Size: 18.0, Font: VAGRounded-Bold
+Text: M, Size: 18.0, Font: VAGRounded-Bold
+Text: ay, , Size: 18.0, Font: VAGRounded-Light
+Text: J, Size: 18.0, Font: VAGRounded-Bold
+Text: uly, , Size: 18.0, Font: VAGRounded-Light
+Text: O, Size: 18.0, Font: VAGRounded-Bold
+Text: ctober, Size: 18.0, Font: VAGRounded-Light
+Text: I  , Size: 18.0, Font: VAGRounded-Light
+Text: The Capital Letter, Size: 28.0, Font: URWGroteskT-MediExtrWide
+Text: 2, Size: 36.0, Font: Arial-Black
+Text: I, Size: 18.0, Font: VAGRounded-Light
+Text:   , Size: 18.0, Font: VAGRounded-Light
+Text: I, Size: 18.0, Font: VAGRounded-Light
+Text:   , Size: 18.0, Font: VAGRounded-Light

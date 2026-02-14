@@ -1,0 +1,21 @@
+Found 31 potential exercise pages.
+{'page': 8, 'has_blanks': False, 'has_circle': True}
+{'page': 13, 'has_blanks': False, 'has_circle': True}
+{'page': 20, 'has_blanks': False, 'has_circle': True}
+{'page': 21, 'has_blanks': True, 'has_circle': True}
+{'page': 33, 'has_blanks': True, 'has_circle': False}
+{'page': 43, 'has_blanks': True, 'has_circle': False}
+{'page': 51, 'has_blanks': True, 'has_circle': False}
+{'page': 52, 'has_blanks': True, 'has_circle': False}
+{'page': 54, 'has_blanks': True, 'has_circle': True}
+{'page': 65, 'has_blanks': False, 'has_circle': True}
+{'page': 77, 'has_blanks': True, 'has_circle': False}
+{'page': 78, 'has_blanks': True, 'has_circle': True}
+{'page': 79, 'has_blanks': True, 'has_circle': False}
+{'page': 83, 'has_blanks': True, 'has_circle': True}
+{'page': 88, 'has_blanks': True, 'has_circle': False}
+{'page': 89, 'has_blanks': True, 'has_circle': False}
+{'page': 93, 'has_blanks': True, 'has_circle': False}
+{'page': 96, 'has_blanks': True, 'has_circle': False}
+{'page': 98, 'has_blanks': True, 'has_circle': False}
+{'page': 104, 'has_blanks': True, 'has_circle': False}

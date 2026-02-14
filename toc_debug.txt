@@ -1,0 +1,57 @@
+TEXT: [1 What is Grammar? 5] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [2 The Capital Letter 6] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [3 Nouns 8] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [Common Nouns 8] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Proper Nouns 13] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Singular Nouns 21] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Plural Nouns 23] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Collective Nouns 34] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Masculine and Feminine Nouns  37] FONT: ['VAGRounded-Light'] IS_CHAPT: False
+TEXT: [4 Pronouns 44] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [Personal Pronouns 44] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Reflexive Pronouns 47] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Interrogative Pronouns 48] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Demonstrative Pronouns 49] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [5 Adjectives 52] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [Adjective Endings 54] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Kinds of Adjectives 58] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Comparison of Adjectives 65] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [6 Determiners 71] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [The Articles 71] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Demonstrative Determiners 73] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Interrogative Determiners 74] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Possessive Determiners 75] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [7 Verbs and Tenses 79] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [The Simple Present Tense 80] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Am, Is and Are 83] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [The Present Progressive Tense 89] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Have and Has 93] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [The Present Perfect Tense 96] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [The Simple Past Tense 98] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Regular and Irregular Verbs 99] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Was and Were 104] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [The Past Progressive Tense 106] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [The Future Tense 108] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Can and Could 112] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [May and Might 113] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Do, Does and Did 115] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Would and Should 120] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [8 Subject-Verb Agreement 123] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [9 Adverbs 127] FONT: ['Arial-Black', 'VAGRounded-Bold', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [10 Prepositions 132] FONT: ['Arial-Black', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [11 Conjunctions 135] FONT: ['Arial-Black', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [12 Interjections 138] FONT: ['Arial-Black', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [13 Sentences 139] FONT: ['Arial-Black', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [What is a Sentence? 139] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Kinds of Sentences 140] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [The Imperative 141] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [The Subject and the Object 143] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Direct and Indirect Objects 144] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Positive and Negative Sentences 146] FONT: ['VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Questions 147] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [14 Punctuation 150] FONT: ['Arial-Black', 'VAGRounded-Bold'] IS_CHAPT: True
+TEXT: [Period 150] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Comma 151] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Exclamation Point 152] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Question Mark 152] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False
+TEXT: [Apostrophe 153] FONT: ['VAGRounded-Light', 'VAGRounded-Light'] IS_CHAPT: False

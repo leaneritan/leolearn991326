@@ -1,0 +1,12 @@
+127.0.0.1 - - [13/Feb/2026 20:41:09] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:41:09] "GET /data.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:41:09] "GET /toc.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:41:09] "GET /answers.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:41:09] "GET /circles.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:41:10] "GET /images/page_1_block_0.png HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:44:22] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:44:22] "GET /data.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:44:22] "GET /answers.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:44:22] "GET /circles.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:44:22] "GET /toc.json HTTP/1.1" 200 -
+127.0.0.1 - - [13/Feb/2026 20:44:22] "GET /images/page_1_block_0.png HTTP/1.1" 200 -

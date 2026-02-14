@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic English Grammar - Interactive Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+        :root {
+            --primary: #3b82f6;
+            --secondary: #fbbf24;
+            --accent: #f59e0b;
+            --bg: #fef9c3;
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            background-color: var(--bg);
+        }
+
+        #page-content {
+            container-type: size;
+            background-color: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 8px solid var(--secondary);
+            border-radius: 1.5rem;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+            background-image: radial-gradient(#f0f0f0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .sidebar {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .nav-item {
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background-color: white;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .nav-item.completed {
+            border-left: 4px solid #4ade80;
+        }
+
+        .input-blank {
+            border-bottom: 2px dashed var(--primary);
+            background-color: #eff6ff;
+            outline: none;
+            padding: 0 4px;
+            text-align: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .input-blank:focus {
+            background-color: white;
+            border-bottom-style: solid;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-correct {
+            border-bottom-color: #22c55e !important;
+            background-color: #f0fdf4 !important;
+            color: #166534 !important;
+        }
+
+        .input-incorrect {
+            border-bottom-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #991b1b !important;
+        }
+
+        .clickable-word {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 0 2px;
+            transition: all 0.2s;
+        }
+
+        .clickable-word:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .word-circled {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+            border-radius: 50%;
+        }
+
+        .word-correct {
+            outline-color: #22c55e !important;
+            background-color: #f0fdf4;
+        }
+
+        .word-incorrect {
+            outline-color: #ef4444 !important;
+            background-color: #fef2f2;
+        }
+
+        /* Custom scrollbar for sidebar */
+        .overflow-y-auto::-webkit-scrollbar {
+            width: 6px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar w-72 flex-shrink-0 flex flex-col shadow-xl z-10">
+        <div class="p-6 text-2xl font-bold tracking-tight border-b border-blue-400/50 flex items-center gap-2">
+            <span class="text-3xl">📖</span> Grammar 1
+        </div>
+
+        <div class="p-4 pb-0">
+            <div class="relative">
+                <input type="text" id="search" placeholder="Search lessons..."
+                    class="w-full p-3 pl-10 rounded-xl text-black outline-none focus:ring-4 focus:ring-yellow-400 transition-all shadow-inner">
+                <span class="absolute left-3 top-3.5 opacity-40">🔍</span>
+            </div>
+            <div id="search-results" class="hidden mt-2 max-h-40 overflow-y-auto bg-white rounded-xl shadow-lg text-black text-sm">
+                <!-- Search results will appear here -->
+            </div>
+        </div>
+
+        <nav id="toc" class="flex-1 overflow-y-auto py-4">
+            <!-- TOC items -->
+        </nav>
+
+        <div class="p-6 border-t border-blue-400/50 bg-blue-600/20">
+            <button id="reset-progress" class="w-full mb-4 text-xs opacity-60 hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
+                <span>🔄</span> Reset All Progress
+            </button>
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-sm font-medium opacity-80">Progress</span>
+                <span class="text-xl font-bold"><span id="progress-percent">0</span>%</span>
+            </div>
+            <div class="w-full bg-blue-900/30 h-3 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-yellow-400 h-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col bg-slate-50 relative overflow-hidden">
+        <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8 z-20">
+            <div class="flex items-center gap-6">
+                <div class="flex items-center bg-slate-100 rounded-lg p-1">
+                    <button id="prev-page" class="p-2 rounded-md hover:bg-white hover:shadow-sm transition-all text-slate-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div class="px-4 font-bold text-slate-700 min-w-[120px] text-center">
+                        <span id="page-info">Page 1 / 159</span>
+                    </div>
+                    <button id="next-page" class="p-2 rounded-md hover:bg-white hover:shadow-sm transition-all text-slate-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="clear-page" class="text-slate-400 hover:text-red-500 px-3 py-2 text-sm font-medium transition-colors">
+                    Clear Page
+                </button>
+                <button id="toggle-feedback" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2">
+                    <span id="feedback-icon">👁️</span> <span id="feedback-text">Check Answers</span>
+                </button>
+                <button id="mark-complete" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2.5 rounded-xl font-bold transition-all transform active:scale-95 shadow-md flex items-center gap-2">
+                    <span id="mark-icon">⭕</span> <span id="mark-text">Mark as Finished</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-12 flex flex-col items-center">
+            <div id="page-content" class="w-full max-w-4xl shadow-2xl">
+                <!-- Page blocks -->
+            </div>
+
+            <div class="h-20 flex-shrink-0"></div> <!-- Spacer -->
+        </main>
+    </div>
+
+    <script>
+        let bookData = [];
+        let tocData = [];
+        let answerKey = {};
+        let circleKey = {};
+        let currentPage = 1;
+        let progress = {};
+        let showFeedback = false;
+
+        async function init() {
+            try {
+                const [dataRes, tocRes, ansRes, circRes] = await Promise.all([
+                    fetch('data.json'),
+                    fetch('toc.json'),
+                    fetch('answers.json').catch(() => ({ json: () => ({}) })),
+                    fetch('circles.json').catch(() => ({ json: () => ({}) }))
+                ]);
+                bookData = await dataRes.json();
+                tocData = await tocRes.json();
+                answerKey = await ansRes.json();
+                circleKey = await circRes.json();
+
+                loadProgress();
+                renderTOC();
+
+                // Get last visited page or start at 1
+                const lastPage = parseInt(localStorage.getItem('last_page') || '1');
+                renderPage(lastPage);
+                updateProgressUI();
+
+                document.getElementById('prev-page').onclick = () => changePage(currentPage - 1);
+                document.getElementById('next-page').onclick = () => changePage(currentPage + 1);
+                document.getElementById('mark-complete').onclick = toggleComplete;
+                document.getElementById('toggle-feedback').onclick = toggleFeedback;
+                document.getElementById('clear-page').onclick = clearCurrentPage;
+                document.getElementById('search').oninput = handleSearch;
+                document.getElementById('reset-progress').onclick = resetProgress;
+
+                // Close search results when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#search') && !e.target.closest('#search-results')) {
+                        document.getElementById('search-results').classList.add('hidden');
+                    }
+                });
+
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') changePage(currentPage - 1);
+                    if (e.key === 'ArrowRight') changePage(currentPage + 1);
+                });
+            } catch (err) {
+                console.error("Failed to load data", err);
+                alert("Error loading book data. Please check console.");
+            }
+        }
+
+        function renderTOC() {
+            const container = document.getElementById('toc');
+            container.innerHTML = '';
+
+            tocData.forEach(item => {
+                const isCompleted = progress[item.page];
+                const el = document.createElement('div');
+                el.className = `nav-item p-4 cursor-pointer flex items-center gap-3 ${isCompleted ? 'completed' : ''}`;
+                el.innerHTML = `
+                    <span class="status-icon">${isCompleted ? '✅' : '●'}</span>
+                    <span class="title">${item.title}</span>
+                `;
+                el.onclick = () => renderPage(item.page);
+                el.id = `toc-item-${item.page}`;
+                container.appendChild(el);
+
+                if (item.subsections) {
+                    item.subsections.forEach(sub => {
+                        const isSubCompleted = progress[sub.page];
+                        const subEl = document.createElement('div');
+                        subEl.className = `nav-item p-3 pl-10 cursor-pointer text-sm opacity-80 ${isSubCompleted ? 'completed' : ''}`;
+                        subEl.innerHTML = `
+                            <span class="status-icon opacity-50 text-[10px]">${isSubCompleted ? '✅' : '○'}</span>
+                            <span>${sub.title}</span>
+                        `;
+                        subEl.onclick = (e) => {
+                            e.stopPropagation();
+                            renderPage(sub.page);
+                        };
+                        subEl.id = `toc-item-${sub.page}`;
+                        container.appendChild(subEl);
+                    });
+                }
+            });
+        }
+
+        function renderPage(pageNum) {
+            if (pageNum < 1 || pageNum > bookData.length) return;
+            currentPage = pageNum;
+            localStorage.setItem('last_page', pageNum);
+
+            const page = bookData[pageNum - 1];
+            const container = document.getElementById('page-content');
+
+            // Set Aspect Ratio
+            const ratio = page.width / page.height;
+            container.style.aspectRatio = ratio.toString();
+            container.innerHTML = '';
+
+            document.getElementById('page-info').innerText = `Page ${pageNum} / ${bookData.length}`;
+
+            // Highlight active TOC
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const tocItem = document.getElementById(`toc-item-${pageNum}`);
+            if (tocItem) {
+                tocItem.classList.add('active');
+                tocItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+
+            // Update mark complete button
+            updateMarkButton();
+
+            // Heuristic for Circle/Underline exercise
+            const pageText = page.blocks.map(b => b.type === 0 ? b.lines.map(l => l.spans.map(s => s.text).join('')).join('\n') : '').join('\n');
+            const isCircleEx = pageText.toLowerCase().includes('circle') || pageText.toLowerCase().includes('underline');
+
+            // Render Page Content
+            page.blocks.forEach(block => {
+                if (block.type === 0) { // Text
+                    block.lines.forEach(line => {
+                        const lineText = line.spans.map(s => s.text).join('');
+                        const isExerciseItem = /^\s*\d+\s+/.test(lineText);
+
+                        line.spans.forEach(span => {
+                            const spanEl = document.createElement('span');
+                            spanEl.className = 'absolute whitespace-pre';
+
+                            const x = (span.origin[0] / page.width) * 100;
+                            const y = (span.origin[1] / page.height) * 100;
+                            const fontSize = (span.size / page.height) * 100;
+
+                            // Adjust for baseline
+                            const topOffset = y - (fontSize * 0.8);
+
+                            spanEl.style.left = `${x}%`;
+                            spanEl.style.top = `${topOffset}%`;
+                            spanEl.style.fontSize = `${fontSize}cqh`;
+
+                            let colorHex = (span.color >>> 0).toString(16).padStart(6, '0');
+                            spanEl.style.color = '#' + colorHex;
+
+                            if (span.flags & 2) spanEl.style.fontStyle = 'italic';
+                            if (span.flags & 4) spanEl.style.fontWeight = 'bold';
+
+                            // Interactive logic
+                            if (span.text.includes('____')) {
+                                processInteractiveSpan(spanEl, span.text, pageNum, x, y);
+                            } else if (isCircleEx && isExerciseItem && span.text.trim().length > 1) {
+                                processCircleSpan(spanEl, span.text, pageNum, x, y);
+                            } else {
+                                spanEl.textContent = span.text;
+                            }
+
+                            container.appendChild(spanEl);
+                        });
+                    });
+                } else if (block.type === 1) { // Image
+                    const img = document.createElement('img');
+                    img.src = block.src;
+                    img.className = 'absolute pointer-events-none';
+                    img.style.left = `${(block.bbox[0] / page.width) * 100}%`;
+                    img.style.top = `${(block.bbox[1] / page.height) * 100}%`;
+                    img.style.width = `${((block.bbox[2] - block.bbox[0]) / page.width) * 100}%`;
+                    img.style.height = `${((block.bbox[3] - block.bbox[1]) / page.height) * 100}%`;
+                    container.appendChild(img);
+                }
+            });
+        }
+
+        function processInteractiveSpan(el, text, pageNum, x, y) {
+            const parts = text.split(/_{2,}/);
+            el.innerHTML = '';
+            parts.forEach((part, i) => {
+                el.appendChild(document.createTextNode(part));
+                if (i < parts.length - 1) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'input-blank';
+                    input.style.width = '8cqw'; // Slightly wider
+
+                    const key = `ans_${pageNum}_${Math.round(x)}_${Math.round(y)}_${i}`;
+                    input.value = localStorage.getItem(key) || '';
+
+                    if (showFeedback) {
+                        applyInputFeedback(input, key);
+                    }
+
+                    input.oninput = (e) => {
+                        localStorage.setItem(key, e.target.value);
+                        if (showFeedback) applyInputFeedback(e.target, key);
+                    };
+                    el.appendChild(input);
+                }
+            });
+        }
+
+        function processCircleSpan(el, text, pageNum, x, y) {
+            // Split text into words but keep whitespace
+            const words = text.split(/(\s+)/);
+            el.innerHTML = '';
+            words.forEach((word, i) => {
+                if (word.trim().length > 0) {
+                    const wordEl = document.createElement('span');
+                    wordEl.className = 'clickable-word';
+                    wordEl.textContent = word;
+
+                    const key = `circ_${pageNum}_${Math.round(x)}_${Math.round(y)}_${i}`;
+                    if (localStorage.getItem(key) === 'true') {
+                        wordEl.classList.add('word-circled');
+                    }
+
+                    if (showFeedback) {
+                        applyCircleFeedback(wordEl, word, pageNum);
+                    }
+
+                    wordEl.onclick = () => {
+                        const isCircled = wordEl.classList.toggle('word-circled');
+                        localStorage.setItem(key, isCircled ? 'true' : 'false');
+                        if (showFeedback) applyCircleFeedback(wordEl, word, pageNum);
+                    };
+                    el.appendChild(wordEl);
+                } else {
+                    el.appendChild(document.createTextNode(word));
+                }
+            });
+        }
+
+        function applyInputFeedback(input, key) {
+            const correct = answerKey[key];
+            const val = input.value.trim().toLowerCase();
+            input.classList.remove('input-correct', 'input-incorrect');
+            if (!val) return;
+            if (correct && val === correct.toLowerCase()) {
+                input.classList.add('input-correct');
+            } else if (correct) {
+                input.classList.add('input-incorrect');
+            }
+        }
+
+        function applyCircleFeedback(el, word, pageNum) {
+            const isCircled = el.classList.contains('word-circled');
+            const pageCircles = circleKey[pageNum] || [];
+            const cleanWord = word.replace(/[.,!?;:]/g, '').toLowerCase();
+            const isCorrectWord = pageCircles.some(w => w.toLowerCase() === cleanWord);
+
+            el.classList.remove('word-correct', 'word-incorrect');
+            if (isCircled) {
+                if (isCorrectWord) {
+                    el.classList.add('word-correct');
+                } else {
+                    el.classList.add('word-incorrect');
+                }
+            }
+        }
+
+        function toggleFeedback() {
+            showFeedback = !showFeedback;
+            const btn = document.getElementById('toggle-feedback');
+            const icon = document.getElementById('feedback-icon');
+            const text = document.getElementById('feedback-text');
+
+            if (showFeedback) {
+                btn.classList.replace('bg-slate-200', 'bg-yellow-400');
+                icon.innerText = '🙈';
+                text.innerText = 'Hide Answers';
+            } else {
+                btn.classList.replace('bg-yellow-400', 'bg-slate-200');
+                icon.innerText = '👁️';
+                text.innerText = 'Check Answers';
+            }
+            renderPage(currentPage); // Re-render to apply feedback
+        }
+
+        function clearCurrentPage() {
+            if (confirm("Clear all your answers on this page?")) {
+                const prefix = `ans_${currentPage}_`;
+                const circPrefix = `circ_${currentPage}_`;
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith(prefix) || key.startsWith(circPrefix)) {
+                        localStorage.removeItem(key);
+                        i--; // Adjust index after removal
+                    }
+                }
+                renderPage(currentPage);
+            }
+        }
+
+        function changePage(pageNum) {
+            if (pageNum >= 1 && pageNum <= bookData.length) {
+                renderPage(pageNum);
+            }
+        }
+
+        function updateMarkButton() {
+            const btn = document.getElementById('mark-complete');
+            const icon = document.getElementById('mark-icon');
+            const text = document.getElementById('mark-text');
+
+            if (progress[currentPage]) {
+                btn.classList.replace('bg-green-500', 'bg-blue-500');
+                btn.classList.replace('hover:bg-green-600', 'hover:bg-blue-600');
+                icon.innerText = '✅';
+                text.innerText = 'Finished!';
+            } else {
+                btn.classList.replace('bg-blue-500', 'bg-green-500');
+                btn.classList.replace('hover:bg-blue-600', 'hover:bg-green-600');
+                icon.innerText = '⭕';
+                text.innerText = 'Mark as Finished';
+            }
+        }
+
+        function toggleComplete() {
+            progress[currentPage] = !progress[currentPage];
+            saveProgress();
+            updateMarkButton();
+            updateProgressUI();
+            renderTOC(); // Update icons in TOC
+        }
+
+        function resetProgress() {
+            if (confirm("Are you sure you want to clear all progress and answers?")) {
+                localStorage.clear();
+                progress = {};
+                location.reload();
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('grammar_progress_v2', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('grammar_progress_v2');
+            if (saved) progress = JSON.parse(saved);
+        }
+
+        function updateProgressUI() {
+            const total = bookData.length;
+            const completed = Object.values(progress).filter(v => v).length;
+            const percent = Math.round((completed / total) * 100);
+            document.getElementById('progress-percent').innerText = percent;
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+
+        let searchTimeout;
+        function handleSearch(e) {
+            const resultsContainer = document.getElementById('search-results');
+            clearTimeout(searchTimeout);
+            const query = e.target.value.toLowerCase().trim();
+
+            if (query.length < 2) {
+                resultsContainer.classList.add('hidden');
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                const results = [];
+                for (let i = 0; i < bookData.length; i++) {
+                    const page = bookData[i];
+                    let matchText = "";
+                    let found = false;
+
+                    page.blocks.forEach(block => {
+                        if (block.type === 0) {
+                            block.lines.forEach(line => {
+                                line.spans.forEach(span => {
+                                    if (span.text.toLowerCase().includes(query)) {
+                                        found = true;
+                                        if (!matchText) matchText = span.text;
+                                    }
+                                });
+                            });
+                        }
+                    });
+
+                    if (found) {
+                        results.push({ page: i + 1, text: matchText });
+                    }
+                    if (results.length >= 10) break;
+                }
+
+                if (results.length > 0) {
+                    resultsContainer.innerHTML = results.map(r => `
+                        <div class="p-3 hover:bg-blue-50 cursor-pointer border-b last:border-0" onclick="renderPage(${r.page})">
+                            <div class="font-bold text-blue-600">Page ${r.page}</div>
+                            <div class="truncate opacity-60 text-xs">${r.text}</div>
+                        </div>
+                    `).join('');
+                    resultsContainer.classList.remove('hidden');
+                } else {
+                    resultsContainer.innerHTML = '<div class="p-3 text-center opacity-50">No results found</div>';
+                    resultsContainer.classList.remove('hidden');
+                }
+            }, 300);
+        }
+
+        init();
+    </script>
+</body>
+</html>
