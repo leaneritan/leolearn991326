@@ -75,7 +75,7 @@ def extract_toc_from_dict(toc_page_data):
         sorted_lines = sorted(column_lines, key=lambda l: l['y'])
         curr = [sorted_lines[0]]
         for i in range(1, len(sorted_lines)):
-            if abs(sorted_lines[i]['y'] - curr[0]['y']) < 5: # Increased threshold
+            if abs(sorted_lines[i]['y'] - curr[0]['y']) < 5:
                 curr.append(sorted_lines[i])
             else:
                 grouped.append(curr)

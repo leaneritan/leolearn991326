@@ -1,8 +1,0 @@
-Text: BASIC ENGLISH, Size: 64.0, Font: Impact
-Text: GRAMMAR, Size: 64.0, Font: Impact
-Text: BASIC ENGLISH, Size: 64.0, Font: Impact
-Text: GRAMMAR, Size: 64.0, Font: Impact
-Text: Book, Size: 24.0, Font: Impact
-Text: 1, Size: 38.0, Font: Impact
-Text: Book, Size: 24.0, Font: Impact
-Text: 1, Size: 38.0, Font: Impact
