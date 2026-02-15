@@ -1,6 +1,4 @@
+__pycache__/
+*.pyc
+verify_*.png
 node_modules/
-.DS_Store
-*.log
-extract_toc_v2.py
-toc_debug.txt
-extracted_toc_v2.json
