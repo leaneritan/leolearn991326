@@ -70,4 +70,4 @@ def extract_book(pdf_path, output_dir):
 
 if __name__ == "__main__":
     pdf = "Basic-English-Grammar Book.pdf"
-    extract_book(pdf, "app")
+    extract_book(pdf, "docs")

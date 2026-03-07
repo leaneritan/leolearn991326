@@ -44,7 +44,11 @@ window.QUIZ_QUESTIONS = {
         { "type": "blank", "q": "Soccer is played with a ____.", "a": "ball" },
         { "type": "tf", "q": "You play soccer with your hands.", "a": false },
         { "type": "multiple", "q": "A goal is worth ____ point(s).", "options": ["0", "1", "10", "100"], "a": 1 },
-        { "type": "blank", "q": "The person who guards the goal is the ____.", "a": "goalkeeper" },
+        { "type": "match", "q": "Match the players to their positions!", "pairs": [
+            { "left": "Messi", "right": "Forward" },
+            { "left": "Neuer", "right": "Goalkeeper" },
+            { "left": "Van Dijk", "right": "Defender" }
+        ]},
         { "type": "tf", "q": "Messi wears number 10.", "a": true }
     ]
 };

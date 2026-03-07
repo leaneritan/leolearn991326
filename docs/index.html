@@ -698,6 +698,31 @@
                     input.placeholder = 'Type your answer...';
                     input.oninput = (e) => q.userAnswer = e.target.value.trim().toLowerCase();
                     optDiv.appendChild(input);
+                } else if (q.type === 'match') {
+                    const matchContainer = document.createElement('div');
+                    matchContainer.className = 'space-y-3';
+                    q.userAnswer = {};
+
+                    const rightOptions = [...q.pairs].map(p => p.right).sort(() => 0.5 - Math.random());
+
+                    q.pairs.forEach((pair, pairIdx) => {
+                        const row = document.createElement('div');
+                        row.className = 'flex items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200';
+                        row.innerHTML = `
+                            <span class="font-bold text-slate-700 min-w-[100px]">${pair.left}</span>
+                            <span class="text-slate-400">➔</span>
+                            <select class="flex-1 p-2 rounded-lg border border-slate-300 outline-none focus:border-green-600">
+                                <option value="">Select match...</option>
+                                ${rightOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                            </select>
+                        `;
+                        const select = row.querySelector('select');
+                        select.onchange = (e) => {
+                            q.userAnswer[pair.left] = e.target.value;
+                        };
+                        matchContainer.appendChild(row);
+                    });
+                    optDiv.appendChild(matchContainer);
                 }
 
                 qDiv.appendChild(optDiv);
@@ -713,7 +738,13 @@
                 if (q.type === 'multiple' || q.type === 'tf') {
                     if (q.userAnswer === q.a) score++;
                 } else if (q.type === 'blank') {
-                    if (q.userAnswer === q.a.toLowerCase()) score++;
+                    if (q.userAnswer && q.userAnswer.toLowerCase() === q.a.toLowerCase()) score++;
+                } else if (q.type === 'match') {
+                    let correctMatches = 0;
+                    q.pairs.forEach(pair => {
+                        if (q.userAnswer && q.userAnswer[pair.left] === pair.right) correctMatches++;
+                    });
+                    if (correctMatches === q.pairs.length) score++;
                 }
             });
 
