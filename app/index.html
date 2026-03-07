@@ -295,6 +295,18 @@
     </style>
 
     <script>
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
         let bookData = [];
         let tocData = [];
         let answerKey = {};
@@ -321,6 +333,21 @@
                 tocData = await tocRes.json();
                 answerKey = ansRes.ok ? await ansRes.json() : {};
                 circleKey = circRes.ok ? await circRes.json() : {};
+
+                // Optimization: Pre-calculate full text for search and exercise detection
+                bookData.forEach(page => {
+                    let text = "";
+                    page.blocks.forEach(b => {
+                        if (b.type === 0) {
+                            b.lines.forEach(l => {
+                                l.spans.forEach(s => {
+                                    text += s.text + " ";
+                                });
+                            });
+                        }
+                    });
+                    page.fullText = text.toLowerCase();
+                });
 
                 loadProgress();
                 renderTOC();
@@ -349,7 +376,7 @@
                 document.getElementById('mark-complete').onclick = toggleComplete;
                 document.getElementById('toggle-feedback').onclick = toggleFeedback;
                 document.getElementById('clear-page').onclick = clearCurrentPage;
-                document.getElementById('search').oninput = handleSearch;
+                document.getElementById('search').oninput = debounce(handleSearch, 300);
                 document.getElementById('reset-progress').onclick = resetProgress;
                 document.getElementById('start-btn').onclick = () => {
                     document.getElementById('welcome-overlay').classList.add('hidden');
@@ -456,12 +483,12 @@
 
             updateMarkButton();
 
-            // Detect if Circle Exercise
-            let combinedText = "";
-            page.blocks.forEach(b => { if(b.type===0) b.lines.forEach(l => l.spans.forEach(s => combinedText += s.text))});
-            const isCircleEx = combinedText.toLowerCase().includes('circle') || combinedText.toLowerCase().includes('underline');
+            // Detect if Circle Exercise - Optimized using pre-calculated text
+            const isCircleEx = page.fullText.includes('circle') || page.fullText.includes('underline');
 
-            // Render Blocks
+            // Render Blocks - Optimized using DocumentFragment for batched appends
+            const fragment = document.createDocumentFragment();
+
             page.blocks.forEach(block => {
                 if (block.type === 0) {
                     block.lines.forEach(line => {
@@ -494,7 +521,7 @@
                             } else {
                                 spanEl.textContent = span.text;
                             }
-                            container.appendChild(spanEl);
+                            fragment.appendChild(spanEl);
                         });
                     });
                 } else if (block.type === 1) {
@@ -505,9 +532,10 @@
                     img.style.top = `${(block.bbox[1] / page.height) * 100}%`;
                     img.style.width = `${((block.bbox[2] - block.bbox[0]) / page.width) * 100}%`;
                     img.style.height = `${((block.bbox[3] - block.bbox[1]) / page.height) * 100}%`;
-                    container.appendChild(img);
+                    fragment.appendChild(img);
                 }
             });
+            container.appendChild(fragment);
         }
 
         function findLessonForPage(pageNum) {
@@ -796,36 +824,44 @@
             if (query.length < 2) { resultsBox.classList.add('hidden'); return; }
 
             const results = [];
+            const matchedPages = new Set();
 
             // Search TOC first
             tocData.forEach(item => {
                 if (item.title.toLowerCase().includes(query)) {
                     results.push({ page: item.page, text: item.title, type: 'Lesson' });
+                    matchedPages.add(item.page);
                 }
                 if (item.subsections) {
                     item.subsections.forEach(sub => {
                         if (sub.title.toLowerCase().includes(query)) {
                             results.push({ page: sub.page, text: sub.title, type: 'Topic' });
+                            matchedPages.add(sub.page);
                         }
                     });
                 }
             });
 
-            // Search Page Content
+            // Search Page Content - Optimized with Set and pre-calculated text
             for (let i = 0; i < bookData.length; i++) {
                 if (results.length > 15) break;
+                const pageNum = i + 1;
+                if (matchedPages.has(pageNum)) continue;
+
                 const page = bookData[i];
-                let textFound = "";
-                const found = page.blocks.some(b => b.type === 0 && b.lines.some(l => l.spans.some(s => {
-                    if (s.text.toLowerCase().includes(query)) {
-                        // Avoid duplicates from TOC
-                        if (results.some(r => r.page === i+1 && r.type !== 'Content')) return false;
-                        textFound = s.text;
-                        return true;
-                    }
-                    return false;
-                })));
-                if (found) results.push({ page: i+1, text: textFound, type: 'Content' });
+                if (page.fullText.includes(query)) {
+                    // Extract a snippet for the result
+                    let snippet = "";
+                    page.blocks.some(b => b.type === 0 && b.lines.some(l => l.spans.some(s => {
+                        if (s.text.toLowerCase().includes(query)) {
+                            snippet = s.text;
+                            return true;
+                        }
+                        return false;
+                    })));
+                    results.push({ page: pageNum, text: snippet, type: 'Content' });
+                    matchedPages.add(pageNum);
+                }
             }
 
             if (results.length) {

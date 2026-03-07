@@ -1,0 +1,3 @@
+## 2026-03-07 - [Optimizing Large JSON Search and DOM Rendering]
+**Learning:** In applications loading large JSON datasets (3.2MB book data), performing nested iterations (Blocks > Lines > Spans) during real-time UI events like search or page rendering is a significant performance bottleneck. Pre-calculating a flattened, lowercase string representation (`fullText`) during initialization reduces (N^3)$ complexity to (N)$ for search and exercise detection. Additionally, batching hundreds of absolute-positioned spans using `DocumentFragment` measurably reduces reflow costs in dense document views.
+**Action:** Always look for opportunities to pre-calculate searchable state during the 'init' phase of data-heavy SPAs and use DocumentFragments for batch DOM updates.
