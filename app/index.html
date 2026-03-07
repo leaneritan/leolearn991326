@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic English Grammar - Interactive App</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="toc.js"></script>
-    <script src="data.js"></script>
-    <script src="answers.js"></script>
-    <script src="circles.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -249,15 +245,20 @@
 
         async function init() {
             try {
-                // Data is now loaded via <script> tags to avoid CORS issues
-                bookData = window.BOOK_DATA;
-                tocData = window.TOC_DATA;
-                answerKey = window.ANSWERS_DATA || {};
-                circleKey = window.CIRCLES_DATA || {};
+                const [dataRes, tocRes, ansRes, circRes] = await Promise.all([
+                    fetch('book_data.json'),
+                    fetch('toc.json'),
+                    fetch('answers.json').catch(() => ({ ok: false })),
+                    fetch('circles.json').catch(() => ({ ok: false }))
+                ]);
 
-                if (!bookData || !tocData) {
-                    throw new Error("Could not load book data from JS files.");
-                }
+                if (!dataRes.ok) throw new Error("Could not load book_data.json. Please ensure you are running through a web server.");
+                if (!tocRes.ok) throw new Error("Could not load toc.json.");
+
+                bookData = await dataRes.json();
+                tocData = await tocRes.json();
+                answerKey = ansRes.ok ? await ansRes.json() : {};
+                circleKey = circRes.ok ? await circRes.json() : {};
 
                 loadProgress();
                 renderTOC();
@@ -306,7 +307,7 @@
                 });
             } catch (err) {
                 console.error(err);
-                alert("Error initializing app. Please ensure you're using a web server.");
+                alert("Critical Error: " + err.message);
             }
         }
 

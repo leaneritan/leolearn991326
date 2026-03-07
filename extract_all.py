@@ -59,14 +59,8 @@ def extract_book(pdf_path, output_dir):
         print(f"Extracted page {page_num+1}")
 
     # Save as JSON
-    with open(os.path.join(output_dir, "data.json"), "w") as f:
+    with open(os.path.join(output_dir, "book_data.json"), "w") as f:
         json.dump(book_data, f)
-
-    # Save as JS
-    with open(os.path.join(output_dir, "data.js"), "w") as f:
-        f.write("window.BOOK_DATA = ")
-        json.dump(book_data, f)
-        f.write(";")
 
     # Save TOC (Using the one we previously defined as it's more accurate than auto-gen)
     # I'll just copy the current app/toc.json content into the script or assume it's already there
