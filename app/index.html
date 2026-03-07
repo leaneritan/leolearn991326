@@ -5,23 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic English Grammar - Interactive App</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="quiz_questions.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
         :root {
-            --primary: #4f46e5;
-            --primary-light: #818cf8;
-            --secondary: #fbbf24;
-            --accent: #f59e0b;
-            --bg: #f8fafc;
-            --sidebar: #1e293b;
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --secondary: #fdd835;
+            --accent: #ffeb3b;
+            --bg: #f1f8e9;
+            --sidebar: #1b5e20;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Nunito', sans-serif;
             background-color: var(--bg);
-            color: #1e293b;
+            color: #1b5e20;
+            font-size: 1.1rem;
+        }
+
+        h1, h2, h3, .heading-font {
+            font-family: 'Fredoka One', cursive;
         }
 
         .grammar-font {
@@ -52,21 +59,24 @@
         .sidebar {
             background-color: var(--sidebar);
             color: white;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 80%);
         }
 
         .nav-item {
             transition: all 0.2s;
-            border-left: 4px solid transparent;
+            border-left: 6px solid transparent;
+            font-size: 1rem;
         }
 
         .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--primary-light);
             border-left-color: var(--secondary);
             color: white;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
         }
 
         .nav-item.completed {
@@ -140,11 +150,11 @@
 <body class="h-screen flex overflow-hidden">
     <!-- Sidebar -->
     <aside class="sidebar w-80 flex-shrink-0 flex flex-col shadow-2xl z-30">
-        <div class="p-6 border-b border-slate-700 flex items-center gap-3">
-            <div class="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center text-2xl shadow-lg">📖</div>
+        <div class="p-6 border-b border-green-800 flex items-center gap-3">
+            <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-2xl shadow-lg border-2 border-white">⚽</div>
             <div>
-                <h1 class="font-bold text-lg leading-tight">Grammar 1</h1>
-                <p class="text-xs text-slate-400">Basic English App</p>
+                <h1 class="font-bold text-xl leading-tight text-yellow-300 uppercase tracking-wide">Grammar 1</h1>
+                <p class="text-xs text-green-200">Coach Leo Edition</p>
             </div>
         </div>
 
@@ -210,6 +220,10 @@
                     <span id="mark-icon">⭕</span> <span id="mark-text">Mark as Finished</span>
                 </button>
             </div>
+            <div class="h-6 w-px bg-slate-200 mx-2"></div>
+            <button id="take-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-bold transition-all shadow-lg shadow-blue-200 active:scale-95 flex items-center gap-2 whitespace-nowrap">
+                <span>⚽ Take Quiz!</span>
+            </button>
         </header>
 
         <!-- Main Page Area -->
@@ -223,16 +237,62 @@
             </div>
 
             <!-- Welcome Overlay (hidden when page loaded) -->
-            <div id="welcome-overlay" class="hidden absolute inset-0 bg-slate-50 z-40 flex flex-col items-center justify-center p-8 text-center">
-                <div class="w-24 h-24 bg-indigo-500 rounded-3xl flex items-center justify-center text-5xl mb-8 shadow-2xl animate-bounce">📖</div>
-                <h2 class="text-4xl font-extrabold text-slate-800 mb-4">Welcome to Grammar 1</h2>
-                <p class="text-slate-500 max-w-md text-lg mb-8">Ready to master English grammar? Choose a lesson from the sidebar to get started!</p>
-                <button id="start-btn" class="bg-indigo-600 text-white px-10 py-4 rounded-2xl font-bold text-xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-95">
-                    Start Learning
+            <div id="welcome-overlay" class="hidden absolute inset-0 bg-green-100 z-40 flex flex-col items-center justify-center p-8 text-center">
+                <div class="w-32 h-32 bg-yellow-400 rounded-full flex items-center justify-center text-6xl mb-8 shadow-2xl animate-bounce border-4 border-white">⚽</div>
+                <h2 class="text-5xl font-extrabold text-green-900 mb-4">Welcome, Leo! Let's play Grammar! ⚽</h2>
+                <p class="text-green-700 max-w-md text-xl mb-8 font-semibold">Ready to score some goals in English? Choose a lesson to start the match!</p>
+                <button id="start-btn" class="bg-green-600 text-white px-12 py-5 rounded-full font-bold text-2xl hover:bg-green-700 transition-all shadow-xl shadow-green-200 active:scale-95 border-b-4 border-green-800">
+                    KICK OFF! ⚽
                 </button>
             </div>
         </main>
     </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl animate-[slideUp_0.4s_ease-out]">
+            <header class="p-8 bg-green-600 text-white rounded-t-3xl flex justify-between items-center sticky top-0 z-10">
+                <div>
+                    <h2 class="text-3xl font-bold mb-1">Grammar Match! ⚽</h2>
+                    <p id="quiz-title" class="text-green-100 opacity-90 font-semibold"></p>
+                </div>
+                <button id="close-quiz" class="text-4xl hover:scale-110 transition-transform">&times;</button>
+            </header>
+
+            <div id="quiz-body" class="p-8 flex-1">
+                <!-- Questions injected here -->
+            </div>
+
+            <footer class="p-8 border-t border-slate-100 bg-slate-50 rounded-b-3xl flex justify-between items-center">
+                <p id="quiz-counter" class="text-slate-500 font-bold uppercase tracking-wider text-sm"></p>
+                <button id="submit-quiz" class="bg-green-600 text-white px-10 py-4 rounded-full font-bold text-xl hover:bg-green-700 transition-all shadow-xl active:scale-95">
+                    SCORE A GOAL! 🥅
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md text-center p-10 shadow-2xl animate-[pop_0.4s_cubic-bezier(0.34,1.56,0.64,1)]">
+            <div class="text-8xl mb-6">🏆</div>
+            <h2 id="result-title" class="text-4xl font-bold mb-4 text-green-900"></h2>
+            <div id="result-score" class="text-6xl font-black text-green-600 mb-6 tracking-tighter"></div>
+            <p id="result-msg" class="text-slate-600 text-xl font-semibold mb-10"></p>
+            <button id="close-result" class="w-full bg-green-600 text-white py-5 rounded-full font-bold text-2xl hover:bg-green-700 transition-all shadow-xl">
+                CONTINUE MATCH! ⚽
+            </button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .quiz-option { @apply p-5 border-2 border-slate-200 rounded-2xl cursor-pointer hover:bg-green-50 hover:border-green-400 transition-all font-semibold text-lg flex items-center gap-4; }
+        .quiz-option.selected { @apply border-green-600 bg-green-100 text-green-900 shadow-inner; }
+        .quiz-input { @apply w-full p-5 border-2 border-slate-200 rounded-2xl focus:border-green-600 focus:outline-none font-bold text-2xl text-center; }
+    </style>
 
     <script>
         let bookData = [];
@@ -242,6 +302,8 @@
         let currentPage = 1;
         let progress = {};
         let showFeedback = false;
+
+        let currentQuizQuestions = [];
 
         async function init() {
             try {
@@ -293,6 +355,11 @@
                     document.getElementById('welcome-overlay').classList.add('hidden');
                     renderPage(1);
                 };
+
+                document.getElementById('take-quiz').onclick = startQuiz;
+                document.getElementById('close-quiz').onclick = () => document.getElementById('quiz-modal').classList.add('hidden');
+                document.getElementById('submit-quiz').onclick = scoreQuiz;
+                document.getElementById('close-result').onclick = () => document.getElementById('result-modal').classList.add('hidden');
 
                 document.addEventListener('click', (e) => {
                     if (!e.target.closest('#search') && !e.target.closest('#search-results')) {
@@ -537,11 +604,147 @@
         }
 
         function toggleComplete() {
+            const isClosingSection = checkSectionEnd(currentPage);
             progress[currentPage] = !progress[currentPage];
             saveProgress();
             updateMarkButton();
             updateProgressUI();
             renderTOC();
+
+            if (progress[currentPage] && isClosingSection) {
+                setTimeout(startQuiz, 500);
+            }
+        }
+
+        function checkSectionEnd(pageNum) {
+            // Find current section and see if this page is its end
+            for (let i = 0; i < tocData.length; i++) {
+                const section = tocData[i];
+                const nextSection = tocData[i+1];
+                const endPage = nextSection ? nextSection.page - 1 : bookData.length;
+                if (pageNum === endPage) return true;
+            }
+            return false;
+        }
+
+        function startQuiz() {
+            const section = findSectionForPage(currentPage);
+            const title = section ? section.title : "General Grammar";
+            const questions = window.QUIZ_QUESTIONS[title] || window.QUIZ_QUESTIONS["DEFAULT"];
+
+            // Randomly select 6
+            currentQuizQuestions = [...questions].sort(() => 0.5 - Math.random()).slice(0, 6);
+
+            document.getElementById('quiz-title').innerText = title;
+            document.getElementById('quiz-counter').innerText = `Challenge: 6 Questions`;
+
+            const body = document.getElementById('quiz-body');
+            body.innerHTML = '';
+
+            currentQuizQuestions.forEach((q, i) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'mb-12 last:mb-0';
+                qDiv.innerHTML = `
+                    <p class="text-2xl font-bold mb-6 flex gap-4">
+                        <span class="bg-yellow-400 text-green-900 w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full text-lg border-2 border-white">${i+1}</span>
+                        ${q.q}
+                    </p>
+                `;
+
+                const optDiv = document.createElement('div');
+                optDiv.className = 'space-y-4 ml-14';
+
+                if (q.type === 'multiple') {
+                    q.options.forEach((opt, idx) => {
+                        const div = document.createElement('div');
+                        div.className = 'quiz-option';
+                        div.innerHTML = `
+                            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center">
+                                <div class="w-3 h-3 bg-green-600 rounded-full opacity-0"></div>
+                            </div>
+                            <span>${opt}</span>
+                        `;
+                        div.onclick = () => {
+                            optDiv.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected', 'border-green-600', 'bg-green-100'));
+                            optDiv.querySelectorAll('.quiz-option .opacity-100').forEach(el => el.classList.remove('opacity-100'));
+                            div.classList.add('selected', 'border-green-600', 'bg-green-100');
+                            div.querySelector('.bg-green-600').classList.add('opacity-100');
+                            q.userAnswer = idx;
+                        };
+                        optDiv.appendChild(div);
+                    });
+                } else if (q.type === 'tf') {
+                    ['True', 'False'].forEach((val) => {
+                        const div = document.createElement('div');
+                        div.className = 'quiz-option';
+                        div.innerHTML = `
+                            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center">
+                                <div class="w-3 h-3 bg-green-600 rounded-full opacity-0"></div>
+                            </div>
+                            <span>${val}</span>
+                        `;
+                        div.onclick = () => {
+                            optDiv.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected', 'border-green-600', 'bg-green-100'));
+                            optDiv.querySelectorAll('.quiz-option .opacity-100').forEach(el => el.classList.remove('opacity-100'));
+                            div.classList.add('selected', 'border-green-600', 'bg-green-100');
+                            div.querySelector('.bg-green-600').classList.add('opacity-100');
+                            q.userAnswer = (val === 'True');
+                        };
+                        optDiv.appendChild(div);
+                    });
+                } else if (q.type === 'blank') {
+                    const input = document.createElement('input');
+                    input.className = 'quiz-input';
+                    input.placeholder = 'Type your answer...';
+                    input.oninput = (e) => q.userAnswer = e.target.value.trim().toLowerCase();
+                    optDiv.appendChild(input);
+                }
+
+                qDiv.appendChild(optDiv);
+                body.appendChild(qDiv);
+            });
+
+            document.getElementById('quiz-modal').classList.remove('hidden');
+        }
+
+        function scoreQuiz() {
+            let score = 0;
+            currentQuizQuestions.forEach(q => {
+                if (q.type === 'multiple' || q.type === 'tf') {
+                    if (q.userAnswer === q.a) score++;
+                } else if (q.type === 'blank') {
+                    if (q.userAnswer === q.a.toLowerCase()) score++;
+                }
+            });
+
+            document.getElementById('quiz-modal').classList.add('hidden');
+
+            const resultTitle = document.getElementById('result-title');
+            const resultScore = document.getElementById('result-score');
+            const resultMsg = document.getElementById('result-msg');
+
+            resultScore.innerText = `${score}/6`;
+
+            if (score === 6) {
+                resultTitle.innerText = "HAT-TRICK! ⚽⚽⚽";
+                resultMsg.innerText = "Legendary performance, Leo! You're the grammar MVP!";
+            } else if (score >= 4) {
+                resultTitle.innerText = "GOAL! 🥅";
+                resultMsg.innerText = `Great match, Leo! You scored ${score}/6. Keep practicing!`;
+            } else {
+                resultTitle.innerText = "FULL TIME! ⚽";
+                resultMsg.innerText = "Good effort, Leo! Let's hit the training ground and try again!";
+            }
+
+            document.getElementById('result-modal').classList.remove('hidden');
+        }
+
+        function findSectionForPage(pageNum) {
+            let found = null;
+            tocData.forEach(item => {
+                if (item.page <= pageNum) found = item;
+            });
+            return found;
         }
 
         function updateMarkButton() {

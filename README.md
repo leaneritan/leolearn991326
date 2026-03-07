@@ -11,22 +11,31 @@ This application turns the "Basic English Grammar Book 1" PDF into a fully inter
 - **Progress Tracking**: Your progress and answers are automatically saved to your browser's local storage.
 - **Searchable Lessons**: Quickly find any topic or keyword using the search bar.
 - **Responsive Design**: Kid-friendly UI with a clean sidebar Table of Contents.
-- **Offline Ready**: Works directly by opening `index.html` in your browser (no web server required).
+- **Coach Leo Edition**: Soccer-themed branding and interactive quizzes for a fun learning experience.
 
 ## How to Run
 
-1.  Navigate to the `app/` directory.
-2.  Double-click `index.html` to open it in your favorite web browser.
-3.  Enjoy learning!
+### Option 1: One-Click Launcher (Windows)
+1. Double-click `start.bat` in the root directory.
+2. This will start a local server and open the app in your browser automatically.
+
+### Option 2: Manual Start
+1. Navigate to the root directory.
+2. Run a local web server (required for loading data files):
+   ```bash
+   python -m http.server 8000
+   ```
+3. Open `http://localhost:8000/app/index.html` in your browser.
 
 ## For Developers
 
 The app content is extracted from the PDF using a custom extraction pipeline.
 
-- `app/data.js`: Contains the layout, text, and image references for all 159 pages.
-- `app/toc.js`: The Table of Contents structure.
-- `app/answers.js`: The answer key for fill-in-the-blank exercises.
-- `app/circles.js`: The list of correct words for circling exercises.
+- `app/book_data.json`: Contains the layout, text, and image references for all 159 pages.
+- `app/toc.json`: The Table of Contents structure.
+- `app/answers.json`: The answer key for fill-in-the-blank exercises.
+- `app/circles.json`: The list of correct words for circling exercises.
+- `app/quiz_questions.js`: Soccer-themed quiz data for Leo.
 - `app/images/`: Extracted images from the book.
 - `extract_all.py`: The Python script used to extract text and images from the PDF (requires `PyMuPDF`).
 
