@@ -38,9 +38,6 @@
         #page-content {
             container-type: size;
             background-color: white;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
             position: relative;
             margin: 0 auto;
             overflow: hidden;
@@ -51,9 +48,8 @@
         .page-frame {
             padding: 2rem;
             background: white;
-            border: 12px solid var(--secondary);
-            border-radius: 2rem;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
         .sidebar {
@@ -145,6 +141,34 @@
         .btn-action {
             @apply flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all active:scale-95 shadow-sm;
         }
+
+        .exercise-panel {
+            @apply w-full max-w-5xl mt-8 mb-32 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden transition-all duration-300;
+        }
+
+        .exercise-header {
+            @apply bg-green-700 text-white p-4 flex justify-between items-center cursor-pointer;
+        }
+
+        .exercise-body {
+            @apply p-8 bg-green-50/30 overflow-visible;
+        }
+
+        .drop-zone {
+            @apply border-2 border-dashed border-green-300 rounded-xl p-4 min-h-[100px] flex flex-wrap gap-2 transition-colors;
+        }
+
+        .drop-zone.drag-over {
+            @apply border-green-500 bg-green-100;
+        }
+
+        .draggable-item {
+            @apply bg-white border-2 border-green-200 p-2 px-4 rounded-lg shadow-sm cursor-move hover:border-green-400 active:scale-95 transition-all;
+        }
+
+        .trophy-sidebar {
+            @apply text-yellow-400 ml-auto;
+        }
     </style>
 </head>
 <body class="h-screen flex overflow-hidden">
@@ -161,8 +185,8 @@
         <div class="p-4">
             <div class="relative group">
                 <input type="text" id="search" placeholder="Search lessons..."
-                    class="w-full bg-slate-800 border border-slate-700 p-3 pl-10 rounded-xl text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
-                <span class="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-indigo-400 transition-colors">🔍</span>
+                    class="w-full bg-slate-800 border border-slate-700 p-3 pl-10 rounded-xl text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-green-500 transition-all">
+                <span class="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-green-400 transition-colors">🔍</span>
             </div>
             <div id="search-results" class="hidden absolute left-4 right-4 mt-2 max-h-60 overflow-y-auto bg-white rounded-xl shadow-2xl text-slate-900 z-50">
                 <!-- Search results -->
@@ -174,14 +198,24 @@
         </nav>
 
         <div class="p-6 bg-slate-800/50 border-t border-slate-700">
-            <div class="flex justify-between items-end mb-3">
-                <span class="text-sm font-medium text-slate-400 uppercase tracking-wider">Course Progress</span>
-                <span class="text-xl font-bold text-indigo-400"><span id="progress-percent">0</span>%</span>
+            <div class="mb-4">
+                <div class="flex justify-between items-end mb-2">
+                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Exercise Progress</span>
+                    <span class="text-lg font-bold text-yellow-400"><span id="exercise-progress-percent">0</span>%</span>
+                </div>
+                <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                    <div id="exercise-progress-bar" class="bg-yellow-400 h-full transition-all duration-700" style="width: 0%"></div>
+                </div>
             </div>
-            <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden mb-4">
-                <div id="progress-bar" class="bg-indigo-500 h-full transition-all duration-700 ease-out" style="width: 0%"></div>
+
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Book Progress</span>
+                <span class="text-lg font-bold text-green-400"><span id="progress-percent">0</span>%</span>
             </div>
-            <button id="reset-progress" class="w-full py-2 text-xs text-slate-500 hover:text-red-400 transition-colors flex items-center justify-center gap-1 opacity-60 hover:opacity-100">
+            <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden mb-4">
+                <div id="progress-bar" class="bg-green-500 h-full transition-all duration-700 ease-out" style="width: 0%"></div>
+            </div>
+            <button id="reset-progress" class="w-full py-2 text-[10px] text-slate-500 hover:text-red-400 transition-colors flex items-center justify-center gap-1 opacity-60 hover:opacity-100">
                 <span>🔄</span> Reset All Progress
             </button>
         </div>
@@ -192,48 +226,77 @@
         <!-- Header -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-20 shadow-sm">
             <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-xl shadow-md border-2 border-white">⚽</div>
+                <div id="active-lesson" class="text-xl font-bold text-green-800 truncate max-w-md">
+                    Loading lesson...
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <!-- Theme/App Style Header - minimized -->
+            </div>
+        </header>
+
+        <!-- Main Page Area -->
+        <main class="flex-1 overflow-y-auto bg-slate-50 p-8 lg:p-12 flex flex-col items-center">
+            <div id="page-container" class="w-[75%] flex flex-col items-center transition-all duration-500">
+                <div class="page-frame mb-8 w-full">
+                    <div id="page-content" class="grammar-font">
+                        <!-- Content injected here -->
+                    </div>
+                </div>
+
+                <!-- Exercise Panel -->
+                <div id="exercise-panel" class="exercise-panel hidden">
+                    <div class="exercise-header" id="exercise-toggle">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">📝</span>
+                            <h3 class="font-bold text-lg uppercase tracking-wider">Interactive Exercise</h3>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span id="exercise-score-badge" class="bg-yellow-400 text-green-900 px-3 py-1 rounded-full font-bold text-sm hidden"></span>
+                            <span id="exercise-chevron" class="transition-transform">▼</span>
+                        </div>
+                    </div>
+                    <div id="exercise-content" class="exercise-body">
+                        <!-- Exercise content injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Toolbar -->
+            <div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-fit bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-6 z-40">
                 <div class="flex items-center bg-slate-100 rounded-xl p-1 shadow-inner">
                     <button id="prev-page" class="p-2 rounded-lg hover:bg-white hover:shadow-md transition-all text-slate-600 active:scale-90">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <div class="px-6 font-bold text-slate-700 min-w-[140px] text-center select-none">
+                    <div class="px-6 font-bold text-slate-700 min-w-[120px] text-center select-none text-sm">
                         <span id="page-info">Page 1 / 159</span>
                     </div>
                     <button id="next-page" class="p-2 rounded-lg hover:bg-white hover:shadow-md transition-all text-slate-600 active:scale-90">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
-                <div id="active-lesson" class="text-sm font-medium text-slate-400 truncate max-w-xs hidden md:block">
-                    Loading lesson...
-                </div>
-            </div>
 
-            <div class="flex items-center gap-3">
-                <button id="clear-page" class="text-slate-400 hover:text-red-500 px-3 py-2 text-sm font-semibold transition-colors">
-                    Clear Page
-                </button>
-                <div class="h-6 w-px bg-slate-200 mx-1"></div>
-                <button id="toggle-feedback" class="bg-amber-100 hover:bg-amber-200 text-amber-700 px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm border border-amber-200">
-                    <span id="feedback-icon">👁️</span> <span id="feedback-text">Check Answers</span>
-                </button>
-                <button id="mark-complete" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-emerald-200 active:scale-95 flex items-center gap-2">
-                    <span id="mark-icon">⭕</span> <span id="mark-text">Mark as Finished</span>
-                </button>
-            </div>
-            <div class="h-6 w-px bg-slate-200 mx-2"></div>
-            <button id="take-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-bold transition-all shadow-lg shadow-blue-200 active:scale-95 flex items-center gap-2 whitespace-nowrap">
-                <span>⚽ Take Quiz!</span>
-            </button>
-        </header>
+                <div class="h-8 w-px bg-slate-200"></div>
 
-        <!-- Main Page Area -->
-        <main class="flex-1 overflow-y-auto bg-slate-50 p-8 lg:p-12 flex justify-center">
-            <div id="page-container" class="w-full max-w-5xl flex flex-col items-center">
-                <div class="page-frame mb-12 shadow-2xl">
-                    <div id="page-content" class="grammar-font">
-                        <!-- Content injected here -->
-                    </div>
+                <div class="flex items-center gap-2">
+                    <button id="toggle-feedback" class="bg-amber-100 hover:bg-amber-200 text-amber-700 px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-amber-200">
+                        <span id="feedback-icon">👁️</span> <span id="feedback-text">Check Answers</span>
+                    </button>
+                    <button id="mark-complete" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-100 active:scale-95 flex items-center gap-2">
+                        <span id="mark-icon">⭕</span> <span id="mark-text">Mark as Finished</span>
+                    </button>
                 </div>
+
+                <div class="h-8 w-px bg-slate-200"></div>
+
+                <button id="take-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-bold text-sm transition-all shadow-lg shadow-blue-100 active:scale-95 flex items-center gap-2 whitespace-nowrap">
+                    <span>⚽ Take Quiz!</span>
+                </button>
+
+                <button id="clear-page" class="text-slate-400 hover:text-red-500 p-2 transition-colors" title="Clear Page">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
             </div>
 
             <!-- Welcome Overlay (hidden when page loaded) -->
@@ -309,21 +372,25 @@
 
         let bookData = [];
         let tocData = [];
+        let exerciseData = [];
         let answerKey = {};
         let circleKey = {};
         let currentPage = 1;
         let progress = {};
+        let exerciseProgress = {};
         let showFeedback = false;
+        let isExerciseExpanded = true;
 
         let currentQuizQuestions = [];
 
         async function init() {
             try {
-                const [dataRes, tocRes, ansRes, circRes] = await Promise.all([
+                const [dataRes, tocRes, ansRes, circRes, exRes] = await Promise.all([
                     fetch('book_data.json'),
                     fetch('toc.json'),
                     fetch('answers.json').catch(() => ({ ok: false })),
-                    fetch('circles.json').catch(() => ({ ok: false }))
+                    fetch('circles.json').catch(() => ({ ok: false })),
+                    fetch('exercises.json').catch(() => ({ ok: false }))
                 ]);
 
                 if (!dataRes.ok) throw new Error("Could not load book_data.json. Please ensure you are running through a web server.");
@@ -331,6 +398,7 @@
 
                 bookData = await dataRes.json();
                 tocData = await tocRes.json();
+                exerciseData = exRes.ok ? await exRes.json() : [];
                 answerKey = ansRes.ok ? await ansRes.json() : {};
                 circleKey = circRes.ok ? await circRes.json() : {};
 
@@ -351,6 +419,12 @@
 
                 loadProgress();
                 renderTOC();
+
+                document.getElementById('exercise-toggle').onclick = () => {
+                    isExerciseExpanded = !isExerciseExpanded;
+                    document.getElementById('exercise-content').classList.toggle('hidden', !isExerciseExpanded);
+                    document.getElementById('exercise-chevron').style.transform = isExerciseExpanded ? 'rotate(0deg)' : 'rotate(-90deg)';
+                };
 
                 const lastPage = parseInt(localStorage.getItem('last_page') || '0');
                 const hashPage = parseInt(window.location.hash.replace('#page=', ''));
@@ -409,8 +483,30 @@
             const container = document.getElementById('toc');
             container.innerHTML = '';
 
+            // Flatten topics to find ranges
+            const flattenedTopics = [];
+            tocData.forEach(item => {
+                flattenedTopics.push(item);
+                if (item.subsections) item.subsections.forEach(sub => flattenedTopics.push(sub));
+            });
+            flattenedTopics.sort((a, b) => a.page - b.page);
+
+            const getTrophyStatus = (item) => {
+                const topicIndex = flattenedTopics.findIndex(t => t.title === item.title && t.page === item.page);
+                const nextTopic = flattenedTopics[topicIndex + 1];
+                const endPage = nextTopic ? nextTopic.page - 1 : bookData.length;
+
+                const relevantExercises = exerciseData.filter(ex => ex.pageNumber >= item.page && ex.pageNumber <= endPage);
+                return relevantExercises.length > 0 && relevantExercises.every(ex => {
+                    const p = exerciseProgress[ex.pageNumber];
+                    return p && p.score >= (p.total * 0.8);
+                });
+            };
+
             tocData.forEach(item => {
                 const isCompleted = progress[item.page];
+                const showTrophy = getTrophyStatus(item);
+
                 const el = document.createElement('div');
                 el.className = `nav-item px-6 py-3 cursor-pointer flex items-center justify-between group ${isCompleted ? 'completed' : ''}`;
                 el.innerHTML = `
@@ -418,7 +514,10 @@
                         <span class="text-xs opacity-40">${item.page}</span>
                         <span class="font-bold text-sm tracking-tight">${item.title}</span>
                     </div>
-                    <span class="text-xs opacity-0 group-hover:opacity-100 transition-opacity">${isCompleted ? '✅' : '→'}</span>
+                    <div class="flex items-center gap-2">
+                        ${showTrophy ? '<span class="trophy-sidebar">🏆</span>' : ''}
+                        <span class="text-xs opacity-0 group-hover:opacity-100 transition-opacity">${isCompleted ? '✅' : '→'}</span>
+                    </div>
                 `;
                 el.onclick = () => renderPage(item.page);
                 el.id = `toc-item-${item.page}`;
@@ -427,10 +526,15 @@
                 if (item.subsections) {
                     item.subsections.forEach(sub => {
                         const isSubCompleted = progress[sub.page];
+                        const showSubTrophy = getTrophyStatus(sub);
+
                         const subEl = document.createElement('div');
                         subEl.className = `nav-item px-6 py-2 pl-12 cursor-pointer flex items-center justify-between text-sm opacity-70 hover:opacity-100 ${isSubCompleted ? 'completed' : ''}`;
                         subEl.innerHTML = `
-                            <span>${sub.title}</span>
+                            <div class="flex items-center gap-2">
+                                <span>${sub.title}</span>
+                                ${showSubTrophy ? '<span class="text-xs">🏆</span>' : ''}
+                            </div>
                             <span class="text-[10px] opacity-40">${sub.page}</span>
                         `;
                         subEl.onclick = (e) => {
@@ -482,6 +586,7 @@
             }
 
             updateMarkButton();
+            renderExercisePanel(pageNum);
 
             // Detect if Circle Exercise - Optimized using pre-calculated text
             const isCircleEx = page.fullText.includes('circle') || page.fullText.includes('underline');
@@ -778,16 +883,21 @@
         function updateMarkButton() {
             const btn = document.getElementById('mark-complete');
             const isDone = progress[currentPage];
-            btn.classList.toggle('bg-emerald-500', !isDone);
-            btn.classList.toggle('bg-indigo-500', isDone);
+            btn.classList.toggle('bg-green-600', !isDone);
+            btn.classList.toggle('bg-indigo-600', isDone);
             document.getElementById('mark-text').innerText = isDone ? 'Finished!' : 'Mark as Finished';
             document.getElementById('mark-icon').innerText = isDone ? '✅' : '⭕';
         }
 
-        function saveProgress() { localStorage.setItem('grammar_progress_v3', JSON.stringify(progress)); }
+        function saveProgress() {
+            localStorage.setItem('grammar_progress_v3', JSON.stringify(progress));
+            localStorage.setItem('grammar_exercise_progress_v3', JSON.stringify(exerciseProgress));
+        }
         function loadProgress() {
             const saved = localStorage.getItem('grammar_progress_v3');
             if (saved) progress = JSON.parse(saved);
+            const savedEx = localStorage.getItem('grammar_exercise_progress_v3');
+            if (savedEx) exerciseProgress = JSON.parse(savedEx);
         }
         function updateProgressUI() {
             const total = bookData.length;
@@ -795,6 +905,254 @@
             const percent = Math.round((completed / total) * 100);
             document.getElementById('progress-percent').innerText = percent;
             document.getElementById('progress-bar').style.width = percent + '%';
+
+            // Exercise Progress
+            const totalExercises = exerciseData.length;
+            const completedExercises = Object.values(exerciseProgress).filter(ex => ex.score >= (ex.total * 0.8)).length;
+            const exPercent = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0;
+            document.getElementById('exercise-progress-percent').innerText = exPercent;
+            document.getElementById('exercise-progress-bar').style.width = exPercent + '%';
+        }
+
+        function renderExercisePanel(pageNum) {
+            const panel = document.getElementById('exercise-panel');
+            const content = document.getElementById('exercise-content');
+            const scoreBadge = document.getElementById('exercise-score-badge');
+            const exercise = exerciseData.find(ex => ex.pageNumber === pageNum);
+
+            if (!exercise) {
+                panel.classList.add('hidden');
+                return;
+            }
+
+            panel.classList.remove('hidden');
+            content.innerHTML = `
+                <div class="mb-6">
+                    <p class="text-xl font-bold text-green-900 mb-2">${exercise.instructions}</p>
+                    <div id="exercise-main" class="mt-4"></div>
+                </div>
+                <div class="mt-8 border-t border-green-200 pt-6">
+                    <p class="text-xl font-bold text-green-900 mb-4">Practice: Fill in the blanks</p>
+                    <div id="exercise-blanks" class="space-y-4"></div>
+                </div>
+                <div class="mt-8 flex justify-center">
+                    <button id="check-exercise" class="bg-green-600 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-green-700 transition-all shadow-lg active:scale-95">
+                        Check My Score! ⚽
+                    </button>
+                </div>
+            `;
+
+            renderMainExercise(exercise);
+            renderFillInBlanks(exercise);
+
+            const saved = exerciseProgress[pageNum];
+            if (saved) {
+                scoreBadge.innerText = `⚽ ${saved.score}/${saved.total}`;
+                scoreBadge.classList.remove('hidden');
+            } else {
+                scoreBadge.classList.add('hidden');
+            }
+
+            document.getElementById('check-exercise').onclick = () => scoreExercise(pageNum, exercise);
+        }
+
+        function renderMainExercise(ex) {
+            const container = document.getElementById('exercise-main');
+            if (ex.type === 'categorize') {
+                container.innerHTML = `
+                    <div class="flex flex-wrap gap-4 mb-6" id="words-pool">
+                        ${ex.words.map((w, i) => `<div class="draggable-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain', '${w.text}')">${w.text}</div>`).sort(() => 0.5 - Math.random()).join('')}
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        ${ex.columns.map(col => `
+                            <div class="flex flex-col gap-2">
+                                <h4 class="font-bold text-green-800 text-center">${col}</h4>
+                                <div class="drop-zone" data-category="${col}" ondragover="event.preventDefault(); this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleDrop(event)"></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (ex.type === 'ordering') {
+                container.innerHTML = `
+                    <p class="text-sm text-slate-500 mb-4">Drag the items into the correct order:</p>
+                    <div class="flex flex-wrap gap-2 drop-zone min-h-[60px]" id="ordering-zone" ondragover="event.preventDefault()" ondrop="handleOrderingDrop(event)">
+                        <!-- Ordered items will go here -->
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4" id="ordering-pool">
+                        ${ex.words.map((w, i) => `<div class="draggable-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain', '${w}')">${w}</div>`).sort(() => 0.5 - Math.random()).join('')}
+                    </div>
+                `;
+            } else if (ex.type === 'matching') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            ${ex.pairs.map((p, i) => `
+                                <div class="flex items-center justify-between p-3 bg-white border-2 border-green-100 rounded-lg">
+                                    <span class="font-bold">${p.group}</span>
+                                    <div class="drop-zone w-32 min-h-[40px] flex items-center justify-center" data-match="${p.collective}" ondragover="event.preventDefault()" ondrop="handleMatchingDrop(event)"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500 mb-4">Drag the collective nouns to the correct group:</p>
+                            <div class="flex flex-wrap gap-2" id="matching-pool">
+                                ${ex.pairs.map((p, i) => `<div class="draggable-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain', '${p.collective}')">${p.collective}</div>`).sort(() => 0.5 - Math.random()).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (ex.type === 'typing') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${ex.pairs.map((p, i) => `
+                            <div class="flex items-center gap-4 p-3 bg-white border border-green-100 rounded-lg">
+                                <span class="font-bold w-24">${p.singular || p.masculine}:</span>
+                                <input type="text" class="flex-1 p-2 border-b-2 border-green-200 outline-none focus:border-green-500 font-bold" data-answer="${p.plural || p.feminine}">
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.target.classList.remove('drag-over');
+            const dragText = e.dataTransfer.getData('text/plain');
+            const allDraggables = Array.from(document.querySelectorAll('.draggable-item'));
+            const draggedEl = allDraggables.find(el => el.innerText.trim() === dragText.trim());
+
+            if (draggedEl && e.target.classList.contains('drop-zone')) {
+                e.target.appendChild(draggedEl);
+            }
+        }
+
+        function handleOrderingDrop(e) {
+            e.preventDefault();
+            const dragText = e.dataTransfer.getData('text/plain');
+            const allDraggables = Array.from(document.querySelectorAll('.draggable-item'));
+            const draggedEl = allDraggables.find(el => el.innerText.trim() === dragText.trim());
+
+            const zone = document.getElementById('ordering-zone');
+            if (draggedEl) {
+                zone.appendChild(draggedEl);
+            }
+        }
+
+        function handleMatchingDrop(e) {
+            e.preventDefault();
+            const dragText = e.dataTransfer.getData('text/plain');
+            const allDraggables = Array.from(document.querySelectorAll('.draggable-item'));
+            const draggedEl = allDraggables.find(el => el.innerText.trim() === dragText.trim());
+
+            if (draggedEl && e.target.classList.contains('drop-zone')) {
+                if (e.target.children.length > 0) {
+                    document.getElementById('matching-pool').appendChild(e.target.children[0]);
+                }
+                e.target.appendChild(draggedEl);
+            }
+        }
+
+        function renderFillInBlanks(ex) {
+            const container = document.getElementById('exercise-blanks');
+            ex.fillInTheBlanks.forEach((item, i) => {
+                const parts = item.sentence.split('_____');
+                const div = document.createElement('div');
+                div.className = 'flex flex-wrap items-center gap-2 text-lg';
+                div.innerHTML = `
+                    <span>${i+1}.</span>
+                    <span>${parts[0]}</span>
+                    <input type="text" class="border-b-2 border-green-300 outline-none focus:border-green-600 px-2 py-1 w-32 text-center font-bold text-green-800" data-answer="${item.answer}">
+                    <span>${parts[1] || ''}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function scoreExercise(pageNum, ex) {
+            let score = 0;
+            let total = 0;
+
+            // Score main exercise
+            if (ex.type === 'categorize') {
+                const zones = document.querySelectorAll('.drop-zone');
+                zones.forEach(zone => {
+                    const category = zone.dataset.category;
+                    Array.from(zone.children).forEach(item => {
+                        total++;
+                        const wordData = ex.words.find(w => w.text === item.innerText);
+                        if (wordData && wordData.category === category) {
+                            score++;
+                            item.classList.add('bg-green-100', 'border-green-500');
+                        } else {
+                            item.classList.add('bg-red-100', 'border-red-500');
+                        }
+                    });
+                });
+                total = ex.words.length; // Ensure total is correct
+            } else if (ex.type === 'ordering') {
+                const items = Array.from(document.getElementById('ordering-zone').children);
+                total = ex.words.length;
+                items.forEach((item, i) => {
+                    if (item.innerText === ex.words[i]) {
+                        score++;
+                        item.classList.add('bg-green-100', 'border-green-500');
+                    } else {
+                        item.classList.add('bg-red-100', 'border-red-500');
+                    }
+                });
+            } else if (ex.type === 'matching') {
+                const zones = document.querySelectorAll('.drop-zone');
+                total = ex.pairs.length;
+                zones.forEach(zone => {
+                    if (zone.children.length > 0) {
+                        if (zone.children[0].innerText === zone.dataset.match) {
+                            score++;
+                            zone.children[0].classList.add('bg-green-100', 'border-green-500');
+                        } else {
+                            zone.children[0].classList.add('bg-red-100', 'border-red-500');
+                        }
+                    }
+                });
+            } else if (ex.type === 'typing') {
+                const inputs = document.querySelectorAll('#exercise-main input');
+                total = ex.pairs.length;
+                inputs.forEach(input => {
+                    if (input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase()) {
+                        score++;
+                        input.classList.add('text-green-600', 'border-green-500');
+                    } else {
+                        input.classList.add('text-red-600', 'border-red-500');
+                    }
+                });
+            }
+
+            // Score blanks
+            const blanks = document.querySelectorAll('#exercise-blanks input');
+            blanks.forEach(input => {
+                total++;
+                if (input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase()) {
+                    score++;
+                    input.classList.add('text-green-600', 'border-green-500');
+                } else {
+                    input.classList.add('text-red-600', 'border-red-500');
+                }
+            });
+
+            const scoreBadge = document.getElementById('exercise-score-badge');
+            scoreBadge.innerText = `⚽ ${score}/${total}`;
+            scoreBadge.classList.remove('hidden');
+
+            exerciseProgress[pageNum] = { score, total };
+            saveProgress();
+            updateProgressUI();
+            renderTOC();
+
+            if (score === total) {
+                alert("⚽ GOAL!!! Perfect score! You're a Grammar Legend!");
+            } else if (score >= total * 0.8) {
+                alert("⚽ NICE SHOT! Great score!");
+            }
         }
 
         function clearCurrentPage() {

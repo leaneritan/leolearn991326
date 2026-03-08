@@ -1,0 +1,227 @@
+[
+  {
+    "pageNumber": 9,
+    "type": "categorize",
+    "instructions": "Write the words in the correct column — Person / Animal / Place / Thing",
+    "columns": ["Person", "Animal", "Place", "Thing"],
+    "words": [
+      {"text": "artist", "category": "Person"},
+      {"text": "clown", "category": "Person"},
+      {"text": "acrobat", "category": "Person"},
+      {"text": "actor", "category": "Person"},
+      {"text": "aunt", "category": "Person"},
+      {"text": "baby", "category": "Person"},
+      {"text": "baker", "category": "Person"},
+      {"text": "cook", "category": "Person"},
+      {"text": "dentist", "category": "Person"},
+      {"text": "doctor", "category": "Person"},
+      {"text": "giant", "category": "Person"},
+      {"text": "lawyer", "category": "Person"},
+      {"text": "judge", "category": "Person"},
+      {"text": "man", "category": "Person"},
+      {"text": "nurse", "category": "Person"},
+      {"text": "police officer", "category": "Person"},
+      {"text": "singer", "category": "Person"},
+      {"text": "soldier", "category": "Person"},
+      {"text": "teacher", "category": "Person"}
+    ],
+    "fillInTheBlanks": [
+      {"sentence": "The _____ paints beautiful pictures.", "answer": "artist"},
+      {"sentence": "The _____ helps sick people.", "answer": "doctor"},
+      {"sentence": "An _____ performs in a play or movie.", "answer": "actor"},
+      {"sentence": "The _____ bakes delicious bread.", "answer": "baker"},
+      {"sentence": "A _____ teaches students at school.", "answer": "teacher"}
+    ]
+  },
+  {
+    "pageNumber": 10,
+    "type": "categorize",
+    "instructions": "Write the words in the correct column — Person / Animal / Place / Thing",
+    "columns": ["Person", "Animal", "Place", "Thing"],
+    "words": [
+      {"text": "bird", "category": "Animal"},
+      {"text": "cat", "category": "Animal"},
+      {"text": "cow", "category": "Animal"},
+      {"text": "dog", "category": "Animal"},
+      {"text": "fish", "category": "Animal"},
+      {"text": "horse", "category": "Animal"},
+      {"text": "lion", "category": "Animal"},
+      {"text": "rabbit", "category": "Animal"},
+      {"text": "sheep", "category": "Animal"},
+      {"text": "tiger", "category": "Animal"}
+    ],
+    "fillInTheBlanks": [
+      {"sentence": "The _____ gives us milk.", "answer": "cow"},
+      {"sentence": "A _____ can fly in the sky.", "answer": "bird"},
+      {"sentence": "The _____ is known as the king of the jungle.", "answer": "lion"},
+      {"sentence": "A _____ likes to chase mice.", "answer": "cat"},
+      {"sentence": "The _____ has black and orange stripes.", "answer": "tiger"}
+    ]
+  },
+  {
+    "pageNumber": 11,
+    "type": "categorize",
+    "instructions": "Write the words in the correct column — Person / Animal / Place / Thing",
+    "columns": ["Person", "Animal", "Place", "Thing"],
+    "words": [
+      {"text": "church", "category": "Place"},
+      {"text": "city", "category": "Place"},
+      {"text": "country", "category": "Place"},
+      {"text": "farm", "category": "Place"},
+      {"text": "garden", "category": "Place"},
+      {"text": "hospital", "category": "Place"},
+      {"text": "house", "category": "Place"},
+      {"text": "library", "category": "Place"},
+      {"text": "market", "category": "Place"},
+      {"text": "park", "category": "Place"},
+      {"text": "school", "category": "Place"},
+      {"text": "store", "category": "Place"}
+    ],
+    "fillInTheBlanks": [
+      {"sentence": "Sick people go to the _____.", "answer": "hospital"},
+      {"sentence": "We go to _____ to learn.", "answer": "school"},
+      {"sentence": "You can borrow books from the _____.", "answer": "library"},
+      {"sentence": "We play on the grass in the _____.", "answer": "park"},
+      {"sentence": "A _____ is a place where we live with our family.", "answer": "house"}
+    ]
+  },
+  {
+    "pageNumber": 12,
+    "type": "categorize",
+    "instructions": "Write the words in the correct column — Person / Animal / Place / Thing",
+    "columns": ["Person", "Animal", "Place", "Thing"],
+    "words": [
+      {"text": "ball", "category": "Thing"},
+      {"text": "book", "category": "Thing"},
+      {"text": "bottle", "category": "Thing"},
+      {"text": "brush", "category": "Thing"},
+      {"text": "candle", "category": "Thing"},
+      {"text": "clock", "category": "Thing"},
+      {"text": "coat", "category": "Thing"},
+      {"text": "cup", "category": "Thing"},
+      {"text": "door", "category": "Thing"},
+      {"text": "drum", "category": "Thing"},
+      {"text": "flag", "category": "Thing"},
+      {"text": "flower", "category": "Thing"},
+      {"text": "fork", "category": "Thing"},
+      {"text": "glass", "category": "Thing"},
+      {"text": "hammer", "category": "Thing"},
+      {"text": "key", "category": "Thing"},
+      {"text": "lamp", "category": "Thing"},
+      {"text": "pen", "category": "Thing"},
+      {"text": "ring", "category": "Thing"},
+      {"text": "soap", "category": "Thing"},
+      {"text": "spoon", "category": "Thing"},
+      {"text": "table", "category": "Thing"},
+      {"text": "umbrella", "category": "Thing"},
+      {"text": "window", "category": "Thing"}
+    ],
+    "fillInTheBlanks": [
+      {"sentence": "We use a _____ to write.", "answer": "pen"},
+      {"sentence": "Open the _____ to let some fresh air in.", "answer": "window"},
+      {"sentence": "Use a _____ to keep dry when it rains.", "answer": "umbrella"},
+      {"sentence": "A _____ tells us the time.", "answer": "clock"},
+      {"sentence": "We read a _____ to learn new things.", "answer": "book"}
+    ]
+  },
+  {
+    "pageNumber": 15,
+    "type": "ordering",
+    "instructions": "Write the days of the week in order",
+    "words": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "fillInTheBlanks": [
+      {"sentence": "The first day of the school week is _____.", "answer": "Monday"},
+      {"sentence": "The day after Tuesday is _____.", "answer": "Wednesday"},
+      {"sentence": "The last day of the school week is _____.", "answer": "Friday"},
+      {"sentence": "We usually don't have school on _____ and Sunday.", "answer": "Saturday"},
+      {"sentence": "_____ comes before Tuesday.", "answer": "Monday"}
+    ]
+  },
+  {
+    "pageNumber": 16,
+    "type": "ordering",
+    "instructions": "Write the months of the year in order",
+    "words": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "fillInTheBlanks": [
+      {"sentence": "Christmas is in _____.", "answer": "December"},
+      {"sentence": "The first month of the year is _____.", "answer": "January"},
+      {"sentence": "The month after June is _____.", "answer": "July"},
+      {"sentence": "Halloween is in the month of _____.", "answer": "October"},
+      {"sentence": "The second month of the year is _____.", "answer": "February"}
+    ]
+  },
+  {
+    "pageNumber": 26,
+    "type": "typing",
+    "instructions": "Write the plural of these nouns",
+    "pairs": [
+      {"singular": "child", "plural": "children"},
+      {"singular": "tooth", "plural": "teeth"},
+      {"singular": "foot", "plural": "feet"},
+      {"singular": "mouse", "plural": "mice"},
+      {"singular": "ox", "plural": "oxen"},
+      {"singular": "leaf", "plural": "leaves"},
+      {"singular": "knife", "plural": "knives"},
+      {"singular": "wife", "plural": "wives"}
+    ],
+    "fillInTheBlanks": [
+      {"sentence": "One child, two _____.", "answer": "children"},
+      {"sentence": "I brush my _____ every morning.", "answer": "teeth"},
+      {"sentence": "The cat chased the _____.", "answer": "mice"},
+      {"sentence": "In autumn, the _____ fall from the trees.", "answer": "leaves"},
+      {"sentence": "Be careful, those _____ are very sharp!", "answer": "knives"}
+    ]
+  },
+  {
+    "pageNumber": 35,
+    "type": "matching",
+    "instructions": "Match the collective noun to the correct group",
+    "pairs": [
+      {"collective": "flock", "group": "birds"},
+      {"collective": "herd", "group": "cattle"},
+      {"collective": "school", "group": "fish"},
+      {"collective": "pack", "group": "wolves"},
+      {"collective": "bunch", "group": "flowers"},
+      {"collective": "fleet", "group": "ships"},
+      {"collective": "team", "group": "players"},
+      {"collective": "choir", "group": "singers"},
+      {"collective": "class", "group": "students"},
+      {"collective": "pride", "group": "lions"}
+    ],
+    "fillInTheBlanks": [
+      {"sentence": "A _____ of birds flew over the field.", "answer": "flock"},
+      {"sentence": "A _____ of fish was swimming in the ocean.", "answer": "school"},
+      {"sentence": "The football _____ won the match.", "answer": "team"},
+      {"sentence": "A _____ of singers sang beautiful carols.", "answer": "choir"},
+      {"sentence": "A _____ of flowers was on the table.", "answer": "bunch"}
+    ]
+  },
+  {
+    "pageNumber": 38,
+    "type": "typing",
+    "instructions": "Write the feminine/masculine form",
+    "pairs": [
+      {"masculine": "boy", "feminine": "girl"},
+      {"masculine": "man", "feminine": "woman"},
+      {"masculine": "king", "feminine": "queen"},
+      {"masculine": "prince", "feminine": "princess"},
+      {"masculine": "brother", "feminine": "sister"},
+      {"masculine": "father", "feminine": "mother"},
+      {"masculine": "uncle", "feminine": "aunt"},
+      {"masculine": "husband", "feminine": "wife"},
+      {"masculine": "son", "feminine": "daughter"},
+      {"masculine": "rooster", "feminine": "hen"},
+      {"masculine": "bull", "feminine": "cow"},
+      {"masculine": "lion", "feminine": "lioness"},
+      {"masculine": "tiger", "feminine": "tigress"},
+      {"masculine": "actor", "feminine": "actress"}
+    ],
+    "fillInTheBlanks": [
+      {"sentence": "The feminine of king is _____.", "answer": "queen"},
+      {"sentence": "My father's sister is my _____.", "answer": "aunt"},
+      {"sentence": "A male chicken is called a _____.", "answer": "rooster"},
+      {"sentence": "The _____ played the lead role in the movie.", "answer": "actor"},
+      {"sentence": "The prince and the _____ lived happily ever after.", "answer": "princess"}
+    ]
+  }
+]
