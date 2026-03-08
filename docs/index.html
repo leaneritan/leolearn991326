@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic English Grammar - Interactive App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="quiz_questions.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+        :root {
+            --primary: #2e7d32;
+            --primary-light: #4caf50;
+            --secondary: #fdd835;
+            --accent: #ffeb3b;
+            --bg: #f1f8e9;
+            --sidebar: #1b5e20;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg);
+            color: #1b5e20;
+            font-size: 1.1rem;
+        }
+
+        h1, h2, h3, .heading-font {
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .grammar-font {
+            font-family: 'Comic Neue', cursive;
+        }
+
+        #page-content {
+            container-type: size;
+            background-color: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+            transform-origin: top center;
+        }
+
+        /* The book border like in the screenshot */
+        .page-frame {
+            padding: 2rem;
+            background: white;
+            border: 12px solid var(--secondary);
+            border-radius: 2rem;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+        }
+
+        .sidebar {
+            background-color: var(--sidebar);
+            color: white;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 80%);
+        }
+
+        .nav-item {
+            transition: all 0.2s;
+            border-left: 6px solid transparent;
+            font-size: 1rem;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-light);
+            border-left-color: var(--secondary);
+            color: white;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-item.completed {
+            color: #4ade80;
+        }
+
+        .input-blank {
+            border-bottom: 2px dashed var(--primary-light);
+            background-color: #f5f3ff;
+            outline: none;
+            padding: 0 4px;
+            text-align: center;
+            border-radius: 2px;
+            transition: all 0.2s;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+        }
+
+        .input-blank:focus {
+            background-color: white;
+            border-bottom-color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .input-correct {
+            border-bottom-color: #22c55e !important;
+            background-color: #f0fdf4 !important;
+            color: #166534 !important;
+        }
+
+        .input-incorrect {
+            border-bottom-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #991b1b !important;
+        }
+
+        .clickable-word {
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 0 2px;
+            transition: all 0.1s;
+        }
+
+        .word-circled {
+            outline: 2px solid var(--primary);
+            outline-offset: 1px;
+            border-radius: 50%;
+        }
+
+        .word-correct {
+            outline-color: #22c55e !important;
+            background-color: #f0fdf4;
+        }
+
+        .word-incorrect {
+            outline-color: #ef4444 !important;
+            background-color: #fef2f2;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .sidebar ::-webkit-scrollbar-thumb { background: #475569; }
+
+        .btn-action {
+            @apply flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all active:scale-95 shadow-sm;
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar w-80 flex-shrink-0 flex flex-col shadow-2xl z-30">
+        <div class="p-6 border-b border-green-800 flex items-center gap-3">
+            <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-2xl shadow-lg border-2 border-white">⚽</div>
+            <div>
+                <h1 class="font-bold text-xl leading-tight text-yellow-300 uppercase tracking-wide">Grammar 1</h1>
+                <p class="text-xs text-green-200">Coach Leo Edition</p>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <div class="relative group">
+                <input type="text" id="search" placeholder="Search lessons..."
+                    class="w-full bg-slate-800 border border-slate-700 p-3 pl-10 rounded-xl text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                <span class="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-indigo-400 transition-colors">🔍</span>
+            </div>
+            <div id="search-results" class="hidden absolute left-4 right-4 mt-2 max-h-60 overflow-y-auto bg-white rounded-xl shadow-2xl text-slate-900 z-50">
+                <!-- Search results -->
+            </div>
+        </div>
+
+        <nav id="toc" class="flex-1 overflow-y-auto py-2">
+            <!-- TOC items will be injected here -->
+        </nav>
+
+        <div class="p-6 bg-slate-800/50 border-t border-slate-700">
+            <div class="flex justify-between items-end mb-3">
+                <span class="text-sm font-medium text-slate-400 uppercase tracking-wider">Course Progress</span>
+                <span class="text-xl font-bold text-indigo-400"><span id="progress-percent">0</span>%</span>
+            </div>
+            <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden mb-4">
+                <div id="progress-bar" class="bg-indigo-500 h-full transition-all duration-700 ease-out" style="width: 0%"></div>
+            </div>
+            <button id="reset-progress" class="w-full py-2 text-xs text-slate-500 hover:text-red-400 transition-colors flex items-center justify-center gap-1 opacity-60 hover:opacity-100">
+                <span>🔄</span> Reset All Progress
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col relative">
+        <!-- Header -->
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-20 shadow-sm">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center bg-slate-100 rounded-xl p-1 shadow-inner">
+                    <button id="prev-page" class="p-2 rounded-lg hover:bg-white hover:shadow-md transition-all text-slate-600 active:scale-90">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div class="px-6 font-bold text-slate-700 min-w-[140px] text-center select-none">
+                        <span id="page-info">Page 1 / 159</span>
+                    </div>
+                    <button id="next-page" class="p-2 rounded-lg hover:bg-white hover:shadow-md transition-all text-slate-600 active:scale-90">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <div id="active-lesson" class="text-sm font-medium text-slate-400 truncate max-w-xs hidden md:block">
+                    Loading lesson...
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="clear-page" class="text-slate-400 hover:text-red-500 px-3 py-2 text-sm font-semibold transition-colors">
+                    Clear Page
+                </button>
+                <div class="h-6 w-px bg-slate-200 mx-1"></div>
+                <button id="toggle-feedback" class="bg-amber-100 hover:bg-amber-200 text-amber-700 px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm border border-amber-200">
+                    <span id="feedback-icon">👁️</span> <span id="feedback-text">Check Answers</span>
+                </button>
+                <button id="mark-complete" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-emerald-200 active:scale-95 flex items-center gap-2">
+                    <span id="mark-icon">⭕</span> <span id="mark-text">Mark as Finished</span>
+                </button>
+            </div>
+            <div class="h-6 w-px bg-slate-200 mx-2"></div>
+            <button id="take-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full font-bold transition-all shadow-lg shadow-blue-200 active:scale-95 flex items-center gap-2 whitespace-nowrap">
+                <span>⚽ Take Quiz!</span>
+            </button>
+        </header>
+
+        <!-- Main Page Area -->
+        <main class="flex-1 overflow-y-auto bg-slate-50 p-8 lg:p-12 flex justify-center">
+            <div id="page-container" class="w-full max-w-5xl flex flex-col items-center">
+                <div class="page-frame mb-12 shadow-2xl">
+                    <div id="page-content" class="grammar-font">
+                        <!-- Content injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Welcome Overlay (hidden when page loaded) -->
+            <div id="welcome-overlay" class="hidden absolute inset-0 bg-green-100 z-40 flex flex-col items-center justify-center p-8 text-center">
+                <div class="w-32 h-32 bg-yellow-400 rounded-full flex items-center justify-center text-6xl mb-8 shadow-2xl animate-bounce border-4 border-white">⚽</div>
+                <h2 class="text-5xl font-extrabold text-green-900 mb-4">Welcome, Leo! Let's play Grammar! ⚽</h2>
+                <p class="text-green-700 max-w-md text-xl mb-8 font-semibold">Ready to score some goals in English? Choose a lesson to start the match!</p>
+                <button id="start-btn" class="bg-green-600 text-white px-12 py-5 rounded-full font-bold text-2xl hover:bg-green-700 transition-all shadow-xl shadow-green-200 active:scale-95 border-b-4 border-green-800">
+                    KICK OFF! ⚽
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl animate-[slideUp_0.4s_ease-out]">
+            <header class="p-8 bg-green-600 text-white rounded-t-3xl flex justify-between items-center sticky top-0 z-10">
+                <div>
+                    <h2 class="text-3xl font-bold mb-1">Grammar Match! ⚽</h2>
+                    <p id="quiz-title" class="text-green-100 opacity-90 font-semibold"></p>
+                </div>
+                <button id="close-quiz" class="text-4xl hover:scale-110 transition-transform">&times;</button>
+            </header>
+
+            <div id="quiz-body" class="p-8 flex-1">
+                <!-- Questions injected here -->
+            </div>
+
+            <footer class="p-8 border-t border-slate-100 bg-slate-50 rounded-b-3xl flex justify-between items-center">
+                <p id="quiz-counter" class="text-slate-500 font-bold uppercase tracking-wider text-sm"></p>
+                <button id="submit-quiz" class="bg-green-600 text-white px-10 py-4 rounded-full font-bold text-xl hover:bg-green-700 transition-all shadow-xl active:scale-95">
+                    SCORE A GOAL! 🥅
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md text-center p-10 shadow-2xl animate-[pop_0.4s_cubic-bezier(0.34,1.56,0.64,1)]">
+            <div class="text-8xl mb-6">🏆</div>
+            <h2 id="result-title" class="text-4xl font-bold mb-4 text-green-900"></h2>
+            <div id="result-score" class="text-6xl font-black text-green-600 mb-6 tracking-tighter"></div>
+            <p id="result-msg" class="text-slate-600 text-xl font-semibold mb-10"></p>
+            <button id="close-result" class="w-full bg-green-600 text-white py-5 rounded-full font-bold text-2xl hover:bg-green-700 transition-all shadow-xl">
+                CONTINUE MATCH! ⚽
+            </button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .quiz-option { @apply p-5 border-2 border-slate-200 rounded-2xl cursor-pointer hover:bg-green-50 hover:border-green-400 transition-all font-semibold text-lg flex items-center gap-4; }
+        .quiz-option.selected { @apply border-green-600 bg-green-100 text-green-900 shadow-inner; }
+        .quiz-input { @apply w-full p-5 border-2 border-slate-200 rounded-2xl focus:border-green-600 focus:outline-none font-bold text-2xl text-center; }
+    </style>
+
+    <script>
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        let bookData = [];
+        let tocData = [];
+        let answerKey = {};
+        let circleKey = {};
+        let currentPage = 1;
+        let progress = {};
+        let showFeedback = false;
+
+        let currentQuizQuestions = [];
+
+        async function init() {
+            try {
+                const [dataRes, tocRes, ansRes, circRes] = await Promise.all([
+                    fetch('book_data.json'),
+                    fetch('toc.json'),
+                    fetch('answers.json').catch(() => ({ ok: false })),
+                    fetch('circles.json').catch(() => ({ ok: false }))
+                ]);
+
+                if (!dataRes.ok) throw new Error("Could not load book_data.json. Please ensure you are running through a web server.");
+                if (!tocRes.ok) throw new Error("Could not load toc.json.");
+
+                bookData = await dataRes.json();
+                tocData = await tocRes.json();
+                answerKey = ansRes.ok ? await ansRes.json() : {};
+                circleKey = circRes.ok ? await circRes.json() : {};
+
+                // Optimization: Pre-calculate full text for search and exercise detection
+                bookData.forEach(page => {
+                    let text = "";
+                    page.blocks.forEach(b => {
+                        if (b.type === 0) {
+                            b.lines.forEach(l => {
+                                l.spans.forEach(s => {
+                                    text += s.text + " ";
+                                });
+                            });
+                        }
+                    });
+                    page.fullText = text.toLowerCase();
+                });
+
+                loadProgress();
+                renderTOC();
+
+                const lastPage = parseInt(localStorage.getItem('last_page') || '0');
+                const hashPage = parseInt(window.location.hash.replace('#page=', ''));
+
+                if (hashPage && hashPage >= 1 && hashPage <= bookData.length) {
+                    renderPage(hashPage);
+                } else if (lastPage === 0) {
+                    document.getElementById('welcome-overlay').classList.remove('hidden');
+                } else {
+                    renderPage(lastPage);
+                }
+
+                window.addEventListener('hashchange', () => {
+                    const pageNum = parseInt(window.location.hash.replace('#page=', ''));
+                    if (pageNum && pageNum !== currentPage) renderPage(pageNum);
+                });
+
+                updateProgressUI();
+
+                // UI Events
+                document.getElementById('prev-page').onclick = () => changePage(currentPage - 1);
+                document.getElementById('next-page').onclick = () => changePage(currentPage + 1);
+                document.getElementById('mark-complete').onclick = toggleComplete;
+                document.getElementById('toggle-feedback').onclick = toggleFeedback;
+                document.getElementById('clear-page').onclick = clearCurrentPage;
+                document.getElementById('search').oninput = debounce(handleSearch, 300);
+                document.getElementById('reset-progress').onclick = resetProgress;
+                document.getElementById('start-btn').onclick = () => {
+                    document.getElementById('welcome-overlay').classList.add('hidden');
+                    renderPage(1);
+                };
+
+                document.getElementById('take-quiz').onclick = startQuiz;
+                document.getElementById('close-quiz').onclick = () => document.getElementById('quiz-modal').classList.add('hidden');
+                document.getElementById('submit-quiz').onclick = scoreQuiz;
+                document.getElementById('close-result').onclick = () => document.getElementById('result-modal').classList.add('hidden');
+
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#search') && !e.target.closest('#search-results')) {
+                        document.getElementById('search-results').classList.add('hidden');
+                    }
+                });
+
+                window.addEventListener('keydown', (e) => {
+                    if (e.target.tagName === 'INPUT') return;
+                    if (e.key === 'ArrowLeft') changePage(currentPage - 1);
+                    if (e.key === 'ArrowRight') changePage(currentPage + 1);
+                });
+            } catch (err) {
+                console.error(err);
+                alert("Critical Error: " + err.message);
+            }
+        }
+
+        function renderTOC() {
+            const container = document.getElementById('toc');
+            container.innerHTML = '';
+
+            tocData.forEach(item => {
+                const isCompleted = progress[item.page];
+                const el = document.createElement('div');
+                el.className = `nav-item px-6 py-3 cursor-pointer flex items-center justify-between group ${isCompleted ? 'completed' : ''}`;
+                el.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs opacity-40">${item.page}</span>
+                        <span class="font-bold text-sm tracking-tight">${item.title}</span>
+                    </div>
+                    <span class="text-xs opacity-0 group-hover:opacity-100 transition-opacity">${isCompleted ? '✅' : '→'}</span>
+                `;
+                el.onclick = () => renderPage(item.page);
+                el.id = `toc-item-${item.page}`;
+                container.appendChild(el);
+
+                if (item.subsections) {
+                    item.subsections.forEach(sub => {
+                        const isSubCompleted = progress[sub.page];
+                        const subEl = document.createElement('div');
+                        subEl.className = `nav-item px-6 py-2 pl-12 cursor-pointer flex items-center justify-between text-sm opacity-70 hover:opacity-100 ${isSubCompleted ? 'completed' : ''}`;
+                        subEl.innerHTML = `
+                            <span>${sub.title}</span>
+                            <span class="text-[10px] opacity-40">${sub.page}</span>
+                        `;
+                        subEl.onclick = (e) => {
+                            e.stopPropagation();
+                            renderPage(sub.page);
+                        };
+                        subEl.id = `toc-item-${sub.page}`;
+                        container.appendChild(subEl);
+                    });
+                }
+            });
+        }
+
+        function renderPage(pageNum) {
+            if (pageNum < 1 || pageNum > bookData.length) return;
+            currentPage = pageNum;
+            localStorage.setItem('last_page', pageNum);
+            if (window.location.hash !== `#page=${pageNum}`) {
+                window.history.replaceState(null, null, `#page=${pageNum}`);
+            }
+            document.getElementById('welcome-overlay').classList.add('hidden');
+
+            const page = bookData[pageNum - 1];
+            const container = document.getElementById('page-content');
+
+            // Set Aspect Ratio
+            const ratio = page.width / page.height;
+            container.style.aspectRatio = ratio.toString();
+            // Scale container width based on available height but cap at 100%
+            container.style.width = ratio > 1 ? '100%' : (ratio * 80) + 'vh';
+            container.style.maxWidth = '100%';
+
+            container.innerHTML = '';
+
+            document.getElementById('page-info').innerText = `Page ${pageNum} / ${bookData.length}`;
+
+            // Update Lesson Title in header
+            const currentLesson = findLessonForPage(pageNum);
+            const lessonEl = document.getElementById('active-lesson');
+            lessonEl.innerText = currentLesson ? currentLesson.title : "";
+            lessonEl.classList.remove('hidden');
+
+            // Highlight TOC
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const tocItem = document.getElementById(`toc-item-${pageNum}`);
+            if (tocItem) {
+                tocItem.classList.add('active');
+                tocItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+
+            updateMarkButton();
+
+            // Detect if Circle Exercise - Optimized using pre-calculated text
+            const isCircleEx = page.fullText.includes('circle') || page.fullText.includes('underline');
+
+            // Render Blocks - Optimized using DocumentFragment for batched appends
+            const fragment = document.createDocumentFragment();
+
+            page.blocks.forEach(block => {
+                if (block.type === 0) {
+                    block.lines.forEach(line => {
+                        const lineText = line.spans.map(s => s.text).join('');
+                        const isExerciseItem = /^\s*\d+[\.\)]\s+/.test(lineText);
+
+                        line.spans.forEach(span => {
+                            const spanEl = document.createElement('span');
+                            spanEl.className = 'absolute whitespace-pre';
+
+                            const x = (span.origin[0] / page.width) * 100;
+                            const y = (span.origin[1] / page.height) * 100;
+                            const fontSize = (span.size / page.height) * 100;
+                            const topOffset = y - (fontSize * 0.8);
+
+                            spanEl.style.left = `${x}%`;
+                            spanEl.style.top = `${topOffset}%`;
+                            spanEl.style.fontSize = `${fontSize}cqh`;
+
+                            let colorHex = (span.color >>> 0).toString(16).padStart(6, '0');
+                            spanEl.style.color = '#' + (colorHex.length > 6 ? colorHex.substring(colorHex.length-6) : colorHex);
+
+                            if (span.flags & 2) spanEl.style.fontStyle = 'italic';
+                            if (span.flags & 4) spanEl.style.fontWeight = 'bold';
+
+                            if (span.text.includes('____')) {
+                                processInteractiveSpan(spanEl, span.text, pageNum, x, y);
+                            } else if (isCircleEx && isExerciseItem && span.text.trim().length > 1) {
+                                processCircleSpan(spanEl, span.text, pageNum, x, y);
+                            } else {
+                                spanEl.textContent = span.text;
+                            }
+                            fragment.appendChild(spanEl);
+                        });
+                    });
+                } else if (block.type === 1) {
+                    const img = document.createElement('img');
+                    img.src = block.src;
+                    img.className = 'absolute pointer-events-none select-none';
+                    img.style.left = `${(block.bbox[0] / page.width) * 100}%`;
+                    img.style.top = `${(block.bbox[1] / page.height) * 100}%`;
+                    img.style.width = `${((block.bbox[2] - block.bbox[0]) / page.width) * 100}%`;
+                    img.style.height = `${((block.bbox[3] - block.bbox[1]) / page.height) * 100}%`;
+                    fragment.appendChild(img);
+                }
+            });
+            container.appendChild(fragment);
+        }
+
+        function findLessonForPage(pageNum) {
+            let found = null;
+            tocData.forEach(item => {
+                if (item.page <= pageNum) found = item;
+                if (item.subsections) {
+                    item.subsections.forEach(sub => {
+                        if (sub.page <= pageNum) found = sub;
+                    });
+                }
+            });
+            return found;
+        }
+
+        function processInteractiveSpan(el, text, pageNum, x, y) {
+            const parts = text.split(/_{2,}/);
+            el.innerHTML = '';
+            parts.forEach((part, i) => {
+                el.appendChild(document.createTextNode(part));
+                if (i < parts.length - 1) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'input-blank';
+                    input.style.width = '6cqw';
+
+                    const key = `ans_${pageNum}_${Math.round(x)}_${Math.round(y)}_${i}`;
+                    input.value = localStorage.getItem(key) || '';
+                    if (showFeedback) applyInputFeedback(input, key);
+
+                    input.oninput = (e) => {
+                        localStorage.setItem(key, e.target.value);
+                        if (showFeedback) applyInputFeedback(e.target, key);
+                    };
+                    el.appendChild(input);
+                }
+            });
+        }
+
+        function processCircleSpan(el, text, pageNum, x, y) {
+            const words = text.split(/(\s+)/);
+            el.innerHTML = '';
+            words.forEach((word, i) => {
+                if (word.trim().length > 0 && !/^\d+[\.\)]/.test(word)) {
+                    const wordEl = document.createElement('span');
+                    wordEl.className = 'clickable-word';
+                    wordEl.textContent = word;
+                    const key = `circ_${pageNum}_${Math.round(x)}_${Math.round(y)}_${i}`;
+                    if (localStorage.getItem(key) === 'true') wordEl.classList.add('word-circled');
+                    if (showFeedback) applyCircleFeedback(wordEl, word, pageNum);
+
+                    wordEl.onclick = () => {
+                        const isCircled = wordEl.classList.toggle('word-circled');
+                        localStorage.setItem(key, isCircled ? 'true' : 'false');
+                        if (showFeedback) applyCircleFeedback(wordEl, word, pageNum);
+                    };
+                    el.appendChild(wordEl);
+                } else {
+                    el.appendChild(document.createTextNode(word));
+                }
+            });
+        }
+
+        function applyInputFeedback(input, key) {
+            const correct = answerKey[key];
+            if (!correct) return;
+            const val = input.value.trim().toLowerCase();
+            input.classList.remove('input-correct', 'input-incorrect');
+            if (!val) return;
+            input.classList.add(val === correct.toLowerCase() ? 'input-correct' : 'input-incorrect');
+        }
+
+        function applyCircleFeedback(el, word, pageNum) {
+            const isCircled = el.classList.contains('word-circled');
+            const pageCircles = circleKey[pageNum] || [];
+            const cleanWord = word.replace(/[.,!?;:]/g, '').toLowerCase();
+            const isCorrectWord = pageCircles.some(w => w.toLowerCase() === cleanWord);
+            el.classList.remove('word-correct', 'word-incorrect');
+            if (isCircled) el.classList.add(isCorrectWord ? 'word-correct' : 'word-incorrect');
+        }
+
+        function toggleFeedback() {
+            showFeedback = !showFeedback;
+            const btn = document.getElementById('toggle-feedback');
+            btn.classList.toggle('bg-amber-100', !showFeedback);
+            btn.classList.toggle('bg-amber-400', showFeedback);
+            document.getElementById('feedback-text').innerText = showFeedback ? 'Hide Answers' : 'Check Answers';
+            document.getElementById('feedback-icon').innerText = showFeedback ? '🙈' : '👁️';
+            renderPage(currentPage);
+        }
+
+        function changePage(num) {
+            if (num >= 1 && num <= bookData.length) renderPage(num);
+        }
+
+        function toggleComplete() {
+            const isClosingSection = checkSectionEnd(currentPage);
+            progress[currentPage] = !progress[currentPage];
+            saveProgress();
+            updateMarkButton();
+            updateProgressUI();
+            renderTOC();
+
+            if (progress[currentPage] && isClosingSection) {
+                setTimeout(startQuiz, 500);
+            }
+        }
+
+        function checkSectionEnd(pageNum) {
+            // Find current section and see if this page is its end
+            for (let i = 0; i < tocData.length; i++) {
+                const section = tocData[i];
+                const nextSection = tocData[i+1];
+                const endPage = nextSection ? nextSection.page - 1 : bookData.length;
+                if (pageNum === endPage) return true;
+            }
+            return false;
+        }
+
+        function startQuiz() {
+            const section = findSectionForPage(currentPage);
+            const title = section ? section.title : "General Grammar";
+            const questions = window.QUIZ_QUESTIONS[title] || window.QUIZ_QUESTIONS["DEFAULT"];
+
+            // Randomly select 6
+            currentQuizQuestions = [...questions].sort(() => 0.5 - Math.random()).slice(0, 6);
+
+            document.getElementById('quiz-title').innerText = title;
+            document.getElementById('quiz-counter').innerText = `Challenge: 6 Questions`;
+
+            const body = document.getElementById('quiz-body');
+            body.innerHTML = '';
+
+            currentQuizQuestions.forEach((q, i) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'mb-12 last:mb-0';
+                qDiv.innerHTML = `
+                    <p class="text-2xl font-bold mb-6 flex gap-4">
+                        <span class="bg-yellow-400 text-green-900 w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full text-lg border-2 border-white">${i+1}</span>
+                        ${q.q}
+                    </p>
+                `;
+
+                const optDiv = document.createElement('div');
+                optDiv.className = 'space-y-4 ml-14';
+
+                if (q.type === 'multiple') {
+                    q.options.forEach((opt, idx) => {
+                        const div = document.createElement('div');
+                        div.className = 'quiz-option';
+                        div.innerHTML = `
+                            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center">
+                                <div class="w-3 h-3 bg-green-600 rounded-full opacity-0"></div>
+                            </div>
+                            <span>${opt}</span>
+                        `;
+                        div.onclick = () => {
+                            optDiv.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected', 'border-green-600', 'bg-green-100'));
+                            optDiv.querySelectorAll('.quiz-option .opacity-100').forEach(el => el.classList.remove('opacity-100'));
+                            div.classList.add('selected', 'border-green-600', 'bg-green-100');
+                            div.querySelector('.bg-green-600').classList.add('opacity-100');
+                            q.userAnswer = idx;
+                        };
+                        optDiv.appendChild(div);
+                    });
+                } else if (q.type === 'tf') {
+                    ['True', 'False'].forEach((val) => {
+                        const div = document.createElement('div');
+                        div.className = 'quiz-option';
+                        div.innerHTML = `
+                            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center">
+                                <div class="w-3 h-3 bg-green-600 rounded-full opacity-0"></div>
+                            </div>
+                            <span>${val}</span>
+                        `;
+                        div.onclick = () => {
+                            optDiv.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected', 'border-green-600', 'bg-green-100'));
+                            optDiv.querySelectorAll('.quiz-option .opacity-100').forEach(el => el.classList.remove('opacity-100'));
+                            div.classList.add('selected', 'border-green-600', 'bg-green-100');
+                            div.querySelector('.bg-green-600').classList.add('opacity-100');
+                            q.userAnswer = (val === 'True');
+                        };
+                        optDiv.appendChild(div);
+                    });
+                } else if (q.type === 'blank') {
+                    const input = document.createElement('input');
+                    input.className = 'quiz-input';
+                    input.placeholder = 'Type your answer...';
+                    input.oninput = (e) => q.userAnswer = e.target.value.trim().toLowerCase();
+                    optDiv.appendChild(input);
+                }
+
+                qDiv.appendChild(optDiv);
+                body.appendChild(qDiv);
+            });
+
+            document.getElementById('quiz-modal').classList.remove('hidden');
+        }
+
+        function scoreQuiz() {
+            let score = 0;
+            currentQuizQuestions.forEach(q => {
+                if (q.type === 'multiple' || q.type === 'tf') {
+                    if (q.userAnswer === q.a) score++;
+                } else if (q.type === 'blank') {
+                    if (q.userAnswer === q.a.toLowerCase()) score++;
+                }
+            });
+
+            document.getElementById('quiz-modal').classList.add('hidden');
+
+            const resultTitle = document.getElementById('result-title');
+            const resultScore = document.getElementById('result-score');
+            const resultMsg = document.getElementById('result-msg');
+
+            resultScore.innerText = `${score}/6`;
+
+            if (score === 6) {
+                resultTitle.innerText = "HAT-TRICK! ⚽⚽⚽";
+                resultMsg.innerText = "Legendary performance, Leo! You're the grammar MVP!";
+            } else if (score >= 4) {
+                resultTitle.innerText = "GOAL! 🥅";
+                resultMsg.innerText = `Great match, Leo! You scored ${score}/6. Keep practicing!`;
+            } else {
+                resultTitle.innerText = "FULL TIME! ⚽";
+                resultMsg.innerText = "Good effort, Leo! Let's hit the training ground and try again!";
+            }
+
+            document.getElementById('result-modal').classList.remove('hidden');
+        }
+
+        function findSectionForPage(pageNum) {
+            let found = null;
+            tocData.forEach(item => {
+                if (item.page <= pageNum) found = item;
+            });
+            return found;
+        }
+
+        function updateMarkButton() {
+            const btn = document.getElementById('mark-complete');
+            const isDone = progress[currentPage];
+            btn.classList.toggle('bg-emerald-500', !isDone);
+            btn.classList.toggle('bg-indigo-500', isDone);
+            document.getElementById('mark-text').innerText = isDone ? 'Finished!' : 'Mark as Finished';
+            document.getElementById('mark-icon').innerText = isDone ? '✅' : '⭕';
+        }
+
+        function saveProgress() { localStorage.setItem('grammar_progress_v3', JSON.stringify(progress)); }
+        function loadProgress() {
+            const saved = localStorage.getItem('grammar_progress_v3');
+            if (saved) progress = JSON.parse(saved);
+        }
+        function updateProgressUI() {
+            const total = bookData.length;
+            const completed = Object.values(progress).filter(v => v).length;
+            const percent = Math.round((completed / total) * 100);
+            document.getElementById('progress-percent').innerText = percent;
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+
+        function clearCurrentPage() {
+            if (confirm("Clear answers on this page?")) {
+                const prefixes = [`ans_${currentPage}_`, `circ_${currentPage}_`];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (prefixes.some(p => key.startsWith(p))) {
+                        localStorage.removeItem(key);
+                        i--;
+                    }
+                }
+                renderPage(currentPage);
+            }
+        }
+
+        function resetProgress() {
+            if (confirm("Reset ALL progress?")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const resultsBox = document.getElementById('search-results');
+            if (query.length < 2) { resultsBox.classList.add('hidden'); return; }
+
+            const results = [];
+            const matchedPages = new Set();
+
+            // Search TOC first
+            tocData.forEach(item => {
+                if (item.title.toLowerCase().includes(query)) {
+                    results.push({ page: item.page, text: item.title, type: 'Lesson' });
+                    matchedPages.add(item.page);
+                }
+                if (item.subsections) {
+                    item.subsections.forEach(sub => {
+                        if (sub.title.toLowerCase().includes(query)) {
+                            results.push({ page: sub.page, text: sub.title, type: 'Topic' });
+                            matchedPages.add(sub.page);
+                        }
+                    });
+                }
+            });
+
+            // Search Page Content - Optimized with Set and pre-calculated text
+            for (let i = 0; i < bookData.length; i++) {
+                if (results.length > 15) break;
+                const pageNum = i + 1;
+                if (matchedPages.has(pageNum)) continue;
+
+                const page = bookData[i];
+                if (page.fullText.includes(query)) {
+                    // Extract a snippet for the result
+                    let snippet = "";
+                    page.blocks.some(b => b.type === 0 && b.lines.some(l => l.spans.some(s => {
+                        if (s.text.toLowerCase().includes(query)) {
+                            snippet = s.text;
+                            return true;
+                        }
+                        return false;
+                    })));
+                    results.push({ page: pageNum, text: snippet, type: 'Content' });
+                    matchedPages.add(pageNum);
+                }
+            }
+
+            if (results.length) {
+                resultsBox.innerHTML = results.slice(0, 10).map(r => `
+                    <div class="p-4 hover:bg-slate-50 cursor-pointer border-b border-slate-100 transition-colors" onclick="renderPage(${r.page})">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-indigo-600 text-sm">Page ${r.page}</span>
+                            <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500">${r.type}</span>
+                        </div>
+                        <div class="text-xs text-slate-500 truncate mt-1">${r.text}</div>
+                    </div>
+                `).join('');
+                resultsBox.classList.remove('hidden');
+            } else {
+                resultsBox.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm">No results</div>';
+                resultsBox.classList.remove('hidden');
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
