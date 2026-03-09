@@ -1,0 +1,564 @@
+{
+  "chapters": [
+    {
+      "id": 1,
+      "title": "What is Grammar?",
+      "lessons": [
+        {
+          "id": "1.1",
+          "title": "What is Grammar?",
+          "badge": "Lesson 1 of 1",
+          "icon": "school",
+          "content": "Grammar is the set of rules that helps us speak and write correctly. Every language has grammar rules. We use grammar every day without thinking about it!",
+          "keyTakeaways": [
+            "Grammar = rules for speaking and writing",
+            "Good grammar helps people understand us",
+            "We use grammar in every sentence we say"
+          ],
+          "examples": [
+            { "title": "Correct", "subtitle": "\"The cat is sleeping.\"", "icon": "check_circle" },
+            { "title": "Incorrect", "subtitle": "\"Cat the sleeping is.\"", "icon": "cancel" }
+          ],
+          "quiz": [
+            {
+              "question": "What is grammar?",
+              "type": "multiple",
+              "options": ["Rules for speaking and writing", "A type of book", "A school subject", "A foreign language"],
+              "answer": 0
+            },
+            {
+              "question": "Every language has grammar rules.",
+              "type": "tf",
+              "answer": true
+            },
+            {
+              "question": "Grammar helps us speak and _____ correctly.",
+              "type": "blank",
+              "answer": "write"
+            },
+            {
+              "question": "We only use grammar when we write.",
+              "type": "tf",
+              "answer": false
+            },
+            {
+              "question": "Which sentence is correct?",
+              "type": "multiple",
+              "options": ["\"The dog is running.\"", "\"Dog the running is.\""],
+              "answer": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "The Capital Letter",
+      "lessons": [
+        {
+          "id": "2.1",
+          "title": "The Capital Letter",
+          "badge": "Lesson 1 of 1",
+          "icon": "format_size",
+          "content": "We use capital letters at the beginning of every sentence, for names of people and places, for days of the week and months of the year, and for the word \"I\".",
+          "keyTakeaways": [
+            "Always start a sentence with a capital letter",
+            "Names of people use capital letters",
+            "Days and months use capital letters",
+            "The word \"I\" is always capital"
+          ],
+          "examples": [
+            { "title": "Names", "subtitle": "\"My name is Leo.\"", "icon": "person" },
+            { "title": "Days", "subtitle": "\"Today is Monday.\"", "icon": "calendar_today" },
+            { "title": "Places", "subtitle": "\"I live in Japan.\"", "icon": "location_city" }
+          ],
+          "quiz": [
+            {
+              "question": "Every sentence starts with a capital letter.",
+              "type": "tf",
+              "answer": true
+            },
+            {
+              "question": "The word '___' is always written with a capital letter.",
+              "type": "blank",
+              "answer": "I"
+            },
+            {
+              "question": "Which is correct?",
+              "type": "multiple",
+              "options": ["\"my name is leo.\"", "\"My name is Leo.\""],
+              "answer": 1
+            },
+            {
+              "question": "Days of the week start with a small letter.",
+              "type": "tf",
+              "answer": false
+            },
+            {
+              "question": "Today is _____day. (the day after Sunday)",
+              "type": "blank",
+              "answer": "Mon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Nouns",
+      "lessons": [
+        {
+          "id": "3.1",
+          "title": "Common Nouns",
+          "badge": "Lesson 1 of 6",
+          "icon": "category",
+          "content": "Common nouns are words for people, animals, places, and things. They are NOT specific names. They do NOT start with a capital letter unless they begin a sentence.",
+          "keyTakeaways": [
+            "A noun is a naming word",
+            "Common nouns name general people, animals, places, things",
+            "They do NOT start with a capital letter",
+            "Examples: teacher, dog, school, book"
+          ],
+          "wordFiles": [
+            {
+              "title": "People",
+              "words": ["artist", "clown", "acrobat", "actor", "aunt", "baby", "baker", "cook", "dentist", "doctor", "giant", "lawyer", "judge", "man", "nurse", "police officer", "singer", "soldier", "teacher"]
+            },
+            {
+              "title": "Animals",
+              "words": ["bird", "cat", "cow", "dog", "fish", "horse", "lion", "rabbit", "sheep", "tiger"]
+            },
+            {
+              "title": "Places",
+              "words": ["church", "city", "country", "farm", "garden", "hospital", "house", "library", "market", "park", "school", "store"]
+            },
+            {
+              "title": "Things",
+              "words": ["ball", "book", "bottle", "brush", "candle", "clock", "coat", "cup", "door", "drum", "flag", "flower", "fork", "glass", "hammer", "key", "knife", "lamp", "pen", "ring", "soap", "spoon", "table", "umbrella", "window"]
+            }
+          ],
+          "exercises": [
+            {
+              "type": "categorize",
+              "instructions": "Drag and drop into Person, Animal, Place, or Thing columns",
+              "columns": ["Person", "Animal", "Place", "Thing"],
+              "words": [
+                { "text": "teacher", "category": "Person" },
+                { "text": "lion", "category": "Animal" },
+                { "text": "school", "category": "Place" },
+                { "text": "ball", "category": "Thing" },
+                { "text": "doctor", "category": "Person" },
+                { "text": "garden", "category": "Place" },
+                { "text": "cow", "category": "Animal" },
+                { "text": "book", "category": "Thing" }
+              ]
+            },
+            {
+              "type": "blanks",
+              "items": [
+                { "sentence": "The _____ paints beautiful pictures.", "answer": "artist" },
+                { "sentence": "The _____ gives us milk.", "answer": "cow" },
+                { "sentence": "Sick people go to the _____.", "answer": "hospital" },
+                { "sentence": "We use a _____ to write.", "answer": "pen" },
+                { "sentence": "The _____ teaches students every day.", "answer": "teacher" }
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What is a common noun?",
+              "type": "multiple",
+              "options": ["A specific name", "A general naming word", "A verb", "A capital letter"],
+              "answer": 1
+            },
+            {
+              "question": "\"doctor\" is a common noun.",
+              "type": "tf",
+              "answer": true
+            },
+            {
+              "question": "Which is a common noun?",
+              "type": "multiple",
+              "options": ["Manila", "Leo", "school", "Monday"],
+              "answer": 2
+            },
+            {
+              "question": "A noun is a _____ word.",
+              "type": "blank",
+              "answer": "naming"
+            },
+            {
+              "question": "Common nouns always start with a capital letter.",
+              "type": "tf",
+              "answer": false
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Proper Nouns",
+          "badge": "Lesson 2 of 6",
+          "icon": "person_pin",
+          "content": "Proper nouns are SPECIFIC names of people, places, days, and months. They ALWAYS start with a capital letter!",
+          "keyTakeaways": [
+            "Proper nouns are SPECIFIC names",
+            "They ALWAYS start with a capital letter",
+            "Examples: Leo, Monday, January, Philippines"
+          ],
+          "wordFiles": [
+            {
+              "title": "Days",
+              "words": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            },
+            {
+              "title": "Months",
+              "words": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            }
+          ],
+          "exercises": [
+            {
+              "type": "ordering",
+              "instructions": "Drag to order days of the week",
+              "words": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            },
+            {
+              "type": "ordering",
+              "instructions": "Drag to order months of the year",
+              "words": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            },
+            {
+              "type": "blanks",
+              "items": [
+                { "sentence": "Christmas is in _____.", "answer": "December" },
+                { "sentence": "The first day of school week is _____.", "answer": "Monday" }
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "question": "Proper nouns always start with a capital letter.",
+              "type": "tf",
+              "answer": true
+            },
+            {
+              "question": "Which is a proper noun?",
+              "type": "multiple",
+              "options": ["city", "school", "Manila", "teacher"],
+              "answer": 2
+            },
+            {
+              "question": "The months of the year start with a _____ letter.",
+              "type": "blank",
+              "answer": "capital"
+            },
+            {
+              "question": "How many days are in a week?",
+              "type": "multiple",
+              "options": ["5", "6", "7", "8"],
+              "answer": 2
+            },
+            {
+              "question": "\"monday\" is written correctly.",
+              "type": "tf",
+              "answer": false
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "Singular Nouns",
+          "badge": "Lesson 3 of 6",
+          "icon": "looks_one",
+          "content": "A singular noun names ONE person, animal, place, or thing.",
+          "keyTakeaways": [
+            "Singular = ONE",
+            "Examples: boy, cat, house, book"
+          ],
+          "examples": [
+            { "title": "1 boy", "subtitle": "Singular", "icon": "boy" },
+            { "title": "1 cat", "subtitle": "Singular", "icon": "pets" },
+            { "title": "1 house", "subtitle": "Singular", "icon": "home" },
+            { "title": "1 book", "subtitle": "Singular", "icon": "menu_book" }
+          ],
+          "exercises": [
+            {
+              "type": "blanks",
+              "instructions": "Fill in the blanks",
+              "items": [
+                { "sentence": "A _____ noun names one thing.", "answer": "singular" }
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What does singular mean?",
+              "type": "multiple",
+              "options": ["Two", "Many", "One", "Zero"],
+              "answer": 2
+            },
+            {
+              "question": "\"dogs\" is a singular noun.",
+              "type": "tf",
+              "answer": false
+            },
+            {
+              "question": "Which is singular?",
+              "type": "multiple",
+              "options": ["boys", "cats", "book", "trees"],
+              "answer": 2
+            },
+            {
+              "question": "One _____ is singular.",
+              "type": "blank",
+              "answer": "noun"
+            },
+            {
+              "question": "\"girl\" is a singular noun.",
+              "type": "tf",
+              "answer": true
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "title": "Plural Nouns",
+          "badge": "Lesson 4 of 6",
+          "icon": "dynamic_feed",
+          "content": "A plural noun names MORE THAN ONE. Most nouns become plural by adding -s or -es.",
+          "keyTakeaways": [
+            "Plural = MORE THAN ONE",
+            "Most nouns add -s",
+            "Nouns ending in s,x,ch,sh add -es",
+            "Some nouns are irregular"
+          ],
+          "wordFiles": [
+            {
+              "title": "Singular/Plural Pairs",
+              "words": ["bird", "broom", "camel", "desk", "doll", "egg", "flower", "fork", "game", "lamb", "nest", "pen", "photo", "shirt", "spoon"]
+            },
+            {
+              "title": "Irregular Plurals",
+              "words": ["child", "tooth", "foot", "mouse", "ox", "leaf", "knife", "wife"]
+            }
+          ],
+          "exercises": [
+            {
+              "type": "typing_plural",
+              "instructions": "Type the plural form",
+              "items": [
+                { "singular": "bird", "answer": "birds" },
+                { "singular": "broom", "answer": "brooms" },
+                { "singular": "camel", "answer": "camels" },
+                { "singular": "desk", "answer": "desks" },
+                { "singular": "doll", "answer": "dolls" },
+                { "singular": "egg", "answer": "eggs" },
+                { "singular": "flower", "answer": "flowers" },
+                { "singular": "fork", "answer": "forks" }
+              ]
+            },
+            {
+              "type": "blanks",
+              "items": [
+                { "sentence": "One child, two _____.", "answer": "children" },
+                { "sentence": "One tooth, two _____.", "answer": "teeth" }
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What does plural mean?",
+              "type": "multiple",
+              "options": ["One", "Zero", "More than one", "Exactly two"],
+              "answer": 2
+            },
+            {
+              "question": "What is the plural of \"book\"?",
+              "type": "multiple",
+              "options": ["bookes", "books", "bookies", "booksies"],
+              "answer": 1
+            },
+            {
+              "question": "One child, two _____.",
+              "type": "blank",
+              "answer": "children"
+            },
+            {
+              "question": "The plural of \"tooth\" is \"tooths\".",
+              "type": "tf",
+              "answer": false
+            },
+            {
+              "question": "What is the plural of \"church\"?",
+              "type": "multiple",
+              "options": ["churchs", "churches", "churchies", "church"],
+              "answer": 1
+            }
+          ]
+        },
+        {
+          "id": "3.5",
+          "title": "Collective Nouns",
+          "badge": "Lesson 5 of 6",
+          "icon": "groups",
+          "content": "A collective noun is a word for a GROUP of people, animals, or things.",
+          "keyTakeaways": [
+            "Collective nouns name a GROUP",
+            "Examples: a flock of birds, a team of players",
+            "Treated as singular"
+          ],
+          "wordFiles": [
+            {
+              "title": "Collective Nouns",
+              "words": ["flock", "herd", "school", "pack", "bunch", "fleet", "team", "choir", "class", "pride"]
+            }
+          ],
+          "exercises": [
+            {
+              "type": "matching",
+              "instructions": "Drag and drop matching collective noun to animal/group",
+              "pairs": [
+                { "group": "birds", "collective": "flock" },
+                { "group": "fish", "collective": "school" },
+                { "group": "lions", "collective": "pride" },
+                { "group": "cattle", "collective": "herd" },
+                { "group": "wolves", "collective": "pack" },
+                { "group": "flowers", "collective": "bunch" },
+                { "group": "ships", "collective": "fleet" },
+                { "group": "players", "collective": "team" }
+              ]
+            },
+            {
+              "type": "blanks",
+              "items": [
+                { "sentence": "A _____ of birds flew over the field.", "answer": "flock" },
+                { "sentence": "A _____ of lions rested in the sun.", "answer": "pride" }
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What is a collective noun?",
+              "type": "multiple",
+              "options": ["A single person", "A word for a group", "A proper name", "A plural noun"],
+              "answer": 1
+            },
+            {
+              "question": "A _____ of fish swam in the ocean.",
+              "type": "blank",
+              "answer": "school"
+            },
+            {
+              "question": "\"A flock of birds\" means one bird.",
+              "type": "tf",
+              "answer": false
+            },
+            {
+              "question": "What is the collective noun for lions?",
+              "type": "multiple",
+              "options": ["pack", "herd", "pride", "flock"],
+              "answer": 2
+            },
+            {
+              "question": "\"A team of players\" is a collective noun.",
+              "type": "tf",
+              "answer": true
+            }
+          ]
+        },
+        {
+          "id": "3.6",
+          "title": "Masculine and Feminine Nouns",
+          "badge": "Lesson 6 of 6",
+          "icon": "wc",
+          "content": "Some nouns have different forms for male (masculine) and female (feminine).",
+          "keyTakeaways": [
+            "Masculine = male",
+            "Feminine = female",
+            "Some animals also have masculine/feminine forms"
+          ],
+          "wordFiles": [
+            {
+              "title": "People Pairs",
+              "words": ["boy", "girl", "man", "woman", "king", "queen", "prince", "princess", "brother", "sister", "father", "mother", "uncle", "aunt", "husband", "wife", "son", "daughter", "actor", "actress"]
+            },
+            {
+              "title": "Animal Pairs",
+              "words": ["rooster", "hen", "bull", "cow", "lion", "lioness", "tiger", "tigress"]
+            }
+          ],
+          "exercises": [
+            {
+              "type": "typing_pair",
+              "instructions": "Type the feminine/masculine form",
+              "items": [
+                { "from": "king", "answer": "queen" },
+                { "from": "boy", "answer": "girl" },
+                { "from": "actor", "answer": "actress" },
+                { "from": "lion", "answer": "lioness" }
+              ]
+            },
+            {
+              "type": "matching_pairs",
+              "instructions": "Matching pairs drag and drop",
+              "pairs": [
+                ["man", "woman"],
+                ["father", "mother"],
+                ["uncle", "aunt"],
+                ["husband", "wife"],
+                ["son", "daughter"]
+              ]
+            },
+            {
+              "type": "blanks",
+              "items": [
+                { "sentence": "The feminine of king is _____.", "answer": "queen" },
+                { "sentence": "The masculine of girl is _____.", "answer": "boy" }
+              ]
+            }
+          ],
+          "quiz": [
+            {
+              "question": "What is the feminine of \"king\"?",
+              "type": "multiple",
+              "options": ["princess", "queen", "duchess", "lady"],
+              "answer": 1
+            },
+            {
+              "question": "The feminine of lion is _____.",
+              "type": "blank",
+              "answer": "lioness"
+            },
+            {
+              "question": "\"actress\" is the feminine of \"actor\".",
+              "type": "tf",
+              "answer": true
+            },
+            {
+              "question": "What is the masculine of \"hen\"?",
+              "type": "multiple",
+              "options": ["duck", "cock", "rooster", "bull"],
+              "answer": 2
+            },
+            {
+              "question": "The masculine of girl is _____.",
+              "type": "blank",
+              "answer": "boy"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "iconMap": {
+    "artist": "brush", "clown": "sentiment_very_satisfied", "acrobat": "sports_gymnastics", "actor": "theater_comedy", "actress": "theater_comedy", "aunt": "woman", "baby": "child_care", "baker": "bakery_dining", "cook": "restaurant", "dentist": "medical_services", "doctor": "stethoscope", "giant": "height", "lawyer": "gavel", "judge": "balance", "man": "person", "nurse": "medical_information", "police officer": "local_police", "singer": "mic", "soldier": "military_tech", "teacher": "school",
+    "bird": "flutter", "cat": "pets", "cow": "agriculture", "dog": "pets", "fish": "set_meal", "horse": "sports_equestrian", "lion": "cruelty_free", "rabbit": "cruelty_free", "sheep": "wool", "tiger": "cruelty_free", "lioness": "cruelty_free", "tigress": "cruelty_free",
+    "church": "church", "city": "location_city", "country": "globe", "farm": "agriculture", "garden": "local_florist", "hospital": "local_hospital", "house": "home", "library": "local_library", "market": "storefront", "park": "park", "school": "school", "store": "store",
+    "ball": "sports_soccer", "book": "menu_book", "bottle": "water_full", "brush": "brush", "candle": "candle", "clock": "schedule", "coat": "checkroom", "cup": "coffee", "door": "door_front", "drum": "music_note", "flag": "flag", "flower": "local_florist", "fork": "restaurant", "glass": "local_bar", "hammer": "hardware", "key": "key", "knife": "kitchen", "lamp": "light", "pen": "edit", "ring": "diamond", "soap": "soap", "spoon": "restaurant", "table": "table_restaurant", "umbrella": "umbrella", "window": "window",
+    "Monday": "calendar_today", "Tuesday": "calendar_today", "Wednesday": "calendar_today", "Thursday": "calendar_today", "Friday": "celebration", "Saturday": "weekend", "Sunday": "wb_sunny",
+    "January": "ac_unit", "February": "favorite", "March": "nature", "April": "local_florist", "May": "yard", "June": "wb_sunny", "July": "beach_access", "August": "wb_sunny", "September": "falling", "October": "nights_stay", "November": "foggy", "December": "celebration",
+    "broom": "cleaning_services", "camel": "cruelty_free", "desk": "desk", "doll": "toys", "egg": "egg", "game": "sports_esports", "lamb": "cruelty_free", "nest": "nest", "photo": "photo_camera", "shirt": "checkroom",
+    "child": "child_care", "tooth": "dentistry", "foot": "footprint", "mouse": "mouse", "ox": "agriculture", "leaf": "eco", "wife": "woman",
+    "flock": "flutter", "herd": "agriculture", "pack": "cruelty_free", "bunch": "local_florist", "fleet": "directions_boat", "team": "groups", "choir": "queue_music", "class": "school", "pride": "cruelty_free",
+    "boy": "boy", "girl": "girl", "king": "crown", "queen": "crown", "prince": "boy", "princess": "girl", "brother": "boy", "sister": "girl", "father": "man", "mother": "woman", "uncle": "man", "husband": "man", "son": "boy", "daughter": "girl", "rooster": "cruelty_free", "hen": "cruelty_free", "bull": "agriculture"
+  }
+}
