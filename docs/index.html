@@ -3,1241 +3,692 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic English Grammar - Interactive App</title>
+    <title>Grammar 1 - Interactive Textbook</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="quiz_questions.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2f7f7b',
+                        background: '#f6f8f7',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        comic: ['Comic Neue', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f6f8f7; color: #1e293b; }
+        .font-black { font-weight: 900; }
+        .font-bold { font-weight: 700; }
+        .font-medium { font-weight: 500; }
 
-        :root {
-            --primary: #2e7d32;
-            --primary-light: #4caf50;
-            --secondary: #fdd835;
-            --accent: #ffeb3b;
-            --bg: #f1f8e9;
-            --sidebar: #1b5e20;
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            color: #2f7f7b;
         }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--bg);
-            color: #1b5e20;
-            font-size: 1.1rem;
+        .icon-box {
+            background-color: rgba(47, 127, 123, 0.1);
+            @apply rounded-lg p-2 flex items-center justify-center;
         }
-
-        h1, h2, h3, .heading-font {
-            font-family: 'Fredoka One', cursive;
+        .card {
+            @apply bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden;
         }
-
-        .grammar-font {
-            font-family: 'Comic Neue', cursive;
+        .lesson-badge {
+            @apply inline-flex items-center px-3 py-1 rounded-full text-primary text-xs font-bold mb-4 uppercase tracking-wider;
+            background-color: rgba(47, 127, 123, 0.1);
         }
+        #laser-pointer {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 0, 0, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 0 10px 4px rgba(255, 0, 0, 0.4);
+            display: none;
+            transform: translate(-50%, -50%);
+        }
+        body.laser-active { cursor: crosshair; }
+        body.laser-active #laser-pointer { display: block; }
 
-        #page-content {
+        .grammar-page-container {
             container-type: size;
             background-color: white;
             position: relative;
             margin: 0 auto;
             overflow: hidden;
-            transform-origin: top center;
-        }
-
-        /* The book border like in the screenshot */
-        .page-frame {
-            padding: 2rem;
-            background: white;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
             border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
-
-        .sidebar {
-            background-color: var(--sidebar);
-            color: white;
-            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 80%);
-        }
-
-        .nav-item {
-            transition: all 0.2s;
-            border-left: 6px solid transparent;
-            font-size: 1rem;
-        }
-
-        .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
         .nav-item.active {
-            background-color: var(--primary-light);
-            border-left-color: var(--secondary);
-            color: white;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            background-color: rgba(47, 127, 123, 0.1);
+            @apply text-primary border-r-4 border-primary font-bold;
         }
-
-        .nav-item.completed {
-            color: #4ade80;
+        .progress-bar-inner {
+            @apply bg-primary h-full rounded-full transition-all duration-700 ease-out;
         }
-
         .input-blank {
-            border-bottom: 2px dashed var(--primary-light);
-            background-color: #f5f3ff;
-            outline: none;
-            padding: 0 4px;
-            text-align: center;
-            border-radius: 2px;
-            transition: all 0.2s;
-            font-family: 'Comic Neue', cursive;
-            font-weight: bold;
+            @apply border-b-2 border-dashed border-primary outline-none px-1 text-center font-bold text-primary transition-all rounded-sm;
+            background-color: rgba(47, 127, 123, 0.05);
+            min-width: 50px;
+        }
+        .input-blank:focus { @apply bg-white border-primary shadow-sm; }
+        .input-correct { @apply border-green-500 bg-green-50 text-green-700 !important; }
+        .input-incorrect { @apply border-red-500 bg-red-50 text-red-700 !important; }
+
+        .drop-zone {
+            @apply border-2 border-dashed border-slate-200 rounded-xl p-4 min-h-[100px] flex flex-wrap gap-2 transition-colors bg-slate-50/50;
+        }
+        .drop-zone.drag-over { border-color: #2f7f7b; background-color: rgba(47, 127, 123, 0.1); }
+        .draggable-item {
+            @apply bg-white border border-slate-200 p-2 px-4 rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:border-primary transition-all select-none font-medium text-sm;
         }
 
-        .input-blank:focus {
-            background-color: white;
-            border-bottom-color: var(--primary);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        .word-card {
+            @apply flex flex-col items-center justify-center p-4 bg-white border border-slate-200 rounded-xl transition-all hover:shadow-md hover:border-primary cursor-default;
         }
 
-        .input-correct {
-            border-bottom-color: #22c55e !important;
-            background-color: #f0fdf4 !important;
-            color: #166534 !important;
+        .quiz-option {
+            @apply w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-600 hover:border-primary hover:bg-teal-50 transition-all flex items-center gap-4 group;
         }
-
-        .input-incorrect {
-            border-bottom-color: #ef4444 !important;
-            background-color: #fef2f2 !important;
-            color: #991b1b !important;
+        .quiz-option.selected {
+            border-color: #2f7f7b;
+            background-color: rgba(47, 127, 123, 0.1);
+            @apply text-primary font-bold;
         }
-
-        .clickable-word {
-            cursor: pointer;
-            border-radius: 4px;
-            padding: 0 2px;
-            transition: all 0.1s;
+        .quiz-radio {
+            @apply w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center flex-shrink-0 group-hover:border-primary transition-colors;
         }
-
-        .word-circled {
-            outline: 2px solid var(--primary);
-            outline-offset: 1px;
-            border-radius: 50%;
+        .quiz-option.selected .quiz-radio { border-color: #2f7f7b; }
+        .quiz-radio-inner {
+            @apply w-2.5 h-2.5 rounded-full bg-primary scale-0 transition-transform;
         }
+        .quiz-option.selected .quiz-radio-inner { @apply scale-100; }
 
-        .word-correct {
-            outline-color: #22c55e !important;
-            background-color: #f0fdf4;
+        .key-takeaways-box {
+            background-color: rgba(47, 127, 123, 0.05);
+            @apply rounded-2xl border border-primary/20 p-8 mb-12;
         }
-
-        .word-incorrect {
-            outline-color: #ef4444 !important;
-            background-color: #fef2f2;
-        }
-
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .sidebar ::-webkit-scrollbar-thumb { background: #475569; }
-
-        .btn-action {
-            @apply flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all active:scale-95 shadow-sm;
-        }
-
-        .exercise-panel {
-            @apply w-full max-w-5xl mt-8 mb-32 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden transition-all duration-300;
-        }
-
-        .exercise-header {
-            @apply bg-green-700 text-white p-4 flex justify-between items-center cursor-pointer;
-        }
-
-        .exercise-body {
-            @apply p-8 bg-green-50/30 overflow-visible;
-        }
-
-        .drop-zone {
-            @apply border-2 border-dashed border-green-300 rounded-xl p-4 min-h-[100px] flex flex-wrap gap-2 transition-colors;
-        }
-
-        .drop-zone.drag-over {
-            @apply border-green-500 bg-green-100;
-        }
-
-        .draggable-item {
-            @apply bg-white border-2 border-green-200 p-2 px-4 rounded-lg shadow-sm cursor-move hover:border-green-400 active:scale-95 transition-all;
-        }
-
-        .trophy-sidebar {
-            @apply text-yellow-400 ml-auto;
-        }
     </style>
 </head>
-<body class="h-screen flex overflow-hidden">
+<body class="bg-background text-slate-900 flex h-screen overflow-hidden">
+    <div id="laser-pointer"></div>
+
     <!-- Sidebar -->
-    <aside class="sidebar w-80 flex-shrink-0 flex flex-col shadow-2xl z-30">
-        <div class="p-6 border-b border-green-800 flex items-center gap-3">
-            <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-2xl shadow-lg border-2 border-white">⚽</div>
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col flex-shrink-0 z-40">
+        <div class="p-6 border-b border-slate-100 flex items-center gap-3">
+            <div class="icon-box w-10 h-10">
+                <span class="material-symbols-outlined text-2xl">school</span>
+            </div>
             <div>
-                <h1 class="font-bold text-xl leading-tight text-yellow-300 uppercase tracking-wide">Grammar 1</h1>
-                <p class="text-xs text-green-200">Coach Leo Edition</p>
+                <h1 class="font-black text-xl tracking-tight leading-none text-primary">Grammar 1</h1>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Interactive Textbook</p>
             </div>
         </div>
 
-        <div class="p-4">
-            <div class="relative group">
-                <input type="text" id="search" placeholder="Search lessons..."
-                    class="w-full bg-slate-800 border border-slate-700 p-3 pl-10 rounded-xl text-white placeholder-slate-500 outline-none focus:ring-2 focus:ring-green-500 transition-all">
-                <span class="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-green-400 transition-colors">🔍</span>
-            </div>
-            <div id="search-results" class="hidden absolute left-4 right-4 mt-2 max-h-60 overflow-y-auto bg-white rounded-xl shadow-2xl text-slate-900 z-50">
-                <!-- Search results -->
-            </div>
+        <div id="sidebar-nav" class="flex-1 overflow-y-auto py-4">
+            <!-- Navigation items injected here -->
         </div>
 
-        <nav id="toc" class="flex-1 overflow-y-auto py-2">
-            <!-- TOC items will be injected here -->
-        </nav>
-
-        <div class="p-6 bg-slate-800/50 border-t border-slate-700">
-            <div class="mb-4">
-                <div class="flex justify-between items-end mb-2">
-                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Exercise Progress</span>
-                    <span class="text-lg font-bold text-yellow-400"><span id="exercise-progress-percent">0</span>%</span>
+        <div class="p-6 bg-white border-t border-slate-100">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">military_tech</span>
+                    <span id="xp-display" class="font-black text-xl text-primary">0 XP</span>
                 </div>
-                <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
-                    <div id="exercise-progress-bar" class="bg-yellow-400 h-full transition-all duration-700" style="width: 0%"></div>
+                <div id="trophy-count" class="flex items-center gap-1 text-yellow-500 font-bold">
+                    <span class="material-symbols-outlined">emoji_events</span>
+                    <span class="text-lg">0</span>
                 </div>
             </div>
-
-            <div class="flex justify-between items-end mb-2">
-                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Book Progress</span>
-                <span class="text-lg font-bold text-green-400"><span id="progress-percent">0</span>%</span>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div id="overall-progress-bar" class="progress-bar-inner" style="width: 0%"></div>
             </div>
-            <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden mb-4">
-                <div id="progress-bar" class="bg-green-500 h-full transition-all duration-700 ease-out" style="width: 0%"></div>
-            </div>
-            <button id="reset-progress" class="w-full py-2 text-[10px] text-slate-500 hover:text-red-400 transition-colors flex items-center justify-center gap-1 opacity-60 hover:opacity-100">
-                <span>🔄</span> Reset All Progress
-            </button>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2 text-center">Course Progress</p>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col relative">
+    <!-- Main Wrapper -->
+    <div class="flex-1 flex flex-col min-w-0">
         <!-- Header -->
-        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-20 shadow-sm">
+        <header class="h-16 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-30">
+            <nav id="breadcrumb" class="flex items-center text-sm font-medium text-slate-400 gap-2">
+                <!-- Breadcrumbs -->
+            </nav>
+
             <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-xl shadow-md border-2 border-white">⚽</div>
-                <div id="active-lesson" class="text-xl font-bold text-green-800 truncate max-w-md">
-                    Loading lesson...
+                <button id="laser-toggle" class="p-2 rounded-lg hover:bg-slate-100 transition-colors" title="Toggle Laser Pointer">
+                    <span class="material-symbols-outlined">highlight</span>
+                </button>
+                <div class="h-6 w-px bg-slate-200"></div>
+                <button id="view-toggle" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 font-bold text-sm hover:bg-slate-50 transition-all">
+                    <span id="view-toggle-icon" class="material-symbols-outlined">menu_book</span>
+                    <span id="view-toggle-text">Book View</span>
+                </button>
+                <div class="h-6 w-px bg-slate-200"></div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-xs font-black leading-none text-slate-900">Leo</p>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase">Student</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-black overflow-hidden border-2 border-white shadow-sm">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Leo" alt="Avatar">
+                    </div>
                 </div>
-            </div>
-            <div class="flex items-center gap-4">
-                <!-- Theme/App Style Header - minimized -->
             </div>
         </header>
 
-        <!-- Main Page Area -->
-        <main class="flex-1 overflow-y-auto bg-slate-50 p-8 lg:p-12 flex flex-col items-center">
-            <div id="page-container" class="w-[75%] flex flex-col items-center transition-all duration-500">
-                <div class="page-frame mb-8 w-full">
-                    <div id="page-content" class="grammar-font">
-                        <!-- Content injected here -->
-                    </div>
-                </div>
-
-                <!-- Exercise Panel -->
-                <div id="exercise-panel" class="exercise-panel hidden">
-                    <div class="exercise-header" id="exercise-toggle">
-                        <div class="flex items-center gap-3">
-                            <span class="text-2xl">📝</span>
-                            <h3 class="font-bold text-lg uppercase tracking-wider">Interactive Exercise</h3>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span id="exercise-score-badge" class="bg-yellow-400 text-green-900 px-3 py-1 rounded-full font-bold text-sm hidden"></span>
-                            <span id="exercise-chevron" class="transition-transform">▼</span>
-                        </div>
-                    </div>
-                    <div id="exercise-content" class="exercise-body">
-                        <!-- Exercise content injected here -->
-                    </div>
-                </div>
+        <!-- Content Area -->
+        <main id="main-content" class="flex-1 overflow-y-auto">
+            <!-- Lesson View -->
+            <div id="lesson-view" class="max-w-4xl mx-auto py-12 px-8">
+                <!-- Lesson content -->
             </div>
 
-            <!-- Bottom Toolbar -->
-            <div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-fit bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-2xl px-6 py-4 flex items-center gap-6 z-40">
-                <div class="flex items-center bg-slate-100 rounded-xl p-1 shadow-inner">
-                    <button id="prev-page" class="p-2 rounded-lg hover:bg-white hover:shadow-md transition-all text-slate-600 active:scale-90">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <!-- Book View -->
+            <div id="book-view" class="hidden h-full flex flex-col items-center p-8">
+                <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm mb-8">
+                    <button id="prev-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
+                        <span class="material-symbols-outlined font-bold">chevron_left</span>
                     </button>
-                    <div class="px-6 font-bold text-slate-700 min-w-[120px] text-center select-none text-sm">
+                    <div class="px-6 font-bold text-slate-700 min-w-[140px] text-center select-none text-sm uppercase tracking-widest">
                         <span id="page-info">Page 1 / 159</span>
                     </div>
-                    <button id="next-page" class="p-2 rounded-lg hover:bg-white hover:shadow-md transition-all text-slate-600 active:scale-90">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <button id="next-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
+                        <span class="material-symbols-outlined font-bold">chevron_right</span>
                     </button>
                 </div>
-
-                <div class="h-8 w-px bg-slate-200"></div>
-
-                <div class="flex items-center gap-2">
-                    <button id="toggle-feedback" class="bg-amber-100 hover:bg-amber-200 text-amber-700 px-4 py-2 rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-amber-200">
-                        <span id="feedback-icon">👁️</span> <span id="feedback-text">Check Answers</span>
-                    </button>
-                    <button id="mark-complete" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl font-bold text-sm transition-all shadow-lg shadow-green-100 active:scale-95 flex items-center gap-2">
-                        <span id="mark-icon">⭕</span> <span id="mark-text">Mark as Finished</span>
-                    </button>
+                <div class="grammar-page-container border border-slate-200 rounded-lg" id="book-page-content">
+                    <!-- PDF content -->
                 </div>
-
-                <div class="h-8 w-px bg-slate-200"></div>
-
-                <button id="take-quiz" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full font-bold text-sm transition-all shadow-lg shadow-blue-100 active:scale-95 flex items-center gap-2 whitespace-nowrap">
-                    <span>⚽ Take Quiz!</span>
-                </button>
-
-                <button id="clear-page" class="text-slate-400 hover:text-red-500 p-2 transition-colors" title="Clear Page">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                </button>
-            </div>
-
-            <!-- Welcome Overlay (hidden when page loaded) -->
-            <div id="welcome-overlay" class="hidden absolute inset-0 bg-green-100 z-40 flex flex-col items-center justify-center p-8 text-center">
-                <div class="w-32 h-32 bg-yellow-400 rounded-full flex items-center justify-center text-6xl mb-8 shadow-2xl animate-bounce border-4 border-white">⚽</div>
-                <h2 class="text-5xl font-extrabold text-green-900 mb-4">Welcome, Leo! Let's play Grammar! ⚽</h2>
-                <p class="text-green-700 max-w-md text-xl mb-8 font-semibold">Ready to score some goals in English? Choose a lesson to start the match!</p>
-                <button id="start-btn" class="bg-green-600 text-white px-12 py-5 rounded-full font-bold text-2xl hover:bg-green-700 transition-all shadow-xl shadow-green-200 active:scale-95 border-b-4 border-green-800">
-                    KICK OFF! ⚽
-                </button>
             </div>
         </main>
     </div>
 
-    <!-- Quiz Modal -->
-    <div id="quiz-modal" class="hidden fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl animate-[slideUp_0.4s_ease-out]">
-            <header class="p-8 bg-green-600 text-white rounded-t-3xl flex justify-between items-center sticky top-0 z-10">
-                <div>
-                    <h2 class="text-3xl font-bold mb-1">Grammar Match! ⚽</h2>
-                    <p id="quiz-title" class="text-green-100 opacity-90 font-semibold"></p>
-                </div>
-                <button id="close-quiz" class="text-4xl hover:scale-110 transition-transform">&times;</button>
-            </header>
-
-            <div id="quiz-body" class="p-8 flex-1">
-                <!-- Questions injected here -->
+    <!-- Celebration Modal -->
+    <div id="celebration-modal" class="fixed inset-0 bg-primary/20 backdrop-blur-md z-[60] flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-12 text-center max-w-md shadow-2xl scale-0 transition-transform duration-500" id="celebration-card">
+            <div class="icon-box w-20 h-20 mx-auto mb-6 rounded-2xl">
+                <span class="material-symbols-outlined text-5xl">emoji_events</span>
             </div>
-
-            <footer class="p-8 border-t border-slate-100 bg-slate-50 rounded-b-3xl flex justify-between items-center">
-                <p id="quiz-counter" class="text-slate-500 font-bold uppercase tracking-wider text-sm"></p>
-                <button id="submit-quiz" class="bg-green-600 text-white px-10 py-4 rounded-full font-bold text-xl hover:bg-green-700 transition-all shadow-xl active:scale-95">
-                    SCORE A GOAL! 🥅
-                </button>
-            </footer>
+            <h2 class="text-4xl font-black mb-2 tracking-tight">GOAL!!!</h2>
+            <p class="text-slate-600 font-medium mb-8">You finished the lesson and earned <span id="earned-xp" class="text-primary font-bold">0</span> XP!</p>
+            <button id="finish-lesson-btn" class="w-full bg-primary text-white py-4 rounded-2xl font-black text-xl shadow-xl shadow-teal-900/20 hover:-translate-y-1 transition-all uppercase">Continue Match</button>
         </div>
     </div>
-
-    <!-- Result Modal -->
-    <div id="result-modal" class="hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl w-full max-w-md text-center p-10 shadow-2xl animate-[pop_0.4s_cubic-bezier(0.34,1.56,0.64,1)]">
-            <div class="text-8xl mb-6">🏆</div>
-            <h2 id="result-title" class="text-4xl font-bold mb-4 text-green-900"></h2>
-            <div id="result-score" class="text-6xl font-black text-green-600 mb-6 tracking-tighter"></div>
-            <p id="result-msg" class="text-slate-600 text-xl font-semibold mb-10"></p>
-            <button id="close-result" class="w-full bg-green-600 text-white py-5 rounded-full font-bold text-2xl hover:bg-green-700 transition-all shadow-xl">
-                CONTINUE MATCH! ⚽
-            </button>
-        </div>
-    </div>
-
-    <style>
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .quiz-option { @apply p-5 border-2 border-slate-200 rounded-2xl cursor-pointer hover:bg-green-50 hover:border-green-400 transition-all font-semibold text-lg flex items-center gap-4; }
-        .quiz-option.selected { @apply border-green-600 bg-green-100 text-green-900 shadow-inner; }
-        .quiz-input { @apply w-full p-5 border-2 border-slate-200 rounded-2xl focus:border-green-600 focus:outline-none font-bold text-2xl text-center; }
-    </style>
 
     <script>
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        let bookData = [];
-        let tocData = [];
-        let exerciseData = [];
-        let answerKey = {};
-        let circleKey = {};
-        let currentPage = 1;
-        let progress = {};
-        let exerciseProgress = {};
-        let showFeedback = false;
-        let isExerciseExpanded = true;
-
-        let currentQuizQuestions = [];
+        let lessonsData = null;
+        let bookData = null;
+        let tocData = null;
+        let currentView = 'lesson';
+        let currentLessonId = '1.1';
+        let currentPageNum = 1;
+        let xp = 0;
+        let completedLessons = [];
+        let laserActive = false;
+        let quizUserAnswers = {};
 
         async function init() {
             try {
-                const [dataRes, tocRes, ansRes, circRes, exRes] = await Promise.all([
+                const [lessonsRes, bookRes, tocRes] = await Promise.all([
+                    fetch('lessons.json'),
                     fetch('book_data.json'),
-                    fetch('toc.json'),
-                    fetch('answers.json').catch(() => ({ ok: false })),
-                    fetch('circles.json').catch(() => ({ ok: false })),
-                    fetch('exercises.json').catch(() => ({ ok: false }))
+                    fetch('toc.json')
                 ]);
-
-                if (!dataRes.ok) throw new Error("Could not load book_data.json. Please ensure you are running through a web server.");
-                if (!tocRes.ok) throw new Error("Could not load toc.json.");
-
-                bookData = await dataRes.json();
+                lessonsData = await lessonsRes.json();
+                bookData = await bookRes.json();
                 tocData = await tocRes.json();
-                exerciseData = exRes.ok ? await exRes.json() : [];
-                answerKey = ansRes.ok ? await ansRes.json() : {};
-                circleKey = circRes.ok ? await circRes.json() : {};
 
-                // Optimization: Pre-calculate full text for search and exercise detection
-                bookData.forEach(page => {
-                    let text = "";
-                    page.blocks.forEach(b => {
-                        if (b.type === 0) {
-                            b.lines.forEach(l => {
-                                l.spans.forEach(s => {
-                                    text += s.text + " ";
-                                });
-                            });
-                        }
-                    });
-                    page.fullText = text.toLowerCase();
-                });
+                loadState();
+                renderSidebar();
+                renderView();
+                updateXPDisplay();
 
-                loadProgress();
-                renderTOC();
+                document.getElementById('view-toggle').onclick = toggleView;
+                document.getElementById('laser-toggle').onclick = toggleLaser;
+                document.getElementById('prev-page').onclick = () => changePage(currentPageNum - 1);
+                document.getElementById('next-page').onclick = () => changePage(currentPageNum + 1);
+                document.getElementById('finish-lesson-btn').onclick = closeCelebration;
 
-                document.getElementById('exercise-toggle').onclick = () => {
-                    isExerciseExpanded = !isExerciseExpanded;
-                    document.getElementById('exercise-content').classList.toggle('hidden', !isExerciseExpanded);
-                    document.getElementById('exercise-chevron').style.transform = isExerciseExpanded ? 'rotate(0deg)' : 'rotate(-90deg)';
-                };
-
-                const lastPage = parseInt(localStorage.getItem('last_page') || '0');
-                const hashPage = parseInt(window.location.hash.replace('#page=', ''));
-
-                if (hashPage && hashPage >= 1 && hashPage <= bookData.length) {
-                    renderPage(hashPage);
-                } else if (lastPage === 0) {
-                    document.getElementById('welcome-overlay').classList.remove('hidden');
-                } else {
-                    renderPage(lastPage);
-                }
-
-                window.addEventListener('hashchange', () => {
-                    const pageNum = parseInt(window.location.hash.replace('#page=', ''));
-                    if (pageNum && pageNum !== currentPage) renderPage(pageNum);
-                });
-
-                updateProgressUI();
-
-                // UI Events
-                document.getElementById('prev-page').onclick = () => changePage(currentPage - 1);
-                document.getElementById('next-page').onclick = () => changePage(currentPage + 1);
-                document.getElementById('mark-complete').onclick = toggleComplete;
-                document.getElementById('toggle-feedback').onclick = toggleFeedback;
-                document.getElementById('clear-page').onclick = clearCurrentPage;
-                document.getElementById('search').oninput = debounce(handleSearch, 300);
-                document.getElementById('reset-progress').onclick = resetProgress;
-                document.getElementById('start-btn').onclick = () => {
-                    document.getElementById('welcome-overlay').classList.add('hidden');
-                    renderPage(1);
-                };
-
-                document.getElementById('take-quiz').onclick = startQuiz;
-                document.getElementById('close-quiz').onclick = () => document.getElementById('quiz-modal').classList.add('hidden');
-                document.getElementById('submit-quiz').onclick = scoreQuiz;
-                document.getElementById('close-result').onclick = () => document.getElementById('result-modal').classList.add('hidden');
-
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('#search') && !e.target.closest('#search-results')) {
-                        document.getElementById('search-results').classList.add('hidden');
+                document.addEventListener('mousemove', (e) => {
+                    if (laserActive) {
+                        const lp = document.getElementById('laser-pointer');
+                        lp.style.left = e.clientX + 'px';
+                        lp.style.top = e.clientY + 'px';
                     }
                 });
+            } catch (err) { console.error("Init failed:", err); }
+        }
 
-                window.addEventListener('keydown', (e) => {
-                    if (e.target.tagName === 'INPUT') return;
-                    if (e.key === 'ArrowLeft') changePage(currentPage - 1);
-                    if (e.key === 'ArrowRight') changePage(currentPage + 1);
-                });
-            } catch (err) {
-                console.error(err);
-                alert("Critical Error: " + err.message);
+        function loadState() {
+            const saved = localStorage.getItem('grammar_v4_state');
+            if (saved) {
+                const state = JSON.parse(saved);
+                xp = state.xp || 0;
+                completedLessons = state.completedLessons || [];
+                currentLessonId = state.currentLessonId || '1.1';
+                currentPageNum = state.currentPageNum || 1;
             }
         }
+        function saveState() { localStorage.setItem('grammar_v4_state', JSON.stringify({ xp, completedLessons, currentLessonId, currentPageNum })); }
 
-        function renderTOC() {
-            const container = document.getElementById('toc');
-            container.innerHTML = '';
-
-            // Flatten topics to find ranges
-            const flattenedTopics = [];
-            tocData.forEach(item => {
-                flattenedTopics.push(item);
-                if (item.subsections) item.subsections.forEach(sub => flattenedTopics.push(sub));
-            });
-            flattenedTopics.sort((a, b) => a.page - b.page);
-
-            const getTrophyStatus = (item) => {
-                const topicIndex = flattenedTopics.findIndex(t => t.title === item.title && t.page === item.page);
-                const nextTopic = flattenedTopics[topicIndex + 1];
-                const endPage = nextTopic ? nextTopic.page - 1 : bookData.length;
-
-                const relevantExercises = exerciseData.filter(ex => ex.pageNumber >= item.page && ex.pageNumber <= endPage);
-                return relevantExercises.length > 0 && relevantExercises.every(ex => {
-                    const p = exerciseProgress[ex.pageNumber];
-                    return p && p.score >= (p.total * 0.8);
-                });
-            };
-
-            tocData.forEach(item => {
-                const isCompleted = progress[item.page];
-                const showTrophy = getTrophyStatus(item);
-
-                const el = document.createElement('div');
-                el.className = `nav-item px-6 py-3 cursor-pointer flex items-center justify-between group ${isCompleted ? 'completed' : ''}`;
-                el.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="text-xs opacity-40">${item.page}</span>
-                        <span class="font-bold text-sm tracking-tight">${item.title}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        ${showTrophy ? '<span class="trophy-sidebar">🏆</span>' : ''}
-                        <span class="text-xs opacity-0 group-hover:opacity-100 transition-opacity">${isCompleted ? '✅' : '→'}</span>
-                    </div>
-                `;
-                el.onclick = () => renderPage(item.page);
-                el.id = `toc-item-${item.page}`;
-                container.appendChild(el);
-
-                if (item.subsections) {
-                    item.subsections.forEach(sub => {
-                        const isSubCompleted = progress[sub.page];
-                        const showSubTrophy = getTrophyStatus(sub);
-
-                        const subEl = document.createElement('div');
-                        subEl.className = `nav-item px-6 py-2 pl-12 cursor-pointer flex items-center justify-between text-sm opacity-70 hover:opacity-100 ${isSubCompleted ? 'completed' : ''}`;
-                        subEl.innerHTML = `
-                            <div class="flex items-center gap-2">
-                                <span>${sub.title}</span>
-                                ${showSubTrophy ? '<span class="text-xs">🏆</span>' : ''}
-                            </div>
-                            <span class="text-[10px] opacity-40">${sub.page}</span>
-                        `;
-                        subEl.onclick = (e) => {
-                            e.stopPropagation();
-                            renderPage(sub.page);
-                        };
-                        subEl.id = `toc-item-${sub.page}`;
-                        container.appendChild(subEl);
-                    });
-                }
-            });
-        }
-
-        function renderPage(pageNum) {
-            if (pageNum < 1 || pageNum > bookData.length) return;
-            currentPage = pageNum;
-            localStorage.setItem('last_page', pageNum);
-            if (window.location.hash !== `#page=${pageNum}`) {
-                window.history.replaceState(null, null, `#page=${pageNum}`);
-            }
-            document.getElementById('welcome-overlay').classList.add('hidden');
-
-            const page = bookData[pageNum - 1];
-            const container = document.getElementById('page-content');
-
-            // Set Aspect Ratio
-            const ratio = page.width / page.height;
-            container.style.aspectRatio = ratio.toString();
-            // Scale container width based on available height but cap at 100%
-            container.style.width = ratio > 1 ? '100%' : (ratio * 80) + 'vh';
-            container.style.maxWidth = '100%';
-
-            container.innerHTML = '';
-
-            document.getElementById('page-info').innerText = `Page ${pageNum} / ${bookData.length}`;
-
-            // Update Lesson Title in header
-            const currentLesson = findLessonForPage(pageNum);
-            const lessonEl = document.getElementById('active-lesson');
-            lessonEl.innerText = currentLesson ? currentLesson.title : "";
-            lessonEl.classList.remove('hidden');
-
-            // Highlight TOC
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const tocItem = document.getElementById(`toc-item-${pageNum}`);
-            if (tocItem) {
-                tocItem.classList.add('active');
-                tocItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-            }
-
-            updateMarkButton();
-            renderExercisePanel(pageNum);
-
-            // Detect if Circle Exercise - Optimized using pre-calculated text
-            const isCircleEx = page.fullText.includes('circle') || page.fullText.includes('underline');
-
-            // Render Blocks - Optimized using DocumentFragment for batched appends
-            const fragment = document.createDocumentFragment();
-
-            page.blocks.forEach(block => {
-                if (block.type === 0) {
-                    block.lines.forEach(line => {
-                        const lineText = line.spans.map(s => s.text).join('');
-                        const isExerciseItem = /^\s*\d+[\.\)]\s+/.test(lineText);
-
-                        line.spans.forEach(span => {
-                            const spanEl = document.createElement('span');
-                            spanEl.className = 'absolute whitespace-pre';
-
-                            const x = (span.origin[0] / page.width) * 100;
-                            const y = (span.origin[1] / page.height) * 100;
-                            const fontSize = (span.size / page.height) * 100;
-                            const topOffset = y - (fontSize * 0.8);
-
-                            spanEl.style.left = `${x}%`;
-                            spanEl.style.top = `${topOffset}%`;
-                            spanEl.style.fontSize = `${fontSize}cqh`;
-
-                            let colorHex = (span.color >>> 0).toString(16).padStart(6, '0');
-                            spanEl.style.color = '#' + (colorHex.length > 6 ? colorHex.substring(colorHex.length-6) : colorHex);
-
-                            if (span.flags & 2) spanEl.style.fontStyle = 'italic';
-                            if (span.flags & 4) spanEl.style.fontWeight = 'bold';
-
-                            if (span.text.includes('____')) {
-                                processInteractiveSpan(spanEl, span.text, pageNum, x, y);
-                            } else if (isCircleEx && isExerciseItem && span.text.trim().length > 1) {
-                                processCircleSpan(spanEl, span.text, pageNum, x, y);
-                            } else {
-                                spanEl.textContent = span.text;
-                            }
-                            fragment.appendChild(spanEl);
-                        });
-                    });
-                } else if (block.type === 1) {
-                    const img = document.createElement('img');
-                    img.src = block.src;
-                    img.className = 'absolute pointer-events-none select-none';
-                    img.style.left = `${(block.bbox[0] / page.width) * 100}%`;
-                    img.style.top = `${(block.bbox[1] / page.height) * 100}%`;
-                    img.style.width = `${((block.bbox[2] - block.bbox[0]) / page.width) * 100}%`;
-                    img.style.height = `${((block.bbox[3] - block.bbox[1]) / page.height) * 100}%`;
-                    fragment.appendChild(img);
-                }
-            });
-            container.appendChild(fragment);
-        }
-
-        function findLessonForPage(pageNum) {
-            let found = null;
-            tocData.forEach(item => {
-                if (item.page <= pageNum) found = item;
-                if (item.subsections) {
-                    item.subsections.forEach(sub => {
-                        if (sub.page <= pageNum) found = sub;
-                    });
-                }
-            });
-            return found;
-        }
-
-        function processInteractiveSpan(el, text, pageNum, x, y) {
-            const parts = text.split(/_{2,}/);
-            el.innerHTML = '';
-            parts.forEach((part, i) => {
-                el.appendChild(document.createTextNode(part));
-                if (i < parts.length - 1) {
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.className = 'input-blank';
-                    input.style.width = '6cqw';
-
-                    const key = `ans_${pageNum}_${Math.round(x)}_${Math.round(y)}_${i}`;
-                    input.value = localStorage.getItem(key) || '';
-                    if (showFeedback) applyInputFeedback(input, key);
-
-                    input.oninput = (e) => {
-                        localStorage.setItem(key, e.target.value);
-                        if (showFeedback) applyInputFeedback(e.target, key);
-                    };
-                    el.appendChild(input);
-                }
-            });
-        }
-
-        function processCircleSpan(el, text, pageNum, x, y) {
-            const words = text.split(/(\s+)/);
-            el.innerHTML = '';
-            words.forEach((word, i) => {
-                if (word.trim().length > 0 && !/^\d+[\.\)]/.test(word)) {
-                    const wordEl = document.createElement('span');
-                    wordEl.className = 'clickable-word';
-                    wordEl.textContent = word;
-                    const key = `circ_${pageNum}_${Math.round(x)}_${Math.round(y)}_${i}`;
-                    if (localStorage.getItem(key) === 'true') wordEl.classList.add('word-circled');
-                    if (showFeedback) applyCircleFeedback(wordEl, word, pageNum);
-
-                    wordEl.onclick = () => {
-                        const isCircled = wordEl.classList.toggle('word-circled');
-                        localStorage.setItem(key, isCircled ? 'true' : 'false');
-                        if (showFeedback) applyCircleFeedback(wordEl, word, pageNum);
-                    };
-                    el.appendChild(wordEl);
-                } else {
-                    el.appendChild(document.createTextNode(word));
-                }
-            });
-        }
-
-        function applyInputFeedback(input, key) {
-            const correct = answerKey[key];
-            if (!correct) return;
-            const val = input.value.trim().toLowerCase();
-            input.classList.remove('input-correct', 'input-incorrect');
-            if (!val) return;
-            input.classList.add(val === correct.toLowerCase() ? 'input-correct' : 'input-incorrect');
-        }
-
-        function applyCircleFeedback(el, word, pageNum) {
-            const isCircled = el.classList.contains('word-circled');
-            const pageCircles = circleKey[pageNum] || [];
-            const cleanWord = word.replace(/[.,!?;:]/g, '').toLowerCase();
-            const isCorrectWord = pageCircles.some(w => w.toLowerCase() === cleanWord);
-            el.classList.remove('word-correct', 'word-incorrect');
-            if (isCircled) el.classList.add(isCorrectWord ? 'word-correct' : 'word-incorrect');
-        }
-
-        function toggleFeedback() {
-            showFeedback = !showFeedback;
-            const btn = document.getElementById('toggle-feedback');
-            btn.classList.toggle('bg-amber-100', !showFeedback);
-            btn.classList.toggle('bg-amber-400', showFeedback);
-            document.getElementById('feedback-text').innerText = showFeedback ? 'Hide Answers' : 'Check Answers';
-            document.getElementById('feedback-icon').innerText = showFeedback ? '🙈' : '👁️';
-            renderPage(currentPage);
-        }
-
-        function changePage(num) {
-            if (num >= 1 && num <= bookData.length) renderPage(num);
-        }
-
-        function toggleComplete() {
-            const isClosingSection = checkSectionEnd(currentPage);
-            progress[currentPage] = !progress[currentPage];
-            saveProgress();
-            updateMarkButton();
-            updateProgressUI();
-            renderTOC();
-
-            if (progress[currentPage] && isClosingSection) {
-                setTimeout(startQuiz, 500);
-            }
-        }
-
-        function checkSectionEnd(pageNum) {
-            // Find current section and see if this page is its end
-            for (let i = 0; i < tocData.length; i++) {
-                const section = tocData[i];
-                const nextSection = tocData[i+1];
-                const endPage = nextSection ? nextSection.page - 1 : bookData.length;
-                if (pageNum === endPage) return true;
-            }
-            return false;
-        }
-
-        function startQuiz() {
-            const section = findSectionForPage(currentPage);
-            const title = section ? section.title : "General Grammar";
-            const questions = window.QUIZ_QUESTIONS[title] || window.QUIZ_QUESTIONS["DEFAULT"];
-
-            // Randomly select 6
-            currentQuizQuestions = [...questions].sort(() => 0.5 - Math.random()).slice(0, 6);
-
-            document.getElementById('quiz-title').innerText = title;
-            document.getElementById('quiz-counter').innerText = `Challenge: 6 Questions`;
-
-            const body = document.getElementById('quiz-body');
-            body.innerHTML = '';
-
-            currentQuizQuestions.forEach((q, i) => {
-                const qDiv = document.createElement('div');
-                qDiv.className = 'mb-12 last:mb-0';
-                qDiv.innerHTML = `
-                    <p class="text-2xl font-bold mb-6 flex gap-4">
-                        <span class="bg-yellow-400 text-green-900 w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full text-lg border-2 border-white">${i+1}</span>
-                        ${q.q}
-                    </p>
-                `;
-
-                const optDiv = document.createElement('div');
-                optDiv.className = 'space-y-4 ml-14';
-
-                if (q.type === 'multiple') {
-                    q.options.forEach((opt, idx) => {
-                        const div = document.createElement('div');
-                        div.className = 'quiz-option';
-                        div.innerHTML = `
-                            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center">
-                                <div class="w-3 h-3 bg-green-600 rounded-full opacity-0"></div>
-                            </div>
-                            <span>${opt}</span>
-                        `;
-                        div.onclick = () => {
-                            optDiv.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected', 'border-green-600', 'bg-green-100'));
-                            optDiv.querySelectorAll('.quiz-option .opacity-100').forEach(el => el.classList.remove('opacity-100'));
-                            div.classList.add('selected', 'border-green-600', 'bg-green-100');
-                            div.querySelector('.bg-green-600').classList.add('opacity-100');
-                            q.userAnswer = idx;
-                        };
-                        optDiv.appendChild(div);
-                    });
-                } else if (q.type === 'tf') {
-                    ['True', 'False'].forEach((val) => {
-                        const div = document.createElement('div');
-                        div.className = 'quiz-option';
-                        div.innerHTML = `
-                            <div class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center">
-                                <div class="w-3 h-3 bg-green-600 rounded-full opacity-0"></div>
-                            </div>
-                            <span>${val}</span>
-                        `;
-                        div.onclick = () => {
-                            optDiv.querySelectorAll('.quiz-option').forEach(el => el.classList.remove('selected', 'border-green-600', 'bg-green-100'));
-                            optDiv.querySelectorAll('.quiz-option .opacity-100').forEach(el => el.classList.remove('opacity-100'));
-                            div.classList.add('selected', 'border-green-600', 'bg-green-100');
-                            div.querySelector('.bg-green-600').classList.add('opacity-100');
-                            q.userAnswer = (val === 'True');
-                        };
-                        optDiv.appendChild(div);
-                    });
-                } else if (q.type === 'blank') {
-                    const input = document.createElement('input');
-                    input.className = 'quiz-input';
-                    input.placeholder = 'Type your answer...';
-                    input.oninput = (e) => q.userAnswer = e.target.value.trim().toLowerCase();
-                    optDiv.appendChild(input);
-                }
-
-                qDiv.appendChild(optDiv);
-                body.appendChild(qDiv);
-            });
-
-            document.getElementById('quiz-modal').classList.remove('hidden');
-        }
-
-        function scoreQuiz() {
-            let score = 0;
-            currentQuizQuestions.forEach(q => {
-                if (q.type === 'multiple' || q.type === 'tf') {
-                    if (q.userAnswer === q.a) score++;
-                } else if (q.type === 'blank') {
-                    if (q.userAnswer === q.a.toLowerCase()) score++;
-                }
-            });
-
-            document.getElementById('quiz-modal').classList.add('hidden');
-
-            const resultTitle = document.getElementById('result-title');
-            const resultScore = document.getElementById('result-score');
-            const resultMsg = document.getElementById('result-msg');
-
-            resultScore.innerText = `${score}/6`;
-
-            if (score === 6) {
-                resultTitle.innerText = "HAT-TRICK! ⚽⚽⚽";
-                resultMsg.innerText = "Legendary performance, Leo! You're the grammar MVP!";
-            } else if (score >= 4) {
-                resultTitle.innerText = "GOAL! 🥅";
-                resultMsg.innerText = `Great match, Leo! You scored ${score}/6. Keep practicing!`;
+        function toggleView() {
+            currentView = currentView === 'lesson' ? 'book' : 'lesson';
+            const btnText = document.getElementById('view-toggle-text');
+            const btnIcon = document.getElementById('view-toggle-icon');
+            renderSidebar();
+            if (currentView === 'book') {
+                btnText.textContent = 'Lesson View'; btnIcon.textContent = 'school';
+                document.getElementById('lesson-view').classList.add('hidden');
+                document.getElementById('book-view').classList.remove('hidden');
+                renderBookPage(currentPageNum);
             } else {
-                resultTitle.innerText = "FULL TIME! ⚽";
-                resultMsg.innerText = "Good effort, Leo! Let's hit the training ground and try again!";
+                btnText.textContent = 'Book View'; btnIcon.textContent = 'menu_book';
+                document.getElementById('lesson-view').classList.remove('hidden');
+                document.getElementById('book-view').classList.add('hidden');
+                renderLesson(currentLessonId);
             }
-
-            document.getElementById('result-modal').classList.remove('hidden');
         }
 
-        function findSectionForPage(pageNum) {
-            let found = null;
-            tocData.forEach(item => {
-                if (item.page <= pageNum) found = item;
-            });
-            return found;
+        function toggleLaser() {
+            laserActive = !laserActive;
+            document.body.classList.toggle('laser-active', laserActive);
+            document.getElementById('laser-toggle').classList.toggle('bg-teal-50', laserActive);
         }
 
-        function updateMarkButton() {
-            const btn = document.getElementById('mark-complete');
-            const isDone = progress[currentPage];
-            btn.classList.toggle('bg-green-600', !isDone);
-            btn.classList.toggle('bg-indigo-600', isDone);
-            document.getElementById('mark-text').innerText = isDone ? 'Finished!' : 'Mark as Finished';
-            document.getElementById('mark-icon').innerText = isDone ? '✅' : '⭕';
-        }
+        function renderSidebar() {
+            const nav = document.getElementById('sidebar-nav');
+            nav.innerHTML = '';
 
-        function saveProgress() {
-            localStorage.setItem('grammar_progress_v3', JSON.stringify(progress));
-            localStorage.setItem('grammar_exercise_progress_v3', JSON.stringify(exerciseProgress));
-        }
-        function loadProgress() {
-            const saved = localStorage.getItem('grammar_progress_v3');
-            if (saved) progress = JSON.parse(saved);
-            const savedEx = localStorage.getItem('grammar_exercise_progress_v3');
-            if (savedEx) exerciseProgress = JSON.parse(savedEx);
-        }
-        function updateProgressUI() {
-            const total = bookData.length;
-            const completed = Object.values(progress).filter(v => v).length;
-            const percent = Math.round((completed / total) * 100);
-            document.getElementById('progress-percent').innerText = percent;
-            document.getElementById('progress-bar').style.width = percent + '%';
-
-            // Exercise Progress
-            const totalExercises = exerciseData.length;
-            const completedExercises = Object.values(exerciseProgress).filter(ex => ex.score >= (ex.total * 0.8)).length;
-            const exPercent = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0;
-            document.getElementById('exercise-progress-percent').innerText = exPercent;
-            document.getElementById('exercise-progress-bar').style.width = exPercent + '%';
-        }
-
-        function renderExercisePanel(pageNum) {
-            const panel = document.getElementById('exercise-panel');
-            const content = document.getElementById('exercise-content');
-            const scoreBadge = document.getElementById('exercise-score-badge');
-            const exercise = exerciseData.find(ex => ex.pageNumber === pageNum);
-
-            if (!exercise) {
-                panel.classList.add('hidden');
-                return;
+            if (currentView === 'lesson') {
+                lessonsData.chapters.forEach(chapter => {
+                    const div = document.createElement('div');
+                    div.className = 'mb-6';
+                    div.innerHTML = `
+                        <h3 class="px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Chapter ${chapter.id}: ${chapter.title}</h3>
+                        <div class="space-y-1">
+                            ${chapter.lessons.map(l => `
+                                <button onclick="renderLesson('${l.id}')" id="nav-${l.id}" class="nav-item w-full flex items-center justify-between px-6 py-3 text-sm transition-all hover:bg-slate-50 group">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-lg opacity-60">${l.icon}</span>
+                                        <span class="font-medium text-slate-600 group-hover:text-primary transition-colors">${l.title}</span>
+                                    </div>
+                                    ${completedLessons.includes(l.id) ? '<span class="material-symbols-outlined text-yellow-500 text-lg">emoji_events</span>' : '<span class="material-symbols-outlined text-slate-300 text-lg">chevron_right</span>'}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+                    nav.appendChild(div);
+                });
+            } else {
+                tocData.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'mb-1';
+                    div.innerHTML = `
+                        <button onclick="renderBookPage(${item.page})" class="nav-item w-full flex items-center justify-between px-6 py-2 text-xs transition-all hover:bg-slate-50 group">
+                            <span class="font-bold text-slate-600 group-hover:text-primary truncate mr-2">${item.title}</span>
+                            <span class="text-[10px] text-slate-300">${item.page}</span>
+                        </button>
+                    `;
+                    nav.appendChild(div);
+                    if (item.subsections) {
+                        item.subsections.forEach(sub => {
+                            const sdiv = document.createElement('div');
+                            sdiv.className = 'mb-1 pl-4';
+                            sdiv.innerHTML = `
+                                <button onclick="renderBookPage(${sub.page})" class="nav-item w-full flex items-center justify-between px-6 py-1 text-[10px] transition-all hover:bg-slate-50 group">
+                                    <span class="text-slate-500 group-hover:text-primary truncate mr-2">${sub.title}</span>
+                                    <span class="text-[8px] text-slate-300">${sub.page}</span>
+                                </button>
+                            `;
+                            nav.appendChild(sdiv);
+                        });
+                    }
+                });
             }
+        }
 
-            panel.classList.remove('hidden');
-            content.innerHTML = `
-                <div class="mb-6">
-                    <p class="text-xl font-bold text-green-900 mb-2">${exercise.instructions}</p>
-                    <div id="exercise-main" class="mt-4"></div>
+        function renderView() { if (currentView === 'lesson') renderLesson(currentLessonId); else renderBookPage(currentPageNum); }
+
+        function renderLesson(id) {
+            currentLessonId = id; quizUserAnswers = {}; saveState();
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const activeNav = document.getElementById(`nav-${id}`); if (activeNav) activeNav.classList.add('active');
+
+            let lesson = null; let chapter = null;
+            lessonsData.chapters.some(ch => { lesson = ch.lessons.find(l => l.id === id); if (lesson) { chapter = ch; return true; } return false; });
+            if (!lesson) return;
+
+            document.getElementById('breadcrumb').innerHTML = `
+                <span class="uppercase tracking-widest text-[10px] font-black text-slate-400">Chapter ${chapter.id}</span>
+                <span class="material-symbols-outlined text-xs">chevron_right</span>
+                <span class="text-slate-900 font-black text-[10px] uppercase tracking-widest">${lesson.title}</span>
+            `;
+
+            const view = document.getElementById('lesson-view');
+            view.innerHTML = `
+                <div class="lesson-badge">${lesson.badge}</div>
+                <h2 class="text-5xl font-black tracking-tight mb-4 flex items-center gap-4 text-slate-900 leading-tight">
+                    <div class="icon-box w-16 h-16 rounded-2xl"><span class="material-symbols-outlined text-4xl">${lesson.icon}</span></div>
+                    ${lesson.title}
+                </h2>
+                <p class="text-xl text-slate-500 font-medium leading-relaxed mb-12">${lesson.content}</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    ${lesson.examples ? lesson.examples.map(ex => `
+                        <div class="card p-6 flex flex-col items-center text-center group">
+                            <div class="icon-box w-16 h-16 rounded-2xl mb-4 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-3xl">${ex.icon}</span>
+                            </div>
+                            <h4 class="font-black text-slate-900 mb-1 leading-tight">${ex.title}</h4>
+                            <p class="text-sm font-bold text-slate-400 uppercase tracking-tighter">${ex.subtitle}</p>
+                        </div>
+                    `).join('') : ''}
                 </div>
-                <div class="mt-8 border-t border-green-200 pt-6">
-                    <p class="text-xl font-bold text-green-900 mb-4">Practice: Fill in the blanks</p>
-                    <div id="exercise-blanks" class="space-y-4"></div>
+
+                <div class="key-takeaways-box">
+                    <h3 class="font-black text-xl mb-6 flex items-center gap-3 text-primary">
+                        <span class="material-symbols-outlined">verified</span>
+                        Key Takeaways
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${lesson.keyTakeaways.map(p => `
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary">check_circle</span>
+                                <p class="font-bold text-slate-600">${p}</p>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-                <div class="mt-8 flex justify-center">
-                    <button id="check-exercise" class="bg-green-600 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-green-700 transition-all shadow-lg active:scale-95">
-                        Check My Score! ⚽
+
+                ${renderWordFiles(lesson.wordFiles)}
+                <div class="space-y-12 mb-16">${renderExercises(lesson.exercises)}</div>
+
+                <div class="card mb-12">
+                    <div class="p-6 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+                        <div class="icon-box text-slate-500">
+                            <span class="material-symbols-outlined">quiz</span>
+                        </div>
+                        <h3 class="font-black text-xl text-slate-500 uppercase tracking-widest text-sm">Quiz Section</h3>
+                    </div>
+                    <div class="p-8 space-y-10" id="quiz-section-inner">${renderQuiz(lesson.quiz)}</div>
+                    <div class="p-8 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
+                        <div id="quiz-score-display" class="font-black text-primary text-xl hidden uppercase tracking-widest">Score: <span id="quiz-score-val">0</span> / 5</div>
+                        <button onclick="submitQuiz()" id="submit-quiz-btn" class="bg-primary text-white px-10 py-4 rounded-2xl font-black text-lg shadow-xl shadow-primary/20 hover:-translate-y-1 active:scale-95 transition-all ml-auto uppercase tracking-widest">Check My Quiz</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center py-8 border-t border-slate-100">
+                    <button onclick="goToPrevLesson()" class="font-black text-slate-300 hover:text-slate-600 transition-colors uppercase tracking-widest text-xs">Previous</button>
+                    <button id="next-lesson-btn" onclick="goToNextLesson()" class="bg-primary text-white px-12 py-5 rounded-[1.5rem] font-black text-xl shadow-2xl shadow-primary/20 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-4 opacity-50 cursor-not-allowed uppercase tracking-tighter">
+                        Next Lesson
+                        <span class="material-symbols-outlined font-black">arrow_forward</span>
                     </button>
                 </div>
             `;
-
-            renderMainExercise(exercise);
-            renderFillInBlanks(exercise);
-
-            const saved = exerciseProgress[pageNum];
-            if (saved) {
-                scoreBadge.innerText = `⚽ ${saved.score}/${saved.total}`;
-                scoreBadge.classList.remove('hidden');
-            } else {
-                scoreBadge.classList.add('hidden');
+            if (completedLessons.includes(id)) {
+                document.getElementById('next-lesson-btn').classList.remove('opacity-50', 'cursor-not-allowed');
             }
-
-            document.getElementById('check-exercise').onclick = () => scoreExercise(pageNum, exercise);
         }
 
-        function renderMainExercise(ex) {
-            const container = document.getElementById('exercise-main');
-            if (ex.type === 'categorize') {
-                container.innerHTML = `
-                    <div class="flex flex-wrap gap-4 mb-6" id="words-pool">
-                        ${ex.words.map((w, i) => `<div class="draggable-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain', '${w.text}')">${w.text}</div>`).sort(() => 0.5 - Math.random()).join('')}
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        ${ex.columns.map(col => `
-                            <div class="flex flex-col gap-2">
-                                <h4 class="font-bold text-green-800 text-center">${col}</h4>
-                                <div class="drop-zone" data-category="${col}" ondragover="event.preventDefault(); this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleDrop(event)"></div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else if (ex.type === 'ordering') {
-                container.innerHTML = `
-                    <p class="text-sm text-slate-500 mb-4">Drag the items into the correct order:</p>
-                    <div class="flex flex-wrap gap-2 drop-zone min-h-[60px]" id="ordering-zone" ondragover="event.preventDefault()" ondrop="handleOrderingDrop(event)">
-                        <!-- Ordered items will go here -->
-                    </div>
-                    <div class="flex flex-wrap gap-2 mt-4" id="ordering-pool">
-                        ${ex.words.map((w, i) => `<div class="draggable-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain', '${w}')">${w}</div>`).sort(() => 0.5 - Math.random()).join('')}
-                    </div>
-                `;
-            } else if (ex.type === 'matching') {
-                container.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="space-y-4">
-                            ${ex.pairs.map((p, i) => `
-                                <div class="flex items-center justify-between p-3 bg-white border-2 border-green-100 rounded-lg">
-                                    <span class="font-bold">${p.group}</span>
-                                    <div class="drop-zone w-32 min-h-[40px] flex items-center justify-center" data-match="${p.collective}" ondragover="event.preventDefault()" ondrop="handleMatchingDrop(event)"></div>
+        function renderWordFiles(wfs) {
+            if (!wfs) return '';
+            return wfs.map(f => `
+                <div class="mb-12">
+                    <h3 class="font-black text-2xl mb-6 text-slate-800 tracking-tight">${f.title}</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                        ${f.words.map(w => `
+                            <div class="word-card group">
+                                <div class="icon-box w-12 h-12 rounded-xl mb-4 group-hover:bg-primary transition-colors">
+                                    <span class="material-symbols-outlined text-2xl group-hover:text-white transition-colors">${lessonsData.iconMap[w] || 'question_mark'}</span>
                                 </div>
-                            `).join('')}
-                        </div>
-                        <div>
-                            <p class="text-sm text-slate-500 mb-4">Drag the collective nouns to the correct group:</p>
-                            <div class="flex flex-wrap gap-2" id="matching-pool">
-                                ${ex.pairs.map((p, i) => `<div class="draggable-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain', '${p.collective}')">${p.collective}</div>`).sort(() => 0.5 - Math.random()).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (ex.type === 'typing') {
-                container.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        ${ex.pairs.map((p, i) => `
-                            <div class="flex items-center gap-4 p-3 bg-white border border-green-100 rounded-lg">
-                                <span class="font-bold w-24">${p.singular || p.masculine}:</span>
-                                <input type="text" class="flex-1 p-2 border-b-2 border-green-200 outline-none focus:border-green-500 font-bold" data-answer="${p.plural || p.feminine}">
+                                <span class="text-sm font-bold text-slate-600 uppercase tracking-tighter">${w}</span>
                             </div>
                         `).join('')}
                     </div>
-                `;
-            }
+                </div>
+            `).join('');
         }
 
-        function handleDrop(e) {
-            e.preventDefault();
-            e.target.classList.remove('drag-over');
-            const dragText = e.dataTransfer.getData('text/plain');
-            const allDraggables = Array.from(document.querySelectorAll('.draggable-item'));
-            const draggedEl = allDraggables.find(el => el.innerText.trim() === dragText.trim());
-
-            if (draggedEl && e.target.classList.contains('drop-zone')) {
-                e.target.appendChild(draggedEl);
-            }
-        }
-
-        function handleOrderingDrop(e) {
-            e.preventDefault();
-            const dragText = e.dataTransfer.getData('text/plain');
-            const allDraggables = Array.from(document.querySelectorAll('.draggable-item'));
-            const draggedEl = allDraggables.find(el => el.innerText.trim() === dragText.trim());
-
-            const zone = document.getElementById('ordering-zone');
-            if (draggedEl) {
-                zone.appendChild(draggedEl);
-            }
-        }
-
-        function handleMatchingDrop(e) {
-            e.preventDefault();
-            const dragText = e.dataTransfer.getData('text/plain');
-            const allDraggables = Array.from(document.querySelectorAll('.draggable-item'));
-            const draggedEl = allDraggables.find(el => el.innerText.trim() === dragText.trim());
-
-            if (draggedEl && e.target.classList.contains('drop-zone')) {
-                if (e.target.children.length > 0) {
-                    document.getElementById('matching-pool').appendChild(e.target.children[0]);
-                }
-                e.target.appendChild(draggedEl);
-            }
-        }
-
-        function renderFillInBlanks(ex) {
-            const container = document.getElementById('exercise-blanks');
-            ex.fillInTheBlanks.forEach((item, i) => {
-                const parts = item.sentence.split('_____');
-                const div = document.createElement('div');
-                div.className = 'flex flex-wrap items-center gap-2 text-lg';
-                div.innerHTML = `
-                    <span>${i+1}.</span>
-                    <span>${parts[0]}</span>
-                    <input type="text" class="border-b-2 border-green-300 outline-none focus:border-green-600 px-2 py-1 w-32 text-center font-bold text-green-800" data-answer="${item.answer}">
-                    <span>${parts[1] || ''}</span>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function scoreExercise(pageNum, ex) {
-            let score = 0;
-            let total = 0;
-
-            // Score main exercise
-            if (ex.type === 'categorize') {
-                const zones = document.querySelectorAll('.drop-zone');
-                zones.forEach(zone => {
-                    const category = zone.dataset.category;
-                    Array.from(zone.children).forEach(item => {
-                        total++;
-                        const wordData = ex.words.find(w => w.text === item.innerText);
-                        if (wordData && wordData.category === category) {
-                            score++;
-                            item.classList.add('bg-green-100', 'border-green-500');
-                        } else {
-                            item.classList.add('bg-red-100', 'border-red-500');
-                        }
-                    });
-                });
-                total = ex.words.length; // Ensure total is correct
-            } else if (ex.type === 'ordering') {
-                const items = Array.from(document.getElementById('ordering-zone').children);
-                total = ex.words.length;
-                items.forEach((item, i) => {
-                    if (item.innerText === ex.words[i]) {
-                        score++;
-                        item.classList.add('bg-green-100', 'border-green-500');
-                    } else {
-                        item.classList.add('bg-red-100', 'border-red-500');
-                    }
-                });
-            } else if (ex.type === 'matching') {
-                const zones = document.querySelectorAll('.drop-zone');
-                total = ex.pairs.length;
-                zones.forEach(zone => {
-                    if (zone.children.length > 0) {
-                        if (zone.children[0].innerText === zone.dataset.match) {
-                            score++;
-                            zone.children[0].classList.add('bg-green-100', 'border-green-500');
-                        } else {
-                            zone.children[0].classList.add('bg-red-100', 'border-red-500');
-                        }
-                    }
-                });
-            } else if (ex.type === 'typing') {
-                const inputs = document.querySelectorAll('#exercise-main input');
-                total = ex.pairs.length;
-                inputs.forEach(input => {
-                    if (input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase()) {
-                        score++;
-                        input.classList.add('text-green-600', 'border-green-500');
-                    } else {
-                        input.classList.add('text-red-600', 'border-red-500');
-                    }
-                });
-            }
-
-            // Score blanks
-            const blanks = document.querySelectorAll('#exercise-blanks input');
-            blanks.forEach(input => {
-                total++;
-                if (input.value.trim().toLowerCase() === input.dataset.answer.toLowerCase()) {
-                    score++;
-                    input.classList.add('text-green-600', 'border-green-500');
-                } else {
-                    input.classList.add('text-red-600', 'border-red-500');
-                }
-            });
-
-            const scoreBadge = document.getElementById('exercise-score-badge');
-            scoreBadge.innerText = `⚽ ${score}/${total}`;
-            scoreBadge.classList.remove('hidden');
-
-            exerciseProgress[pageNum] = { score, total };
-            saveProgress();
-            updateProgressUI();
-            renderTOC();
-
-            if (score === total) {
-                alert("⚽ GOAL!!! Perfect score! You're a Grammar Legend!");
-            } else if (score >= total * 0.8) {
-                alert("⚽ NICE SHOT! Great score!");
-            }
-        }
-
-        function clearCurrentPage() {
-            if (confirm("Clear answers on this page?")) {
-                const prefixes = [`ans_${currentPage}_`, `circ_${currentPage}_`];
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (prefixes.some(p => key.startsWith(p))) {
-                        localStorage.removeItem(key);
-                        i--;
-                    }
-                }
-                renderPage(currentPage);
-            }
-        }
-
-        function resetProgress() {
-            if (confirm("Reset ALL progress?")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        function handleSearch(e) {
-            const query = e.target.value.toLowerCase().trim();
-            const resultsBox = document.getElementById('search-results');
-            if (query.length < 2) { resultsBox.classList.add('hidden'); return; }
-
-            const results = [];
-            const matchedPages = new Set();
-
-            // Search TOC first
-            tocData.forEach(item => {
-                if (item.title.toLowerCase().includes(query)) {
-                    results.push({ page: item.page, text: item.title, type: 'Lesson' });
-                    matchedPages.add(item.page);
-                }
-                if (item.subsections) {
-                    item.subsections.forEach(sub => {
-                        if (sub.title.toLowerCase().includes(query)) {
-                            results.push({ page: sub.page, text: sub.title, type: 'Topic' });
-                            matchedPages.add(sub.page);
-                        }
-                    });
-                }
-            });
-
-            // Search Page Content - Optimized with Set and pre-calculated text
-            for (let i = 0; i < bookData.length; i++) {
-                if (results.length > 15) break;
-                const pageNum = i + 1;
-                if (matchedPages.has(pageNum)) continue;
-
-                const page = bookData[i];
-                if (page.fullText.includes(query)) {
-                    // Extract a snippet for the result
-                    let snippet = "";
-                    page.blocks.some(b => b.type === 0 && b.lines.some(l => l.spans.some(s => {
-                        if (s.text.toLowerCase().includes(query)) {
-                            snippet = s.text;
-                            return true;
-                        }
-                        return false;
-                    })));
-                    results.push({ page: pageNum, text: snippet, type: 'Content' });
-                    matchedPages.add(pageNum);
-                }
-            }
-
-            if (results.length) {
-                resultsBox.innerHTML = results.slice(0, 10).map(r => `
-                    <div class="p-4 hover:bg-slate-50 cursor-pointer border-b border-slate-100 transition-colors" onclick="renderPage(${r.page})">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-indigo-600 text-sm">Page ${r.page}</span>
-                            <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500">${r.type}</span>
-                        </div>
-                        <div class="text-xs text-slate-500 truncate mt-1">${r.text}</div>
+        function renderExercises(exs) {
+            if (!exs) return '';
+            return exs.map((ex, idx) => `
+                <div class="card p-8">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="icon-box"><span class="material-symbols-outlined">edit_note</span></div>
+                        <h3 class="font-black text-xl text-slate-800">${ex.instructions}</h3>
                     </div>
-                `).join('');
-                resultsBox.classList.remove('hidden');
-            } else {
-                resultsBox.innerHTML = '<div class="p-4 text-center text-slate-400 text-sm">No results</div>';
-                resultsBox.classList.remove('hidden');
-            }
+                    <div id="ex-${idx}-content">
+                        ${ex.type === 'categorize' ? renderCategorize(ex, idx) :
+                          ex.type === 'blanks' ? renderBlanks(ex, idx) :
+                          ex.type === 'ordering' ? renderOrdering(ex, idx) :
+                          ex.type === 'typing_plural' ? renderTypingPlural(ex, idx) :
+                          ex.type === 'matching' ? renderMatching(ex, idx) :
+                          ex.type === 'typing_pair' ? renderTypingPair(ex, idx) :
+                          ex.type === 'matching_pairs' ? renderMatchingPairs(ex, idx) : ''}
+                    </div>
+                </div>
+            `).join('');
         }
+
+        function renderCategorize(ex, idx) {
+            return `
+                <div class="flex flex-wrap gap-3 mb-10 bg-slate-50 p-6 rounded-xl border border-slate-100" id="ex-${idx}-pool">
+                    ${ex.words.map(w => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${w.text}')">${w.text}</div>`).sort(() => 0.5 - Math.random()).join('')}
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    ${ex.columns.map(col => `
+                        <div class="space-y-2">
+                            <h4 class="font-black text-center text-slate-300 uppercase text-[10px] tracking-widest">${col}</h4>
+                            <div class="drop-zone" data-category="${col}" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, ${idx})"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderBlanks(ex, idx) {
+            return `<div class="space-y-6">${ex.items.map((it, i) => {
+                const pts = it.sentence.split('_____');
+                return `<div class="text-lg font-bold text-slate-600 flex flex-wrap items-center gap-3">
+                    <span class="text-slate-300 font-black text-sm">${i+1}.</span><span>${pts[0]}</span>
+                    <input type="text" class="input-blank" data-answer="${it.answer}" onchange="checkBlank(this)">
+                    <span>${pts[1] || ''}</span></div>`;
+            }).join('')}</div>`;
+        }
+
+        function renderOrdering(ex, idx) {
+            return `<div class="drop-zone min-h-[60px] mb-6 bg-teal-50/20 border-primary/20" id="ex-${idx}-zone" ondragover="handleDragOver(event)" ondrop="handleDropOrdering(event, ${idx})"></div>
+                <div class="flex flex-wrap gap-2 p-4 bg-slate-50 rounded-xl border border-slate-100" id="ex-${idx}-pool">
+                ${ex.words.map(w => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${w}')">${w}</div>`).sort(() => 0.5 - Math.random()).join('')}</div>`;
+        }
+
+        function renderTypingPlural(ex, idx) {
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">${ex.items.map(it => `
+                <div class="flex items-center gap-4 border-b border-slate-100 pb-2">
+                    <span class="font-black text-primary w-28 uppercase tracking-tighter">${it.singular}</span>
+                    <span class="material-symbols-outlined text-slate-200">arrow_forward</span>
+                    <input type="text" class="input-blank flex-1 text-left !min-w-0" data-answer="${it.answer}" onchange="checkBlank(this)">
+                </div>`).join('')}</div>`;
+        }
+
+        function renderMatching(ex, idx) {
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-12"><div class="space-y-4">${ex.pairs.map(p => `
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <span class="font-black text-slate-500 uppercase tracking-tighter">${p.group}</span>
+                    <div class="drop-zone w-32 min-h-[44px] !p-1 bg-white shadow-inner" data-match="${p.collective}" ondragover="handleDragOver(event)" ondrop="handleDropMatching(event, ${idx})"></div>
+                </div>`).join('')}</div>
+                <div><p class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-4">Word Pool</p>
+                <div class="flex flex-wrap gap-2" id="ex-${idx}-pool">${ex.pairs.map(p => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${p.collective}')">${p.collective}</div>`).sort(() => 0.5 - Math.random()).join('')}</div></div></div>`;
+        }
+
+        function renderTypingPair(ex, idx) {
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">${ex.items.map(it => `
+                <div class="flex items-center gap-4 border-b border-slate-100 pb-2">
+                    <span class="font-black text-primary w-28 uppercase tracking-tighter">${it.from}</span>
+                    <span class="material-symbols-outlined text-slate-200">sync</span>
+                    <input type="text" class="input-blank flex-1 text-left !min-w-0" data-answer="${it.answer}" onchange="checkBlank(this)">
+                </div>`).join('')}</div>`;
+        }
+
+        function renderMatchingPairs(ex, idx) {
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-12"><div class="space-y-4">${ex.pairs.map(p => `
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <span class="font-black text-slate-500 uppercase tracking-tighter">${p[0]}</span>
+                    <div class="drop-zone w-32 min-h-[44px] !p-1 bg-white shadow-inner" data-match="${p[1]}" ondragover="handleDragOver(event)" ondrop="handleDropMatching(event, ${idx})"></div>
+                </div>`).join('')}</div>
+                <div><p class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-4">Word Pool</p>
+                <div class="flex flex-wrap gap-2" id="ex-${idx}-pool">${ex.pairs.map(p => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${p[1]}')">${p[1]}</div>`).sort(() => 0.5 - Math.random()).join('')}</div></div></div>`;
+        }
+
+        function renderQuiz(quiz) {
+            return quiz.map((q, i) => `
+                <div class="space-y-4">
+                    <p class="text-xl font-bold text-slate-600 leading-tight">${i+1}. ${q.question}</p>
+                    <div class="grid grid-cols-1 gap-3">
+                        ${q.type === 'multiple' ? q.options.map((opt, oi) => `
+                            <button onclick="selectQuizAnswer(${i}, ${oi})" class="quiz-option" data-q="${i}" data-a="${oi}">
+                                <div class="quiz-radio"><div class="quiz-radio-inner"></div></div>
+                                <span>${opt}</span>
+                            </button>`).join('') : q.type === 'tf' ? [true, false].map(v => `
+                            <button onclick="selectQuizAnswer(${i}, ${v})" class="quiz-option" data-q="${i}" data-a="${v}">
+                                <div class="quiz-radio"><div class="quiz-radio-inner"></div></div>
+                                <span>${v ? 'True' : 'False'}</span>
+                            </button>`).join('') : `
+                            <input type="text" class="input-blank !text-left !min-w-0 w-full p-4 h-14 font-medium" placeholder="Type your answer..." data-q="${i}" onchange="quizUserAnswers[${i}] = this.value.trim()">`}
+                    </div>
+                </div>`).join('');
+        }
+
+        function selectQuizAnswer(qIdx, ans) {
+            quizUserAnswers[qIdx] = ans;
+            document.querySelectorAll(`[data-q="${qIdx}"]`).forEach(el => el.classList.remove('selected'));
+            const sel = document.querySelector(`[data-q="${qIdx}"][data-a="${ans}"]`); if (sel) sel.classList.add('selected');
+        }
+
+        function submitQuiz() {
+            let lesson = null;
+            lessonsData.chapters.some(ch => { lesson = ch.lessons.find(l => l.id === currentLessonId); return !!lesson; });
+            let score = 0;
+            lesson.quiz.forEach((q, i) => {
+                const u = quizUserAnswers[i];
+                if (q.type === 'blank') { if (u && u.toLowerCase() === q.answer.toLowerCase()) score++; }
+                else { if (u === q.answer) score++; }
+            });
+            document.getElementById('quiz-score-val').textContent = score;
+            document.getElementById('quiz-score-display').classList.remove('hidden');
+
+            const earnedQuizXP = score * 10;
+            xp += earnedQuizXP;
+            let totalCelebrated = earnedQuizXP;
+
+            if (!completedLessons.includes(currentLessonId)) {
+                completedLessons.push(currentLessonId); xp += 50;
+                totalCelebrated += 50;
+                showCelebration(totalCelebrated);
+            }
+            updateXPDisplay(); saveState(); renderSidebar();
+            document.getElementById('next-lesson-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        function showCelebration(earned) {
+            document.getElementById('earned-xp').textContent = earned;
+            document.getElementById('celebration-modal').classList.remove('hidden');
+            setTimeout(() => { document.getElementById('celebration-card').classList.replace('scale-0', 'scale-100'); }, 50);
+        }
+        function closeCelebration() { document.getElementById('celebration-modal').classList.add('hidden'); document.getElementById('celebration-card').classList.replace('scale-100', 'scale-0'); }
+
+        function goToNextLesson() {
+             let flat = []; lessonsData.chapters.forEach(ch => ch.lessons.forEach(l => flat.push(l.id)));
+             const idx = flat.indexOf(currentLessonId);
+             if (idx < flat.length - 1) { renderLesson(flat[idx+1]); document.getElementById('main-content').scrollTop = 0; }
+        }
+        function goToPrevLesson() {
+             let flat = []; lessonsData.chapters.forEach(ch => ch.lessons.forEach(l => flat.push(l.id)));
+             const idx = flat.indexOf(currentLessonId);
+             if (idx > 0) { renderLesson(flat[idx-1]); document.getElementById('main-content').scrollTop = 0; }
+        }
+
+        function handleDragStart(e, t) { e.dataTransfer.setData('text/plain', t); e.target.classList.add('opacity-40'); }
+        function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+        function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+        function handleDrop(e, idx) {
+            e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+            const t = e.dataTransfer.getData('text/plain');
+            const item = Array.from(document.querySelectorAll('.draggable-item')).find(el => el.innerText === t);
+            if (item) { e.currentTarget.appendChild(item); item.classList.remove('opacity-40'); }
+        }
+        function handleDropOrdering(e, idx) {
+            e.preventDefault();
+            const t = e.dataTransfer.getData('text/plain');
+            const item = Array.from(document.querySelectorAll('.draggable-item')).find(el => el.innerText === t);
+            if (item) { e.currentTarget.appendChild(item); item.classList.remove('opacity-40'); }
+        }
+        function handleDropMatching(e, idx) {
+            e.preventDefault(); const zone = e.currentTarget;
+            if (zone.children.length > 0) document.getElementById(`ex-${idx}-pool`).appendChild(zone.children[0]);
+            const t = e.dataTransfer.getData('text/plain');
+            const item = Array.from(document.querySelectorAll('.draggable-item')).find(el => el.innerText === t);
+            if (item) { zone.appendChild(item); item.classList.remove('opacity-40'); }
+        }
+        function checkBlank(inp) {
+            const v = inp.value.trim().toLowerCase(); inp.classList.remove('input-correct', 'input-incorrect');
+            if (v === '') return;
+            inp.classList.add(v === inp.dataset.answer.toLowerCase() ? 'input-correct' : 'input-incorrect');
+        }
+
+        function updateXPDisplay() {
+            document.getElementById('xp-display').textContent = `${xp} XP`;
+            document.getElementById('trophy-count').querySelector('span:last-child').textContent = completedLessons.length;
+            const tot = lessonsData.chapters.reduce((a, c) => a + c.lessons.length, 0);
+            document.getElementById('overall-progress-bar').style.width = (completedLessons.length / tot * 100) + '%';
+        }
+
+        function renderBookPage(num) {
+            if (num < 1 || num > bookData.length) return;
+            currentPageNum = num; saveState();
+            const p = bookData[num - 1]; const container = document.getElementById('book-page-content');
+            const ratio = p.width / p.height;
+            container.style.aspectRatio = ratio.toString();
+            container.style.width = ratio > 1 ? '100%' : (ratio * 70) + 'vh';
+            container.innerHTML = '';
+            document.getElementById('page-info').innerText = `Page ${num} / ${bookData.length}`;
+            const frag = document.createDocumentFragment();
+            p.blocks.forEach(b => {
+                if (b.type === 0) b.lines.forEach(l => l.spans.forEach(s => {
+                    const el = document.createElement('span'); el.className = 'absolute whitespace-pre font-comic';
+                    const x = (s.origin[0] / p.width) * 100; const y = (s.origin[1] / p.height) * 100;
+                    const fz = (s.size / p.height) * 100;
+                    el.style.left = `${x}%`; el.style.top = `${y - (fz * 0.8)}%`; el.style.fontSize = `${fz}cqh`;
+                    let hex = (s.color >>> 0).toString(16).padStart(6, '0');
+                    el.style.color = '#' + (hex.length > 6 ? hex.substring(hex.length-6) : hex);
+                    if (s.flags & 2) el.style.fontStyle = 'italic'; if (s.flags & 4) el.style.fontWeight = 'bold';
+                    el.textContent = s.text; frag.appendChild(el);
+                }));
+                else if (b.type === 1) {
+                    const img = document.createElement('img'); img.src = b.src; img.className = 'absolute pointer-events-none select-none';
+                    img.style.left = `${(b.bbox[0]/p.width)*100}%`; img.style.top = `${(b.bbox[1]/p.height)*100}%`;
+                    img.style.width = `${((b.bbox[2]-b.bbox[0])/p.width)*100}%`; img.style.height = `${((b.bbox[3]-b.bbox[1])/p.height)*100}%`;
+                    frag.appendChild(img);
+                }
+            });
+            container.appendChild(frag);
+        }
+        function changePage(num) { if (num >= 1 && num <= bookData.length) renderBookPage(num); }
 
         init();
     </script>
