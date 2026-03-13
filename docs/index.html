@@ -289,6 +289,18 @@
             "3.6": 38
         };
 
+        function getLessonIdFromPage(pageNum) {
+            if (pageNum === 6) return "1.1";
+            if (pageNum >= 7 && pageNum <= 8) return "2.1";
+            if (pageNum >= 9 && pageNum <= 13) return "3.1";
+            if (pageNum >= 14 && pageNum <= 21) return "3.2";
+            if (pageNum >= 22 && pageNum <= 23) return "3.3";
+            if (pageNum >= 24 && pageNum <= 34) return "3.4";
+            if (pageNum >= 35 && pageNum <= 37) return "3.5";
+            if (pageNum >= 38 && pageNum <= 44) return "3.6";
+            return null;
+        }
+
         let lessonsData = null;
         let bookData = null;
         let tocData = null;
@@ -312,6 +324,13 @@
                 tocData = await tocRes.json();
 
                 loadState();
+
+                // Set initial view state for toggle button
+                const btnText = document.getElementById('view-toggle-text');
+                const btnIcon = document.getElementById('view-toggle-icon');
+                btnIcon.classList.add('hidden');
+                btnText.textContent = currentView === 'lesson' ? '📄 Book View' : '✨ Lesson View';
+
                 renderSidebar();
                 renderView();
                 updateXPDisplay();
@@ -348,9 +367,11 @@
             currentView = currentView === 'lesson' ? 'book' : 'lesson';
             const btnText = document.getElementById('view-toggle-text');
             const btnIcon = document.getElementById('view-toggle-icon');
+            btnIcon.classList.add('hidden');
+
             renderSidebar();
             if (currentView === 'book') {
-                btnText.textContent = 'Lesson View'; btnIcon.textContent = 'school';
+                btnText.textContent = '✨ Lesson View';
                 document.getElementById('lesson-view').classList.add('hidden');
                 document.getElementById('book-view').classList.remove('hidden');
                 if (LESSON_PAGE_MAP[currentLessonId]) {
@@ -358,9 +379,14 @@
                 }
                 renderBookPage(currentPageNum);
             } else {
-                btnText.textContent = 'Book View'; btnIcon.textContent = 'menu_book';
+                btnText.textContent = '📄 Book View';
                 document.getElementById('lesson-view').classList.remove('hidden');
                 document.getElementById('book-view').classList.add('hidden');
+
+                const matchedLessonId = getLessonIdFromPage(currentPageNum);
+                if (matchedLessonId) {
+                    currentLessonId = matchedLessonId;
+                }
                 renderLesson(currentLessonId);
             }
         }
