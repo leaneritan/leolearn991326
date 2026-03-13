@@ -231,6 +231,64 @@
     </div>
 
     <script>
+        const EMOJI_MAP = {
+            // People
+            "artist": "🎨", "clown": "🤡", "acrobat": "🤸", "actor": "🎭", "actress": "🎭", "aunt": "👩", "baby": "👶", "baker": "🧑‍🍳", "cook": "👨‍🍳", "dentist": "🦷", "doctor": "👨‍⚕️", "giant": "🏔️", "lawyer": "⚖️", "judge": "👨‍⚖️", "man": "👨", "nurse": "👩‍⚕️", "police officer": "👮", "singer": "🎤", "soldier": "💂", "teacher": "👨‍🏫",
+            "boy": "👦", "girl": "👧", "woman": "👩", "king": "👑", "queen": "👑", "prince": "🤴", "princess": "👸", "brother": "👦", "sister": "👧", "father": "👨", "mother": "👩", "uncle": "👨", "husband": "💍", "wife": "👩", "son": "👦", "daughter": "👧", "child": "👧",
+            // Animals
+            "bird": "🐦", "cat": "🐱", "cow": "🐄", "dog": "🐶", "fish": "🐟", "horse": "🐴", "lion": "🦁", "rabbit": "🐰", "sheep": "🐑", "tiger": "🐯",
+            "camel": "🐪", "lamb": "🐑", "mouse": "🐭", "ox": "🐂", "bull": "🐂", "rooster": "🐓", "hen": "🐔", "lioness": "🦁", "tigress": "🐯", "wolf": "🐺",
+            // Places
+            "church": "⛪", "city": "🏙️", "country": "🌍", "farm": "🚜", "garden": "🌸", "hospital": "🏥", "house": "🏠", "library": "📚", "market": "🛒", "park": "🌳", "school": "🏫", "store": "🏪",
+            // Things
+            "ball": "⚽", "book": "📖", "bottle": "🍶", "brush": "🖌️", "candle": "🕯️", "clock": "⏰", "coat": "🧥", "cup": "☕", "door": "🚪", "drum": "🥁", "flag": "🚩", "flower": "🌸", "fork": "🍴", "glass": "🥛", "hammer": "🔨", "key": "🔑", "knife": "🔪", "lamp": "💡", "pen": "✏️", "ring": "💍", "soap": "🧼", "spoon": "🥄", "table": "🪑", "umbrella": "☂️", "window": "🪟",
+            "broom": "🧹", "desk": "🪑", "doll": "🪆", "egg": "🥚", "game": "🎮", "nest": "🪺", "photo": "📸", "shirt": "👕", "tooth": "🦷", "foot": "🦶", "leaf": "🍃",
+            // Days
+            "Monday": "📅", "Tuesday": "📅", "Wednesday": "📅", "Thursday": "📅", "Friday": "🎉", "Saturday": "⚽", "Sunday": "☀️",
+            // Months
+            "January": "❄️", "February": "💕", "March": "🌱", "April": "🌸", "May": "🌼", "June": "☀️", "July": "🏖️", "August": "🌻", "September": "🍂", "October": "🎃", "November": "🍁", "December": "🎄",
+            // Collective Nouns (fallback single)
+            "flock": "🐦", "herd": "🐄", "school": "🐟", "pack": "🐺", "bunch": "🌸", "fleet": "🚢", "team": "⚽", "choir": "🎵", "class": "📚", "pride": "🦁"
+        };
+
+        const COLLECTIVE_CONFIG = {
+            "flock": { emoji: "🐦", count: 3 },
+            "herd": { emoji: "🐄", count: 3 },
+            "school": { emoji: "🐟", count: 4 },
+            "pack": { emoji: "🐺", count: 3 },
+            "bunch": { emoji: "🌸", count: 3 },
+            "fleet": { emoji: "🚢", count: 3 },
+            "team": { emoji: "⚽", count: 3 },
+            "choir": { emoji: "🎵", count: 3 },
+            "class": { emoji: "📚", count: 3 },
+            "pride": { emoji: "🦁", count: 4 }
+        };
+
+        const CATEGORY_STYLES = {
+            "People": "bg-blue-50",
+            "People Pairs": "bg-blue-50",
+            "Animals": "bg-yellow-50",
+            "Animal Pairs": "bg-yellow-50",
+            "Places": "bg-green-50",
+            "Things": "bg-purple-50",
+            "Singular/Plural Pairs": "bg-purple-50",
+            "Irregular Plurals": "bg-purple-50",
+            "Days": "bg-orange-50",
+            "Months": "bg-orange-50",
+            "Collective Nouns": "bg-orange-50"
+        };
+
+        const LESSON_PAGE_MAP = {
+            "1.1": 6,
+            "2.1": 7,
+            "3.1": 9,
+            "3.2": 14,
+            "3.3": 22,
+            "3.4": 24,
+            "3.5": 35,
+            "3.6": 38
+        };
+
         let lessonsData = null;
         let bookData = null;
         let tocData = null;
@@ -295,6 +353,9 @@
                 btnText.textContent = 'Lesson View'; btnIcon.textContent = 'school';
                 document.getElementById('lesson-view').classList.add('hidden');
                 document.getElementById('book-view').classList.remove('hidden');
+                if (LESSON_PAGE_MAP[currentLessonId]) {
+                    currentPageNum = LESSON_PAGE_MAP[currentLessonId];
+                }
                 renderBookPage(currentPageNum);
             } else {
                 btnText.textContent = 'Book View'; btnIcon.textContent = 'menu_book';
@@ -447,21 +508,35 @@
 
         function renderWordFiles(wfs) {
             if (!wfs) return '';
-            return wfs.map(f => `
-                <div class="mb-12">
+            return wfs.map(f => {
+                const bgClass = CATEGORY_STYLES[f.title] || 'bg-slate-50';
+                return `
+                <div class="mb-12 p-8 rounded-3xl ${bgClass}">
                     <h3 class="font-black text-2xl mb-6 text-slate-800 tracking-tight">${f.title}</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                        ${f.words.map(w => `
-                            <div class="word-card group">
-                                <div class="icon-box w-12 h-12 rounded-xl mb-4 group-hover:bg-primary transition-colors">
-                                    <span class="material-symbols-outlined text-2xl group-hover:text-white transition-colors">${lessonsData.iconMap[w] || 'question_mark'}</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                        ${f.words.map(w => {
+                            const isCollective = f.title === "Collective Nouns";
+                            const emoji = EMOJI_MAP[w] || '❓';
+                            let emojiDisplay = `<span class="text-4xl sm:text-5xl">${emoji}</span>`;
+
+                            if (isCollective && COLLECTIVE_CONFIG[w]) {
+                                const cfg = COLLECTIVE_CONFIG[w];
+                                emojiDisplay = `<div class="flex flex-wrap justify-center gap-0.5 max-w-[80px]">
+                                    ${Array(cfg.count).fill(0).map(() => `<span class="text-2xl">${cfg.emoji}</span>`).join('')}
+                                </div>`;
+                            }
+
+                            return `
+                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-white flex flex-col items-center justify-center gap-4 transition-all hover:shadow-md hover:-translate-y-1">
+                                <div class="flex items-center justify-center min-h-[60px]">
+                                    ${emojiDisplay}
                                 </div>
-                                <span class="text-sm font-bold text-slate-600 uppercase tracking-tighter">${w}</span>
-                            </div>
-                        `).join('')}
+                                <span class="text-sm font-black text-slate-700 uppercase tracking-tight text-center">${w}</span>
+                            </div>`;
+                        }).join('')}
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         function renderExercises(exs) {
