@@ -630,6 +630,67 @@
                 { "sentence": "The feminine of king is _____.", "answer": "queen" },
                 { "sentence": "The masculine of girl is _____.", "answer": "boy" }
               ]
+            },
+            {
+              "type": "table",
+              "instructions": "Exercise 1 — Complete the table:",
+              "headers": [
+                "💙 Masculine",
+                "💗 Feminine"
+              ],
+              "rows": [
+                [
+                  { "type": "text", "value": "master" },
+                  { "type": "input", "answer": "mistress" }
+                ],
+                [
+                  { "type": "text", "value": "uncle" },
+                  { "type": "input", "answer": "aunt" }
+                ],
+                [
+                  { "type": "input", "answer": "nephew" },
+                  { "type": "text", "value": "niece" }
+                ],
+                [
+                  { "type": "input", "answer": "lion" },
+                  { "type": "text", "value": "lioness" }
+                ],
+                [
+                  { "type": "text", "value": "tiger" },
+                  { "type": "input", "answer": "tigress" }
+                ],
+                [
+                  { "type": "input", "answer": "emperor" },
+                  { "type": "text", "value": "empress" }
+                ],
+                [
+                  { "type": "text", "value": "husband" },
+                  { "type": "input", "answer": "wife" }
+                ],
+                [
+                  { "type": "text", "value": "son" },
+                  { "type": "input", "answer": "daughter" }
+                ],
+                [
+                  { "type": "input", "answer": "father" },
+                  { "type": "text", "value": "mother" }
+                ],
+                [
+                  { "type": "input", "answer": "sir" },
+                  { "type": "text", "value": "madam" }
+                ]
+              ]
+            },
+            {
+              "type": "blanks",
+              "instructions": "Exercise 2 — Fill in the blank sentences:",
+              "items": [
+                { "sentence": "The host and the _____ welcomed their guests.", "answer": "hostess" },
+                { "sentence": "The steward and the _____ look after the passengers.", "answer": "stewardess" },
+                { "sentence": "The prince and the _____ attended the ball.", "answer": "princess" },
+                { "sentence": "The lion and the _____ rested in the shade.", "answer": "lioness" },
+                { "sentence": "The boy and the _____ played in the park.", "answer": "girl" }
+              ]
             }
           ],
           "quiz": [
