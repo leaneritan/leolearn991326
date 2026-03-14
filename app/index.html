@@ -1026,10 +1026,39 @@
                           ex.type === 'typing_plural' ? renderTypingPlural(ex, idx) :
                           ex.type === 'matching' ? renderMatching(ex, idx) :
                           ex.type === 'typing_pair' ? renderTypingPair(ex, idx) :
-                          ex.type === 'matching_pairs' ? renderMatchingPairs(ex, idx) : ''}
+                          ex.type === 'matching_pairs' ? renderMatchingPairs(ex, idx) :
+                          ex.type === 'table' ? renderTable(ex, idx) : ''}
                     </div>
                 </div>
             `).join('');
+        }
+
+        function renderTable(ex, idx) {
+            return `
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse rounded-xl overflow-hidden shadow-sm border border-slate-200">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200">
+                                ${ex.headers.map(h => `<th class="p-4 text-left font-black text-primary uppercase tracking-widest text-sm">${h}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${ex.rows.map((row, rIdx) => `
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
+                                    ${row.map((cell, cIdx) => `
+                                        <td class="p-4">
+                                            ${cell.type === 'text' ?
+                                                `<span class="font-bold text-slate-700">${cell.value}</span>` :
+                                                `<input type="text" class="input-blank w-full !text-left !px-4" data-answer="${cell.answer}" onchange="checkBlank(this)" placeholder="...">`
+                                            }
+                                        </td>
+                                    `).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
         }
 
         function renderCategorize(ex, idx) {
@@ -1225,9 +1254,25 @@
             if (item) { zone.appendChild(item); item.classList.remove('opacity-40'); }
         }
         function checkBlank(inp) {
-            const v = inp.value.trim().toLowerCase(); inp.classList.remove('input-correct', 'input-incorrect');
+            const v = inp.value.trim().toLowerCase();
+            inp.classList.remove('input-correct', 'input-incorrect', 'animate-pop', 'animate-shake');
+
+            const existingEmoji = inp.nextElementSibling;
+            if (existingEmoji && existingEmoji.classList.contains('feedback-emoji')) {
+                existingEmoji.remove();
+            }
+
             if (v === '') return;
-            inp.classList.add(v === inp.dataset.answer.toLowerCase() ? 'input-correct' : 'input-incorrect');
+
+            const isCorrect = v === inp.dataset.answer.toLowerCase();
+            if (isCorrect) {
+                inp.classList.add('input-correct', 'animate-pop');
+                inp.insertAdjacentHTML('afterend', '<span class="feedback-emoji ml-1 animate-pop">✅</span>');
+            } else {
+                inp.classList.add('input-incorrect', 'animate-shake');
+                inp.insertAdjacentHTML('afterend', '<span class="feedback-emoji ml-1">❌</span>');
+                setTimeout(() => inp.classList.remove('animate-shake'), 400);
+            }
         }
 
         function updateXPDisplay() {
