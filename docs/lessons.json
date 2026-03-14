@@ -9,6 +9,7 @@
           "title": "What is Grammar?",
           "badge": "Lesson 1 of 1",
           "icon": "school",
+          "startPage": 6,
           "premium": true,
           "learn": {
             "title": "What is Grammar? 📚",
@@ -87,6 +88,7 @@
           "title": "The Capital Letter",
           "badge": "Lesson 1 of 1",
           "icon": "format_size",
+          "startPage": 7,
           "premium": true,
           "learn": {
             "title": "The Capital Letter 🔤",
@@ -215,6 +217,7 @@
           "title": "Common Nouns",
           "badge": "Lesson 1 of 6",
           "icon": "category",
+          "startPage": 9,
           "content": "Common nouns are words for people, animals, places, and things. They are NOT specific names. They do NOT start with a capital letter unless they begin a sentence.",
           "keyTakeaways": [
             "A noun is a naming word",
@@ -258,6 +261,7 @@
             },
             {
               "type": "blanks",
+              "instructions": "Fill in the blanks",
               "items": [
                 { "sentence": "The _____ paints beautiful pictures.", "answer": "artist" },
                 { "sentence": "The _____ gives us milk.", "answer": "cow" },
@@ -302,6 +306,7 @@
           "title": "Proper Nouns",
           "badge": "Lesson 2 of 6",
           "icon": "person_pin",
+          "startPage": 14,
           "content": "Proper nouns are SPECIFIC names of people, places, days, and months. They ALWAYS start with a capital letter!",
           "keyTakeaways": [
             "Proper nouns are SPECIFIC names",
@@ -331,6 +336,7 @@
             },
             {
               "type": "blanks",
+              "instructions": "Fill in the blanks",
               "items": [
                 { "sentence": "Christmas is in _____.", "answer": "December" },
                 { "sentence": "The first day of school week is _____.", "answer": "Monday" }
@@ -372,6 +378,7 @@
           "title": "Singular Nouns",
           "badge": "Lesson 3 of 6",
           "icon": "looks_one",
+          "startPage": 22,
           "content": "A singular noun names ONE person, animal, place, or thing.",
           "keyTakeaways": [
             "Singular = ONE",
@@ -427,6 +434,7 @@
           "title": "Plural Nouns",
           "badge": "Lesson 4 of 6",
           "icon": "dynamic_feed",
+          "startPage": 24,
           "content": "A plural noun names MORE THAN ONE. Most nouns become plural by adding -s or -es.",
           "keyTakeaways": [
             "Plural = MORE THAN ONE",
@@ -461,6 +469,7 @@
             },
             {
               "type": "blanks",
+              "instructions": "Fill in the blanks",
               "items": [
                 { "sentence": "One child, two _____.", "answer": "children" },
                 { "sentence": "One tooth, two _____.", "answer": "teeth" }
@@ -503,6 +512,7 @@
           "title": "Collective Nouns",
           "badge": "Lesson 5 of 6",
           "icon": "groups",
+          "startPage": 35,
           "content": "A collective noun is a word for a GROUP of people, animals, or things.",
           "keyTakeaways": [
             "Collective nouns name a GROUP",
@@ -532,6 +542,7 @@
             },
             {
               "type": "blanks",
+              "instructions": "Fill in the blanks",
               "items": [
                 { "sentence": "A _____ of birds flew over the field.", "answer": "flock" },
                 { "sentence": "A _____ of lions rested in the sun.", "answer": "pride" }
@@ -573,6 +584,7 @@
           "title": "Masculine and Feminine Nouns",
           "badge": "Lesson 6 of 6",
           "icon": "wc",
+          "startPage": 38,
           "content": "Some nouns have different forms for male (masculine) and female (feminine).",
           "keyTakeaways": [
             "Masculine = male",
@@ -613,6 +625,7 @@
             },
             {
               "type": "blanks",
+              "instructions": "Fill in the blanks",
               "items": [
                 { "sentence": "The feminine of king is _____.", "answer": "queen" },
                 { "sentence": "The masculine of girl is _____.", "answer": "boy" }

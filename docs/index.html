@@ -26,7 +26,7 @@
         }
     </script>
     <style type="text/tailwindcss">
-        body { font-family: 'Inter', sans-serif; background-color: #f6f8f7; color: #1e293b; font-size: 18px; }
+        body { font-family: 'Inter', sans-serif; background-color: #f6f8f7; color: #1e293b; font-size: 18px; display: flex; height: 100vh; overflow: hidden; }
         .font-black { font-weight: 900; }
         .font-bold { font-weight: 700; }
         .font-medium { font-weight: 500; }
@@ -37,13 +37,34 @@
         }
         .icon-box {
             background-color: rgba(47, 127, 123, 0.1);
-            @apply rounded-lg p-2 flex items-center justify-center;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .card {
-            @apply bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden;
+            background-color: white;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            transition: box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .card:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
         .lesson-badge {
-            @apply inline-flex items-center px-3 py-1 rounded-full text-primary text-xs font-bold mb-4 uppercase tracking-wider;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            color: #2f7f7b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             background-color: rgba(47, 127, 123, 0.1);
         }
         #laser-pointer {
@@ -72,7 +93,9 @@
         }
         .nav-item.active {
             background-color: rgba(47, 127, 123, 0.1);
-            @apply text-primary border-r-4 border-primary font-bold;
+            color: #2f7f7b;
+            border-right: 4px solid #2f7f7b;
+            font-weight: 700;
         }
         .progress-bar-inner {
             @apply bg-primary h-full rounded-full transition-all duration-700 ease-out;
@@ -99,7 +122,21 @@
         }
 
         .quiz-option {
-            @apply w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-600 hover:border-primary hover:bg-teal-50 transition-all flex items-center gap-4 group;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .quiz-option:hover {
+            border-color: #2f7f7b;
+            background-color: #f0fdfa;
         }
         .quiz-option.selected {
             border-color: #2f7f7b;
@@ -169,7 +206,11 @@
         }
         .chip.selected { @apply border-primary bg-teal-50 text-primary; }
         .chip.correct { @apply border-primary bg-teal-50 text-primary; }
-        .chip.wrong { @apply border-red-500 bg-red-50 text-red-50; }
+        .chip.wrong {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
 
         .street-sign {
             @apply bg-white border-4 border-slate-800 p-4 rounded-sm shadow-md flex flex-col items-center gap-2;
@@ -339,7 +380,8 @@
             "Irregular Plurals": "bg-purple-50",
             "Days": "bg-orange-50",
             "Months": "bg-orange-50",
-            "Collective Nouns": "bg-orange-50"
+            "Collective Nouns": "bg-orange-50",
+            "Time": "bg-orange-50"
         };
 
         const LESSON_PAGE_MAP = {
@@ -540,12 +582,24 @@
 
         function formatGrammarText(text) {
             if (!text) return '';
-            // Use regex to avoid matching inside HTML tags
-            // Replace Capitals
-            let formatted = text.replace(/([A-Z])(?![^<]*>)/g, '<span class="grammar-cap">$1</span>');
-            // Replace Lowercase
-            formatted = formatted.replace(/([a-z])(?![^<]*>)/g, '<span class="grammar-small">$1</span>');
-            return formatted;
+            const wrap = (str) => str.replace(/([A-Z])|([a-z])/g, (m, p1, p2) =>
+                p1 ? `<span class="grammar-cap">${p1}</span>` : `<span class="grammar-small">${p2}</span>`);
+
+            if (!text.includes('<')) return wrap(text);
+
+            const div = document.createElement('div');
+            div.innerHTML = text;
+            const walk = document.createTreeWalker(div, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            let node;
+            while (node = walk.nextNode()) nodes.push(node);
+
+            nodes.forEach(textNode => {
+                const span = document.createElement('span');
+                span.innerHTML = wrap(textNode.nodeValue);
+                textNode.parentNode.replaceChild(span, textNode);
+            });
+            return div.innerHTML;
         }
 
         function renderLesson(id) {
@@ -943,7 +997,7 @@
                             }
 
                             return `
-                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-white flex flex-col items-center justify-center gap-4 transition-all hover:shadow-md hover:-translate-y-1 min-w-[100px] min-h-[120px]">
+                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-4 transition-all hover:shadow-md hover:-translate-y-1 min-w-[100px] min-h-[120px]">
                                 <div class="flex items-center justify-center min-h-[60px]">
                                     ${emojiDisplay}
                                 </div>
@@ -959,10 +1013,12 @@
             if (!exs) return '';
             return exs.map((ex, idx) => `
                 <div class="card p-8">
+                    ${ex.instructions ? `
                     <div class="flex items-center gap-4 mb-8">
                         <div class="icon-box"><span class="material-symbols-outlined">edit_note</span></div>
                         <h3 class="font-black text-xl text-slate-800">${ex.instructions}</h3>
                     </div>
+                    ` : ''}
                     <div id="ex-${idx}-content">
                         ${ex.type === 'categorize' ? renderCategorize(ex, idx) :
                           ex.type === 'blanks' ? renderBlanks(ex, idx) :

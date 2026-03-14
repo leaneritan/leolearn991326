@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -24,8 +25,8 @@
             }
         }
     </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f6f8f7; color: #1e293b; }
+    <style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; background-color: #f6f8f7; color: #1e293b; font-size: 18px; display: flex; height: 100vh; overflow: hidden; }
         .font-black { font-weight: 900; }
         .font-bold { font-weight: 700; }
         .font-medium { font-weight: 500; }
@@ -36,13 +37,34 @@
         }
         .icon-box {
             background-color: rgba(47, 127, 123, 0.1);
-            @apply rounded-lg p-2 flex items-center justify-center;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .card {
-            @apply bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden;
+            background-color: white;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            transition: box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .card:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
         .lesson-badge {
-            @apply inline-flex items-center px-3 py-1 rounded-full text-primary text-xs font-bold mb-4 uppercase tracking-wider;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            color: #2f7f7b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             background-color: rgba(47, 127, 123, 0.1);
         }
         #laser-pointer {
@@ -71,7 +93,9 @@
         }
         .nav-item.active {
             background-color: rgba(47, 127, 123, 0.1);
-            @apply text-primary border-r-4 border-primary font-bold;
+            color: #2f7f7b;
+            border-right: 4px solid #2f7f7b;
+            font-weight: 700;
         }
         .progress-bar-inner {
             @apply bg-primary h-full rounded-full transition-all duration-700 ease-out;
@@ -98,7 +122,21 @@
         }
 
         .quiz-option {
-            @apply w-full p-4 rounded-xl border border-slate-200 text-left font-medium text-slate-600 hover:border-primary hover:bg-teal-50 transition-all flex items-center gap-4 group;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .quiz-option:hover {
+            border-color: #2f7f7b;
+            background-color: #f0fdfa;
         }
         .quiz-option.selected {
             border-color: #2f7f7b;
@@ -122,13 +160,70 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        /* Premium Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop { animation: pop 0.3s ease-out; }
+
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        .animate-flip { animation: flip 0.6s ease-in-out; }
+
+        /* Premium Styles */
+        .premium-text { font-size: 1.125rem; line-height: 1.75rem; } /* 18px */
+        .grammar-cap { color: #2f7f7b; font-weight: 700; }
+        .grammar-small { color: #64748b; }
+        .grammar-wrong { color: #ef4444; }
+        .term-pill {
+            @apply px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 font-bold text-sm;
+        }
+
+        .premium-card {
+            @apply bg-white rounded-3xl border-2 border-slate-100 p-8 shadow-xl transition-all;
+        }
+        .premium-card:hover { @apply border-primary/20 shadow-2xl; }
+
+        .drop-box-premium {
+            @apply border-4 border-dashed border-slate-200 rounded-3xl p-6 min-h-[200px] transition-all bg-slate-50/30;
+        }
+        .drop-box-premium.correct { border-color: #2f7f7b; background-color: rgba(47, 127, 123, 0.05); }
+
+        .chip {
+            @apply inline-flex items-center justify-center p-2 min-w-[40px] bg-white border-2 border-slate-200 rounded-xl cursor-pointer select-none font-black text-xl transition-all hover:border-primary;
+        }
+        .chip.selected { @apply border-primary bg-teal-50 text-primary; }
+        .chip.correct { @apply border-primary bg-teal-50 text-primary; }
+        .chip.wrong {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
+
+        .street-sign {
+            @apply bg-white border-4 border-slate-800 p-4 rounded-sm shadow-md flex flex-col items-center gap-2;
+            background-image: linear-gradient(to bottom, #fff, #f8fafc);
+        }
+        .street-sign.correct { @apply border-green-600 bg-green-50; }
     </style>
 </head>
 <body class="bg-background text-slate-900 flex h-screen overflow-hidden">
     <div id="laser-pointer"></div>
 
     <!-- Sidebar -->
-    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col flex-shrink-0 z-40">
+    <aside class="w-[280px] bg-white border-r border-slate-200 flex flex-col flex-shrink-0 z-40">
         <div class="p-6 border-b border-slate-100 flex items-center gap-3">
             <div class="icon-box w-10 h-10">
                 <span class="material-symbols-outlined text-2xl">school</span>
@@ -178,41 +273,51 @@
                     <span id="view-toggle-icon" class="material-symbols-outlined">menu_book</span>
                     <span id="view-toggle-text">Book View</span>
                 </button>
-                <div class="h-6 w-px bg-slate-200"></div>
-                <div class="flex items-center gap-3">
-                    <div class="text-right hidden sm:block">
-                        <p class="text-xs font-black leading-none text-slate-900">Leo</p>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase">Student</p>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-black overflow-hidden border-2 border-white shadow-sm">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Leo" alt="Avatar">
-                    </div>
-                </div>
             </div>
         </header>
 
         <!-- Content Area -->
-        <main id="main-content" class="flex-1 overflow-y-auto">
+        <main id="main-content" class="flex-1 overflow-y-auto max-w-4xl mx-auto w-full">
             <!-- Lesson View -->
-            <div id="lesson-view" class="max-w-4xl mx-auto py-12 px-8">
+            <div id="lesson-view" class="py-12 px-8">
                 <!-- Lesson content -->
             </div>
 
             <!-- Book View -->
-            <div id="book-view" class="hidden h-full flex flex-col items-center p-8">
-                <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm mb-8">
-                    <button id="prev-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
-                        <span class="material-symbols-outlined font-bold">chevron_left</span>
-                    </button>
-                    <div class="px-6 font-bold text-slate-700 min-w-[140px] text-center select-none text-sm uppercase tracking-widest">
-                        <span id="page-info">Page 1 / 159</span>
+            <div id="book-view" class="hidden h-full flex flex-col items-center p-8 overflow-auto">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
+                        <button id="prev-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
+                            <span class="material-symbols-outlined font-bold">chevron_left</span>
+                        </button>
+                        <div class="px-6 font-bold text-slate-700 min-w-[140px] text-center select-none text-sm uppercase tracking-widest">
+                            <span id="page-info">Page 1 / 159</span>
+                        </div>
+                        <button id="next-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
+                            <span class="material-symbols-outlined font-bold">chevron_right</span>
+                        </button>
                     </div>
-                    <button id="next-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
-                        <span class="material-symbols-outlined font-bold">chevron_right</span>
-                    </button>
+
+                    <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
+                        <button id="zoom-out" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90" title="Zoom Out (Ctrl+Minus)">
+                            <span class="material-symbols-outlined font-bold">zoom_out</span>
+                        </button>
+                        <div id="zoom-level" class="px-4 font-bold text-slate-700 min-w-[70px] text-center select-none text-sm uppercase tracking-widest">
+                            100%
+                        </div>
+                        <button id="zoom-in" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90" title="Zoom In (Ctrl+Plus)">
+                            <span class="material-symbols-outlined font-bold">zoom_in</span>
+                        </button>
+                        <div class="h-6 w-px bg-slate-200 mx-1"></div>
+                        <button id="zoom-reset" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90" title="Reset Zoom (Ctrl+0)">
+                            <span class="material-symbols-outlined font-bold">restart_alt</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="grammar-page-container border border-slate-200 rounded-lg" id="book-page-content">
-                    <!-- PDF content -->
+                <div class="origin-top transition-transform duration-200" id="book-zoom-wrapper">
+                    <div class="grammar-page-container border border-slate-200 rounded-lg" id="book-page-content">
+                        <!-- PDF content -->
+                    </div>
                 </div>
             </div>
         </main>
@@ -275,7 +380,8 @@
             "Irregular Plurals": "bg-purple-50",
             "Days": "bg-orange-50",
             "Months": "bg-orange-50",
-            "Collective Nouns": "bg-orange-50"
+            "Collective Nouns": "bg-orange-50",
+            "Time": "bg-orange-50"
         };
 
         const LESSON_PAGE_MAP = {
@@ -289,12 +395,25 @@
             "3.6": 38
         };
 
+        function getLessonIdFromPage(pageNum) {
+            if (pageNum === 6) return "1.1";
+            if (pageNum >= 7 && pageNum <= 8) return "2.1";
+            if (pageNum >= 9 && pageNum <= 13) return "3.1";
+            if (pageNum >= 14 && pageNum <= 21) return "3.2";
+            if (pageNum >= 22 && pageNum <= 23) return "3.3";
+            if (pageNum >= 24 && pageNum <= 34) return "3.4";
+            if (pageNum >= 35 && pageNum <= 37) return "3.5";
+            if (pageNum >= 38 && pageNum <= 44) return "3.6";
+            return null;
+        }
+
         let lessonsData = null;
         let bookData = null;
         let tocData = null;
         let currentView = 'lesson';
         let currentLessonId = '1.1';
         let currentPageNum = 1;
+        let currentZoom = 100;
         let xp = 0;
         let completedLessons = [];
         let laserActive = false;
@@ -312,6 +431,13 @@
                 tocData = await tocRes.json();
 
                 loadState();
+
+                // Set initial view state for toggle button
+                const btnText = document.getElementById('view-toggle-text');
+                const btnIcon = document.getElementById('view-toggle-icon');
+                btnIcon.classList.add('hidden');
+                btnText.textContent = currentView === 'lesson' ? '📄 Book View' : '✨ Lesson View';
+
                 renderSidebar();
                 renderView();
                 updateXPDisplay();
@@ -320,7 +446,18 @@
                 document.getElementById('laser-toggle').onclick = toggleLaser;
                 document.getElementById('prev-page').onclick = () => changePage(currentPageNum - 1);
                 document.getElementById('next-page').onclick = () => changePage(currentPageNum + 1);
+                document.getElementById('zoom-in').onclick = () => updateZoom(currentZoom + 10);
+                document.getElementById('zoom-out').onclick = () => updateZoom(currentZoom - 10);
+                document.getElementById('zoom-reset').onclick = () => updateZoom(100);
                 document.getElementById('finish-lesson-btn').onclick = closeCelebration;
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey || e.metaKey) {
+                        if (e.key === '=' || e.key === '+') { e.preventDefault(); updateZoom(currentZoom + 10); }
+                        if (e.key === '-') { e.preventDefault(); updateZoom(currentZoom - 10); }
+                        if (e.key === '0') { e.preventDefault(); updateZoom(100); }
+                    }
+                });
 
                 document.addEventListener('mousemove', (e) => {
                     if (laserActive) {
@@ -340,17 +477,30 @@
                 completedLessons = state.completedLessons || [];
                 currentLessonId = state.currentLessonId || '1.1';
                 currentPageNum = state.currentPageNum || 1;
+                currentZoom = state.currentZoom || 100;
+                updateZoom(currentZoom);
             }
         }
-        function saveState() { localStorage.setItem('grammar_v4_state', JSON.stringify({ xp, completedLessons, currentLessonId, currentPageNum })); }
+        function saveState() { localStorage.setItem('grammar_v4_state', JSON.stringify({ xp, completedLessons, currentLessonId, currentPageNum, currentZoom })); }
+
+        function updateZoom(val) {
+            currentZoom = Math.max(50, Math.min(200, val));
+            const wrapper = document.getElementById('book-zoom-wrapper');
+            if (wrapper) wrapper.style.transform = `scale(${currentZoom / 100})`;
+            const levelDisp = document.getElementById('zoom-level');
+            if (levelDisp) levelDisp.textContent = `${currentZoom}%`;
+            saveState();
+        }
 
         function toggleView() {
             currentView = currentView === 'lesson' ? 'book' : 'lesson';
             const btnText = document.getElementById('view-toggle-text');
             const btnIcon = document.getElementById('view-toggle-icon');
+            btnIcon.classList.add('hidden');
+
             renderSidebar();
             if (currentView === 'book') {
-                btnText.textContent = 'Lesson View'; btnIcon.textContent = 'school';
+                btnText.textContent = '✨ Lesson View';
                 document.getElementById('lesson-view').classList.add('hidden');
                 document.getElementById('book-view').classList.remove('hidden');
                 if (LESSON_PAGE_MAP[currentLessonId]) {
@@ -358,9 +508,14 @@
                 }
                 renderBookPage(currentPageNum);
             } else {
-                btnText.textContent = 'Book View'; btnIcon.textContent = 'menu_book';
+                btnText.textContent = '📄 Book View';
                 document.getElementById('lesson-view').classList.remove('hidden');
                 document.getElementById('book-view').classList.add('hidden');
+
+                const matchedLessonId = getLessonIdFromPage(currentPageNum);
+                if (matchedLessonId) {
+                    currentLessonId = matchedLessonId;
+                }
                 renderLesson(currentLessonId);
             }
         }
@@ -425,6 +580,28 @@
 
         function renderView() { if (currentView === 'lesson') renderLesson(currentLessonId); else renderBookPage(currentPageNum); }
 
+        function formatGrammarText(text) {
+            if (!text) return '';
+            const wrap = (str) => str.replace(/([A-Z])|([a-z])/g, (m, p1, p2) =>
+                p1 ? `<span class="grammar-cap">${p1}</span>` : `<span class="grammar-small">${p2}</span>`);
+
+            if (!text.includes('<')) return wrap(text);
+
+            const div = document.createElement('div');
+            div.innerHTML = text;
+            const walk = document.createTreeWalker(div, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            let node;
+            while (node = walk.nextNode()) nodes.push(node);
+
+            nodes.forEach(textNode => {
+                const span = document.createElement('span');
+                span.innerHTML = wrap(textNode.nodeValue);
+                textNode.parentNode.replaceChild(span, textNode);
+            });
+            return div.innerHTML;
+        }
+
         function renderLesson(id) {
             currentLessonId = id; quizUserAnswers = {}; saveState();
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -439,6 +616,11 @@
                 <span class="material-symbols-outlined text-xs">chevron_right</span>
                 <span class="text-slate-900 font-black text-[10px] uppercase tracking-widest">${lesson.title}</span>
             `;
+
+            if (lesson.premium) {
+                renderPremiumLesson(lesson, chapter);
+                return;
+            }
 
             const view = document.getElementById('lesson-view');
             view.innerHTML = `
@@ -506,6 +688,294 @@
             }
         }
 
+        function renderPremiumLesson(lesson, chapter) {
+            const view = document.getElementById('lesson-view');
+            view.innerHTML = `
+                <div class="flex justify-end mb-8">
+                    <button onclick="toggleView()" class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white border-2 border-slate-100 font-black text-primary shadow-sm hover:shadow-md transition-all uppercase tracking-widest text-sm">
+                        <span class="material-symbols-outlined">menu_book</span>
+                        View in Book
+                    </button>
+                </div>
+                <div class="space-y-24">
+                    <section id="premium-learn">${renderPremiumLearn(lesson.learn)}</section>
+                    <section id="premium-practice">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="icon-box bg-orange-100"><span class="material-symbols-outlined text-orange-600">sports_esports</span></div>
+                            <h2 class="text-4xl font-black tracking-tight text-slate-800">🎮 Practice</h2>
+                        </div>
+                        ${renderPremiumPractice(lesson.practice)}
+                    </section>
+                    <section id="premium-game">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="icon-box bg-purple-100"><span class="material-symbols-outlined text-purple-600">extension</span></div>
+                            <h2 class="text-4xl font-black tracking-tight text-slate-800">🎯 Game</h2>
+                        </div>
+                        ${renderPremiumGame(lesson.game)}
+                    </section>
+                    <section id="premium-quiz">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="icon-box bg-primary/10"><span class="material-symbols-outlined text-primary">verified</span></div>
+                            <h2 class="text-4xl font-black tracking-tight text-slate-800">✅ Quiz</h2>
+                        </div>
+                        <div class="premium-card">
+                            <div id="quiz-content" class="space-y-12">
+                                ${renderQuiz(lesson.quiz)}
+                            </div>
+                            <div class="mt-12 pt-8 border-t border-slate-100 flex justify-between items-center">
+                                <div id="quiz-score-display" class="font-black text-primary text-2xl hidden uppercase tracking-widest">Score: <span id="quiz-score-val">0</span> / 5</div>
+                                <button onclick="submitQuiz()" id="submit-quiz-btn" class="bg-primary text-white px-12 py-5 rounded-2xl font-black text-xl shadow-xl shadow-primary/20 hover:-translate-y-1 active:scale-95 transition-all ml-auto uppercase tracking-widest">Check My Quiz</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="flex justify-between items-center py-12 border-t-4 border-slate-100 border-dashed">
+                        <button onclick="goToPrevLesson()" class="font-black text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest text-sm flex items-center gap-2">
+                            <span class="material-symbols-outlined">arrow_back</span> Previous Lesson
+                        </button>
+                        <button id="next-lesson-btn" onclick="goToNextLesson()" class="bg-primary text-white px-12 py-6 rounded-3xl font-black text-2xl shadow-2xl shadow-primary/20 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-4 opacity-50 cursor-not-allowed uppercase tracking-tighter">
+                            Next Lesson
+                            <span class="material-symbols-outlined font-black text-3xl">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            if (completedLessons.includes(lesson.id)) {
+                document.getElementById('next-lesson-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function renderPremiumLearn(data) {
+            return `
+                <div class="mb-12">
+                    <div class="lesson-badge bg-primary/10 text-primary mb-6">📖 LEARN SECTION</div>
+                    <h1 class="text-6xl font-black tracking-tighter text-slate-900 mb-8">${data.title}</h1>
+                    <div class="premium-card !bg-teal-50/30 border-primary/10 mb-12">
+                    <p class="text-3xl font-medium text-slate-700 leading-relaxed">${formatGrammarText(data.explanation)}</p>
+                    </div>
+
+                    ${data.alphabet ? `
+                        <div class="mb-12">
+                            <div class="flex flex-wrap gap-3">
+                                ${data.alphabet.split('').map(l => `<div class="w-16 h-16 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center text-3xl font-black text-primary shadow-sm hover:scale-110 transition-transform">${l}</div>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${data.exampleCards ? `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                            ${data.exampleCards.map(ex => `
+                                <div class="premium-card flex flex-col items-center text-center ${ex.status === 'correct' ? 'border-green-200 bg-green-50/30' : 'border-red-200 bg-red-50/30'}">
+                                    <div class="text-4xl font-black mb-4 ${ex.status === 'correct' ? 'text-green-600' : 'text-red-600'}">
+                                        ${ex.status === 'correct' ? '✅' : '❌'}
+                                    </div>
+                                    <p class="text-3xl font-bold mb-4 text-slate-800">${formatGrammarText(ex.text)}</p>
+                                    <span class="px-4 py-2 rounded-full font-black text-sm uppercase tracking-widest ${ex.status === 'correct' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${ex.label}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${data.rules ? `
+                        <div class="space-y-8 mb-12">
+                            ${data.rules.map(rule => `
+                                <div class="premium-card flex gap-8 items-start">
+                                    <div class="icon-box w-16 h-16 rounded-2xl shrink-0 bg-primary/10">
+                                        <span class="material-symbols-outlined text-4xl">${rule.icon}</span>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <h3 class="text-2xl font-black text-slate-900">${rule.title}</h3>
+                                        <p class="text-xl text-slate-600 font-medium">${rule.text}</p>
+                                        <div class="flex flex-wrap gap-4 pt-2">
+                                            ${rule.examples.map(ex => `<div class="bg-slate-50 border border-slate-200 px-6 py-3 rounded-2xl text-xl font-bold text-slate-800">${formatGrammarText(ex)}</div>`).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${data.funFact ? `
+                        <div class="bg-yellow-50 border-4 border-dashed border-yellow-200 p-8 rounded-[2rem] flex gap-6 items-center">
+                            <span class="text-5xl">💡</span>
+                            <div>
+                                <h4 class="font-black text-yellow-800 uppercase tracking-widest text-sm mb-1">Fun Fact Box</h4>
+                                <p class="text-2xl font-bold text-yellow-900">${data.funFact}</p>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderPremiumPractice(data) {
+            if (data.type === 'pick_correct') {
+                return `
+                    <div class="space-y-6">
+                        <p class="text-xl font-bold text-slate-400 uppercase tracking-widest mb-8">${data.title}</p>
+                        ${data.items.map((it, idx) => `
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="practice-${idx}">
+                                ${it.options.map((opt, oIdx) => `
+                                    <button onclick="checkPickCorrect(${idx}, ${oIdx}, ${it.answer})" class="premium-card !p-6 text-left hover:border-primary transition-all group flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-slate-700">${opt}</span>
+                                        <div class="w-10 h-10 rounded-full border-4 border-slate-100 group-hover:border-primary/20 flex items-center justify-center transition-all">
+                                            <div class="w-4 h-4 rounded-full bg-primary scale-0 transition-transform"></div>
+                                        </div>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            if (data.type === 'chip_highlight') {
+                return `
+                    <div class="space-y-12">
+                         <p class="text-xl font-bold text-slate-400 uppercase tracking-widest mb-8">${data.title}</p>
+                         ${data.items.map((it, idx) => {
+                             const chars = it.sentence.split('');
+                             return `
+                                <div class="premium-card" id="practice-chips-${idx}">
+                                    <div class="flex flex-wrap gap-1">
+                                        ${chars.map((char, cIdx) => {
+                                            if (char === ' ') return '<div class="w-4"></div>';
+                                            const isTarget = it.targets.includes(cIdx);
+                                            return `<div class="chip" data-idx="${cIdx}" data-target="${isTarget}" onclick="handleChipClick(this, '${char}')">${char}</div>`;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                             `;
+                         }).join('')}
+                    </div>
+                `;
+            }
+            return '';
+        }
+
+        function checkPickCorrect(qIdx, selected, correct) {
+            const container = document.getElementById(`practice-${qIdx}`);
+            const buttons = container.querySelectorAll('button');
+            if (selected === correct) {
+                buttons[selected].classList.add('!border-green-500', '!bg-green-50', 'animate-pop');
+                buttons[selected].querySelector('.w-4').classList.remove('scale-0');
+                buttons[selected].querySelector('.w-4').classList.add('bg-green-500');
+            } else {
+                buttons[selected].classList.add('!border-red-500', 'animate-shake');
+                setTimeout(() => buttons[selected].classList.remove('animate-shake'), 400);
+            }
+        }
+
+        function handleChipClick(el, originalChar) {
+            const isTarget = el.dataset.target === 'true';
+            if (isTarget) {
+                el.classList.add('correct', 'animate-pop');
+                el.innerText = originalChar.toUpperCase();
+                el.onclick = null;
+            } else {
+                el.classList.add('animate-shake', 'border-red-500');
+                setTimeout(() => {
+                    el.classList.remove('animate-shake', 'border-red-500');
+                }, 400);
+            }
+        }
+
+        function renderPremiumGame(data) {
+            if (data.type === 'premium_categorize') {
+                return `
+                    <div class="space-y-12">
+                        <div class="premium-card !bg-slate-50 border-dashed">
+                             <div class="flex flex-wrap gap-4 justify-center" id="game-pool">
+                                ${data.items.map(it => `
+                                    <div class="premium-card !p-4 !px-8 cursor-grab active:cursor-grabbing font-bold text-xl shadow-md hover:border-primary" draggable="true" ondragstart="handleDragStart(event, '${it.text}')" data-box="${it.box}">${it.text}</div>
+                                `).sort(() => Math.random() - 0.5).join('')}
+                             </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            ${data.boxes.map(box => `
+                                <div class="space-y-4">
+                                    <h4 class="text-center font-black text-slate-400 uppercase tracking-widest">${box.label}</h4>
+                                    <div class="drop-box-premium" data-id="${box.id}" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handlePremiumDrop(event)"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            if (data.type === 'typing_signs') {
+                return `
+                    <div class="space-y-12">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            ${data.signs.map((sign, idx) => `
+                                <div class="street-sign relative" id="sign-${idx}">
+                                    <div class="w-full h-2 bg-slate-800 rounded-full mb-2"></div>
+                                    <p class="text-sm font-black text-slate-400 uppercase mb-2">Street Sign</p>
+                                    <p class="text-xl font-bold text-slate-300 mb-4 lowercase">${sign.text}</p>
+                                    <div class="relative w-full">
+                                        <input type="text" class="w-full p-3 border-2 border-slate-200 rounded-lg text-center font-bold text-xl outline-none focus:border-primary transition-all" placeholder="Fix it..." onchange="checkSign(this, '${sign.answer}', ${idx})">
+                                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-green-600 opacity-0 transition-opacity" id="sign-check-${idx}">check_circle</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${data.bonus ? `
+                            <div class="mt-24 pt-24 border-t-4 border-slate-100 border-dashed">
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div class="icon-box bg-yellow-100"><span class="material-symbols-outlined text-yellow-600">star</span></div>
+                                    <h2 class="text-4xl font-black tracking-tight text-slate-800">BONUS GAME: ${data.bonus.title}</h2>
+                                </div>
+                                ${renderPremiumGame(data.bonus)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            return '';
+        }
+
+        function checkSign(inp, answer, idx) {
+            const val = inp.value.trim();
+            const sign = document.getElementById(`sign-${idx}`);
+            if (val === answer) {
+                sign.classList.add('correct', 'animate-pop');
+                inp.classList.add('text-green-600', 'border-green-500');
+                inp.disabled = true;
+                const check = document.getElementById(`sign-check-${idx}`);
+                if (check) check.classList.remove('opacity-0');
+            } else {
+                sign.classList.add('animate-shake');
+                inp.classList.add('text-red-600', 'border-red-500');
+                setTimeout(() => {
+                    sign.classList.remove('animate-shake');
+                    inp.classList.remove('text-red-600', 'border-red-500');
+                }, 400);
+            }
+        }
+
+        function handlePremiumDrop(e) {
+            e.preventDefault();
+            const box = e.currentTarget;
+            box.classList.remove('drag-over');
+            const text = e.dataTransfer.getData('text/plain');
+            const items = Array.from(document.querySelectorAll('#game-pool [draggable="true"]'));
+            const item = items.find(el => el.innerText === text);
+
+            if (item) {
+                const targetBoxId = box.dataset.id;
+                const correctBoxId = item.dataset.box;
+                if (targetBoxId === correctBoxId) {
+                    box.appendChild(item);
+                    item.classList.add('!bg-green-50', '!border-green-500', 'animate-pop');
+                    item.draggable = false;
+                    box.classList.add('correct');
+                } else {
+                    item.classList.add('animate-shake', '!border-red-500');
+                    setTimeout(() => {
+                        item.classList.remove('animate-shake', '!border-red-500');
+                    }, 400);
+                }
+            }
+        }
+
         function renderWordFiles(wfs) {
             if (!wfs) return '';
             return wfs.map(f => {
@@ -513,25 +983,25 @@
                 return `
                 <div class="mb-12 p-8 rounded-3xl ${bgClass}">
                     <h3 class="font-black text-2xl mb-6 text-slate-800 tracking-tight">${f.title}</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         ${f.words.map(w => {
                             const isCollective = f.title === "Collective Nouns";
                             const emoji = EMOJI_MAP[w] || '❓';
-                            let emojiDisplay = `<span class="text-4xl sm:text-5xl">${emoji}</span>`;
+                            let emojiDisplay = `<span class="text-4xl">${emoji}</span>`;
 
                             if (isCollective && COLLECTIVE_CONFIG[w]) {
                                 const cfg = COLLECTIVE_CONFIG[w];
                                 emojiDisplay = `<div class="flex flex-wrap justify-center gap-0.5 max-w-[80px]">
-                                    ${Array(cfg.count).fill(0).map(() => `<span class="text-2xl">${cfg.emoji}</span>`).join('')}
+                                    ${Array(cfg.count).fill(0).map(() => `<span class="text-xl">${cfg.emoji}</span>`).join('')}
                                 </div>`;
                             }
 
                             return `
-                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-white flex flex-col items-center justify-center gap-4 transition-all hover:shadow-md hover:-translate-y-1">
+                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col items-center justify-center gap-4 transition-all hover:shadow-md hover:-translate-y-1 min-w-[100px] min-h-[120px]">
                                 <div class="flex items-center justify-center min-h-[60px]">
                                     ${emojiDisplay}
                                 </div>
-                                <span class="text-sm font-black text-slate-700 uppercase tracking-tight text-center">${w}</span>
+                                <span class="text-sm font-bold text-slate-700 uppercase tracking-tight text-center">${w}</span>
                             </div>`;
                         }).join('')}
                     </div>
@@ -543,10 +1013,12 @@
             if (!exs) return '';
             return exs.map((ex, idx) => `
                 <div class="card p-8">
+                    ${ex.instructions ? `
                     <div class="flex items-center gap-4 mb-8">
                         <div class="icon-box"><span class="material-symbols-outlined">edit_note</span></div>
                         <h3 class="font-black text-xl text-slate-800">${ex.instructions}</h3>
                     </div>
+                    ` : ''}
                     <div id="ex-${idx}-content">
                         ${ex.type === 'categorize' ? renderCategorize(ex, idx) :
                           ex.type === 'blanks' ? renderBlanks(ex, idx) :
@@ -643,6 +1115,12 @@
                             <button onclick="selectQuizAnswer(${i}, ${v})" class="quiz-option" data-q="${i}" data-a="${v}">
                                 <div class="quiz-radio"><div class="quiz-radio-inner"></div></div>
                                 <span>${v ? 'True' : 'False'}</span>
+                            </button>`).join('') : q.type === 'multiple_select' ? q.options.map((opt, oi) => `
+                            <button onclick="toggleQuizMultiAnswer(${i}, ${oi})" class="quiz-option" data-q="${i}" data-a="${oi}">
+                                <div class="w-5 h-5 rounded border-2 border-slate-300 flex items-center justify-center flex-shrink-0 group-hover:border-primary transition-colors">
+                                    <span class="material-symbols-outlined text-sm scale-0 transition-transform">check</span>
+                                </div>
+                                <span>${opt}</span>
                             </button>`).join('') : `
                             <input type="text" class="input-blank !text-left !min-w-0 w-full p-4 h-14 font-medium" placeholder="Type your answer..." data-q="${i}" onchange="quizUserAnswers[${i}] = this.value.trim()">`}
                     </div>
@@ -655,6 +1133,18 @@
             const sel = document.querySelector(`[data-q="${qIdx}"][data-a="${ans}"]`); if (sel) sel.classList.add('selected');
         }
 
+        function toggleQuizMultiAnswer(qIdx, ans) {
+            if (!quizUserAnswers[qIdx]) quizUserAnswers[qIdx] = [];
+            const idx = quizUserAnswers[qIdx].indexOf(ans);
+            if (idx > -1) quizUserAnswers[qIdx].splice(idx, 1);
+            else quizUserAnswers[qIdx].push(ans);
+
+            document.querySelectorAll(`[data-q="${qIdx}"][data-a="${ans}"]`).forEach(el => {
+                el.classList.toggle('selected');
+                el.querySelector('.material-symbols-outlined').classList.toggle('scale-0');
+            });
+        }
+
         function submitQuiz() {
             let lesson = null;
             lessonsData.chapters.some(ch => { lesson = ch.lessons.find(l => l.id === currentLessonId); return !!lesson; });
@@ -662,6 +1152,9 @@
             lesson.quiz.forEach((q, i) => {
                 const u = quizUserAnswers[i];
                 if (q.type === 'blank') { if (u && u.toLowerCase() === q.answer.toLowerCase()) score++; }
+                else if (q.type === 'multiple_select') {
+                    if (Array.isArray(u) && u.length === q.answer.length && u.every(v => q.answer.includes(v))) score++;
+                }
                 else { if (u === q.answer) score++; }
             });
             document.getElementById('quiz-score-val').textContent = score;
@@ -671,13 +1164,24 @@
             xp += earnedQuizXP;
             let totalCelebrated = earnedQuizXP;
 
+            if (score >= 4) {
+                 confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#2f7f7b', '#fcd34d', '#3b82f6']
+                });
+            }
+
             if (!completedLessons.includes(currentLessonId)) {
                 completedLessons.push(currentLessonId); xp += 50;
                 totalCelebrated += 50;
                 showCelebration(totalCelebrated);
             }
             updateXPDisplay(); saveState(); renderSidebar();
-            document.getElementById('next-lesson-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            const nextBtn = document.getElementById('next-lesson-btn');
+            if (nextBtn) nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         }
 
         function showCelebration(earned) {
