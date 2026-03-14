@@ -9,16 +9,43 @@
           "title": "What is Grammar?",
           "badge": "Lesson 1 of 1",
           "icon": "school",
-          "content": "Grammar is the set of rules that helps us speak and write correctly. Every language has grammar rules. We use grammar every day without thinking about it!",
-          "keyTakeaways": [
-            "Grammar = rules for speaking and writing",
-            "Good grammar helps people understand us",
-            "We use grammar in every sentence we say"
-          ],
-          "examples": [
-            { "title": "Correct", "subtitle": "\"The cat is sleeping.\"", "icon": "check_circle" },
-            { "title": "Incorrect", "subtitle": "\"Cat the sleeping is.\"", "icon": "cancel" }
-          ],
+          "premium": true,
+          "learn": {
+            "title": "What is Grammar? 📚",
+            "explanation": "<span class=\"term-pill\">Grammar</span> is the set of rules that helps us speak and write correctly. Every language has <span class=\"term-pill\">grammar rules</span>.",
+            "exampleCards": [
+              { "text": "The dog is barking.", "label": "Correct grammar!", "status": "correct" },
+              { "text": "Dog the barking is.", "label": "Incorrect grammar!", "status": "incorrect" }
+            ],
+            "funFact": "You use grammar every time you speak — even without thinking about it! 🤯"
+          },
+          "practice": {
+            "title": "Is it correct or incorrect grammar?",
+            "type": "pick_correct",
+            "items": [
+              { "options": ["The cat is sleeping.", "Cat sleeping the is."], "answer": 0 },
+              { "options": ["Running fast boy.", "The boy is running fast."], "answer": 1 },
+              { "options": ["She likes football.", "Football she likes is."], "answer": 0 },
+              { "options": ["I have a book.", "Book a have I."], "answer": 0 },
+              { "options": ["Happy is Leo.", "Leo is happy."], "answer": 1 }
+            ]
+          },
+          "game": {
+            "title": "Sort the sentences! 🎮",
+            "type": "premium_categorize",
+            "boxes": [
+              { "label": "✅ Correct Grammar", "id": "correct" },
+              { "label": "❌ Incorrect Grammar", "id": "incorrect" }
+            ],
+            "items": [
+              { "text": "The teacher is kind.", "box": "correct" },
+              { "text": "Kind teacher the is.", "box": "incorrect" },
+              { "text": "I love football.", "box": "correct" },
+              { "text": "Football love I the.", "box": "incorrect" },
+              { "text": "Birds can fly.", "box": "correct" },
+              { "text": "Fly can birds the.", "box": "incorrect" }
+            ]
+          },
           "quiz": [
             {
               "question": "What is grammar?",
@@ -27,24 +54,24 @@
               "answer": 0
             },
             {
-              "question": "Every language has grammar rules.",
+              "question": "True or False: Every language has grammar rules.",
               "type": "tf",
               "answer": true
             },
             {
-              "question": "Grammar helps us speak and _____ correctly.",
+              "question": "Fill in blank: \"Grammar helps us speak and _____ correctly.\"",
               "type": "blank",
               "answer": "write"
             },
             {
-              "question": "We only use grammar when we write.",
+              "question": "True or False: We only use grammar when we write.",
               "type": "tf",
               "answer": false
             },
             {
-              "question": "Which sentence is correct?",
+              "question": "Which sentence has correct grammar?",
               "type": "multiple",
-              "options": ["\"The dog is running.\"", "\"Dog the running is.\""],
+              "options": ["The dog is running.", "Dog the running is."],
               "answer": 0
             }
           ]
@@ -60,44 +87,120 @@
           "title": "The Capital Letter",
           "badge": "Lesson 1 of 1",
           "icon": "format_size",
-          "content": "We use capital letters at the beginning of every sentence, for names of people and places, for days of the week and months of the year, and for the word \"I\".",
-          "keyTakeaways": [
-            "Always start a sentence with a capital letter",
-            "Names of people use capital letters",
-            "Days and months use capital letters",
-            "The word \"I\" is always capital"
-          ],
-          "examples": [
-            { "title": "Names", "subtitle": "\"My name is Leo.\"", "icon": "person" },
-            { "title": "Days", "subtitle": "\"Today is Monday.\"", "icon": "calendar_today" },
-            { "title": "Places", "subtitle": "\"I live in Japan.\"", "icon": "location_city" }
-          ],
+          "premium": true,
+          "learn": {
+            "title": "The Capital Letter 🔤",
+            "alphabet": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "explanation": "A <span class=\"term-pill\">capital letter</span> is also called a <span class=\"term-pill\">BIG letter</span> or <span class=\"term-pill\">UPPERCASE letter</span>.",
+            "rules": [
+              {
+                "id": 1,
+                "icon": "edit_note",
+                "title": "Rule 1 📝",
+                "text": "Use a capital letter for the FIRST letter of a sentence:",
+                "examples": ["The dog is barking.", "Come here!"]
+              },
+              {
+                "id": 2,
+                "icon": "front_hand",
+                "title": "Rule 2 ✋",
+                "text": "Always use a capital for the word I:",
+                "examples": ["I am eight years old.", "Tom and I are good friends."]
+              },
+              {
+                "id": 3,
+                "icon": "person",
+                "title": "Rule 3 👤",
+                "text": "Use a capital for NAMES of people:",
+                "examples": ["Alice, Tom, James, Kim, Snow White"]
+              },
+              {
+                "id": 4,
+                "icon": "public",
+                "title": "Rule 4 🌍",
+                "text": "Use a capital for NAMES of places:",
+                "examples": ["National Museum, Bronx Zoo, London, Sacramento"]
+              },
+              {
+                "id": 5,
+                "icon": "calendar_month",
+                "title": "Rule 5 📅",
+                "text": "Use a capital for festivals, holidays, days, months:",
+                "examples": ["New Year's Day, Christmas, Monday, January"]
+              }
+            ]
+          },
+          "practice": {
+            "title": "Click all the letters that should be CAPITALS! 🎯",
+            "type": "chip_highlight",
+            "items": [
+              { "sentence": "peter and i are good friends.", "targets": [0, 10] },
+              { "sentence": "we are going to chicago during our summer vacation.", "targets": [0, 16] },
+              { "sentence": "there is an interesting football game on sunday.", "targets": [0, 43] },
+              { "sentence": "jason lives on thomson avenue.", "targets": [0, 15, 23] },
+              { "sentence": "january is the first month of the year.", "targets": [0] }
+            ]
+          },
+          "game": {
+            "title": "Fix the signs! ✏️",
+            "type": "typing_signs",
+            "signs": [
+              { "text": "hopkins hotel", "answer": "Hopkins Hotel" },
+              { "text": "lincoln school", "answer": "Lincoln School" },
+              { "text": "orchard street", "answer": "Orchard Street" },
+              { "text": "newton road", "answer": "Newton Road" },
+              { "text": "botanic gardens", "answer": "Botanic Gardens" },
+              { "text": "national library", "answer": "National Library" },
+              { "text": "shea stadium", "answer": "Shea Stadium" }
+            ],
+            "bonus": {
+              "title": "Sort these words! 🎮",
+              "type": "premium_categorize",
+              "boxes": [
+                { "label": "📗 Needs a Capital Letter", "id": "cap" },
+                { "label": "📄 Does NOT need a Capital Letter", "id": "nocap" }
+              ],
+              "items": [
+                { "text": "monday", "box": "cap" },
+                { "text": "dog", "box": "nocap" },
+                { "text": "london", "box": "cap" },
+                { "text": "book", "box": "nocap" },
+                { "text": "january", "box": "cap" },
+                { "text": "teacher", "box": "nocap" },
+                { "text": "christmas", "box": "cap" },
+                { "text": "school", "box": "nocap" },
+                { "text": "leo", "box": "cap" },
+                { "text": "pen", "box": "nocap" }
+              ]
+            }
+          },
           "quiz": [
             {
-              "question": "Every sentence starts with a capital letter.",
+              "question": "True or False: Every sentence starts with a capital letter.",
               "type": "tf",
               "answer": true
             },
             {
-              "question": "The word '___' is always written with a capital letter.",
+              "question": "Fill in blank: \"The word '___' is always written with a capital letter.\"",
               "type": "blank",
               "answer": "I"
             },
             {
               "question": "Which is correct?",
               "type": "multiple",
-              "options": ["\"my name is leo.\"", "\"My name is Leo.\""],
+              "options": ["my name is leo.", "My name is Leo."],
               "answer": 1
             },
             {
-              "question": "Days of the week start with a small letter.",
+              "question": "True or False: Days of the week start with a small letter.",
               "type": "tf",
               "answer": false
             },
             {
-              "question": "Today is _____day. (the day after Sunday)",
-              "type": "blank",
-              "answer": "Mon"
+              "question": "Which words need a capital letter? (Select all that apply)",
+              "type": "multiple_select",
+              "options": ["Monday", "dog", "Christmas", "book", "London", "teacher"],
+              "answer": [0, 2, 4]
             }
           ]
         }
