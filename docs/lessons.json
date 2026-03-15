@@ -12,62 +12,174 @@
           "startPage": 6,
           "premium": true,
           "learn": {
-            "title": "What is Grammar? 📚",
+            "title": "What is Grammar? \ud83d\udcda",
             "explanation": "<span class=\"term-pill\">Grammar</span> is the set of rules that helps us speak and write correctly. Every language has <span class=\"term-pill\">grammar rules</span>.",
             "exampleCards": [
-              { "text": "The dog is barking.", "label": "Correct grammar!", "status": "correct" },
-              { "text": "Dog the barking is.", "label": "Incorrect grammar!", "status": "incorrect" }
+              {
+                "text": "The dog is barking.",
+                "label": "Correct grammar!",
+                "status": "correct"
+              },
+              {
+                "text": "Dog the barking is.",
+                "label": "Incorrect grammar!",
+                "status": "incorrect"
+              }
             ],
-            "funFact": "You use grammar every time you speak — even without thinking about it! 🤯"
+            "funFact": "You use grammar every time you speak \u2014 even without thinking about it! \ud83e\udd2f"
           },
           "practice": {
             "title": "Is it correct or incorrect grammar?",
             "type": "pick_correct",
             "items": [
-              { "options": ["The cat is sleeping.", "Cat sleeping the is."], "answer": 0 },
-              { "options": ["Running fast boy.", "The boy is running fast."], "answer": 1 },
-              { "options": ["She likes football.", "Football she likes is."], "answer": 0 },
-              { "options": ["I have a book.", "Book a have I."], "answer": 0 },
-              { "options": ["Happy is Leo.", "Leo is happy."], "answer": 1 }
+              {
+                "options": [
+                  "The cat is sleeping.",
+                  "Cat sleeping the is."
+                ],
+                "answer": 0
+              },
+              {
+                "options": [
+                  "Running fast boy.",
+                  "The boy is running fast."
+                ],
+                "answer": 1
+              },
+              {
+                "options": [
+                  "She likes football.",
+                  "Football she likes is."
+                ],
+                "answer": 0
+              },
+              {
+                "options": [
+                  "I have a book.",
+                  "Book a have I."
+                ],
+                "answer": 0
+              },
+              {
+                "options": [
+                  "Happy is Leo.",
+                  "Leo is happy."
+                ],
+                "answer": 1
+              }
             ]
           },
           "game": {
-            "title": "Sort the sentences! 🎮",
+            "title": "Sort the sentences! \ud83c\udfae",
             "type": "premium_categorize",
             "boxes": [
-              { "label": "✅ Correct Grammar", "id": "correct" },
-              { "label": "❌ Incorrect Grammar", "id": "incorrect" }
+              {
+                "label": "\u2705 Correct Grammar",
+                "id": "correct"
+              },
+              {
+                "label": "\u274c Incorrect Grammar",
+                "id": "incorrect"
+              }
             ],
             "items": [
-              { "text": "The teacher is kind.", "box": "correct" },
-              { "text": "Kind teacher the is.", "box": "incorrect" },
-              { "text": "I love football.", "box": "correct" },
-              { "text": "Football love I the.", "box": "incorrect" },
-              { "text": "Birds can fly.", "box": "correct" },
-              { "text": "Fly can birds the.", "box": "incorrect" }
+              {
+                "text": "The teacher is kind.",
+                "box": "correct"
+              },
+              {
+                "text": "Kind teacher the is.",
+                "box": "incorrect"
+              },
+              {
+                "text": "I love football.",
+                "box": "correct"
+              },
+              {
+                "text": "Football love I the.",
+                "box": "incorrect"
+              },
+              {
+                "text": "Birds can fly.",
+                "box": "correct"
+              },
+              {
+                "text": "Fly can birds the.",
+                "box": "incorrect"
+              }
             ]
           },
           "exercises": [
             {
               "type": "multiple_choice",
-              "instructions": "Activity 1 — Is it correct or incorrect grammar?",
+              "instructions": "Activity 1 \u2014 Is it correct or incorrect grammar?",
               "items": [
-                { "sentence": "The cat is sleeping.", "options": ["Correct", "Incorrect"], "answer": 0 },
-                { "sentence": "Running fast boy.", "options": ["Correct", "Incorrect"], "answer": 1 },
-                { "sentence": "She likes football.", "options": ["Correct", "Incorrect"], "answer": 0 },
-                { "sentence": "Book a have I.", "options": ["Correct", "Incorrect"], "answer": 1 },
-                { "sentence": "Leo is happy.", "options": ["Correct", "Incorrect"], "answer": 0 }
+                {
+                  "sentence": "The cat is sleeping.",
+                  "options": [
+                    "Correct",
+                    "Incorrect"
+                  ],
+                  "answer": 0
+                },
+                {
+                  "sentence": "Running fast boy.",
+                  "options": [
+                    "Correct",
+                    "Incorrect"
+                  ],
+                  "answer": 1
+                },
+                {
+                  "sentence": "She likes football.",
+                  "options": [
+                    "Correct",
+                    "Incorrect"
+                  ],
+                  "answer": 0
+                },
+                {
+                  "sentence": "Book a have I.",
+                  "options": [
+                    "Correct",
+                    "Incorrect"
+                  ],
+                  "answer": 1
+                },
+                {
+                  "sentence": "Leo is happy.",
+                  "options": [
+                    "Correct",
+                    "Incorrect"
+                  ],
+                  "answer": 0
+                }
               ]
             },
             {
               "type": "categorize",
-              "instructions": "Activity 2 — Drag sentence cards into the right box.",
-              "columns": ["✅ Correct Grammar", "❌ Incorrect Grammar"],
+              "instructions": "Activity 2 \u2014 Drag sentence cards into the right box.",
+              "columns": [
+                "\u2705 Correct Grammar",
+                "\u274c Incorrect Grammar"
+              ],
               "words": [
-                { "text": "The dog is barking.", "category": "✅ Correct Grammar" },
-                { "text": "Dog the barking is.", "category": "❌ Incorrect Grammar" },
-                { "text": "Birds can fly.", "category": "✅ Correct Grammar" },
-                { "text": "Fly can birds the.", "category": "❌ Incorrect Grammar" }
+                {
+                  "text": "The dog is barking.",
+                  "category": "\u2705 Correct Grammar"
+                },
+                {
+                  "text": "Dog the barking is.",
+                  "category": "\u274c Incorrect Grammar"
+                },
+                {
+                  "text": "Birds can fly.",
+                  "category": "\u2705 Correct Grammar"
+                },
+                {
+                  "text": "Fly can birds the.",
+                  "category": "\u274c Incorrect Grammar"
+                }
               ]
             }
           ],
@@ -75,7 +187,12 @@
             {
               "question": "What is grammar?",
               "type": "multiple",
-              "options": ["Rules for speaking and writing", "A type of book", "A school subject", "A foreign language"],
+              "options": [
+                "Rules for speaking and writing",
+                "A type of book",
+                "A school subject",
+                "A foreign language"
+              ],
               "answer": 0
             },
             {
@@ -96,7 +213,10 @@
             {
               "question": "Which sentence has correct grammar?",
               "type": "multiple",
-              "options": ["The dog is running.", "Dog the running is."],
+              "options": [
+                "The dog is running.",
+                "Dog the running is."
+              ],
               "answer": 0
             }
           ]
@@ -115,114 +235,264 @@
           "startPage": 7,
           "premium": true,
           "learn": {
-            "title": "The Capital Letter 🔤",
+            "title": "The Capital Letter \ud83d\udd24",
             "alphabet": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
             "explanation": "A <span class=\"term-pill\">capital letter</span> is also called a <span class=\"term-pill\">BIG letter</span> or <span class=\"term-pill\">UPPERCASE letter</span>.",
             "rules": [
               {
                 "id": 1,
                 "icon": "edit_note",
-                "title": "Rule 1 📝",
+                "title": "Rule 1 \ud83d\udcdd",
                 "text": "Use a capital letter for the FIRST letter of a sentence:",
-                "examples": ["The dog is barking.", "Come here!"]
+                "examples": [
+                  "The dog is barking.",
+                  "Come here!"
+                ]
               },
               {
                 "id": 2,
                 "icon": "front_hand",
-                "title": "Rule 2 ✋",
+                "title": "Rule 2 \u270b",
                 "text": "Always use a capital for the word I:",
-                "examples": ["I am eight years old.", "Tom and I are good friends."]
+                "examples": [
+                  "I am eight years old.",
+                  "Tom and I are good friends."
+                ]
               },
               {
                 "id": 3,
                 "icon": "person",
-                "title": "Rule 3 👤",
+                "title": "Rule 3 \ud83d\udc64",
                 "text": "Use a capital for NAMES of people:",
-                "examples": ["Alice, Tom, James, Kim, Snow White"]
+                "examples": [
+                  "Alice, Tom, James, Kim, Snow White"
+                ]
               },
               {
                 "id": 4,
                 "icon": "public",
-                "title": "Rule 4 🌍",
+                "title": "Rule 4 \ud83c\udf0d",
                 "text": "Use a capital for NAMES of places:",
-                "examples": ["National Museum, Bronx Zoo, London, Sacramento"]
+                "examples": [
+                  "National Museum, Bronx Zoo, London, Sacramento"
+                ]
               },
               {
                 "id": 5,
                 "icon": "calendar_month",
-                "title": "Rule 5 📅",
+                "title": "Rule 5 \ud83d\udcc5",
                 "text": "Use a capital for festivals, holidays, days, months:",
-                "examples": ["New Year's Day, Christmas, Monday, January"]
+                "examples": [
+                  "New Year's Day, Christmas, Monday, January"
+                ]
               }
             ]
           },
           "practice": {
-            "title": "Click all the letters that should be CAPITALS! 🎯",
+            "title": "Click all the letters that should be CAPITALS! \ud83c\udfaf",
             "type": "chip_highlight",
             "items": [
-              { "sentence": "peter and i are good friends.", "targets": [0, 10] },
-              { "sentence": "we are going to chicago during our summer vacation.", "targets": [0, 16] },
-              { "sentence": "there is an interesting football game on sunday.", "targets": [0, 43] },
-              { "sentence": "jason lives on thomson avenue.", "targets": [0, 15, 23] },
-              { "sentence": "january is the first month of the year.", "targets": [0] }
+              {
+                "sentence": "peter and i are good friends.",
+                "targets": [
+                  0,
+                  10
+                ]
+              },
+              {
+                "sentence": "we are going to chicago during our summer vacation.",
+                "targets": [
+                  0,
+                  16
+                ]
+              },
+              {
+                "sentence": "there is an interesting football game on sunday.",
+                "targets": [
+                  0,
+                  43
+                ]
+              },
+              {
+                "sentence": "jason lives on thomson avenue.",
+                "targets": [
+                  0,
+                  15,
+                  23
+                ]
+              },
+              {
+                "sentence": "january is the first month of the year.",
+                "targets": [
+                  0
+                ]
+              }
             ]
           },
           "game": {
-            "title": "Fix the signs! ✏️",
+            "title": "Fix the signs! \u270f\ufe0f",
             "type": "typing_signs",
             "signs": [
-              { "text": "hopkins hotel", "answer": "Hopkins Hotel" },
-              { "text": "lincoln school", "answer": "Lincoln School" },
-              { "text": "orchard street", "answer": "Orchard Street" },
-              { "text": "newton road", "answer": "Newton Road" },
-              { "text": "botanic gardens", "answer": "Botanic Gardens" },
-              { "text": "national library", "answer": "National Library" },
-              { "text": "shea stadium", "answer": "Shea Stadium" }
+              {
+                "text": "hopkins hotel",
+                "answer": "Hopkins Hotel"
+              },
+              {
+                "text": "lincoln school",
+                "answer": "Lincoln School"
+              },
+              {
+                "text": "orchard street",
+                "answer": "Orchard Street"
+              },
+              {
+                "text": "newton road",
+                "answer": "Newton Road"
+              },
+              {
+                "text": "botanic gardens",
+                "answer": "Botanic Gardens"
+              },
+              {
+                "text": "national library",
+                "answer": "National Library"
+              },
+              {
+                "text": "shea stadium",
+                "answer": "Shea Stadium"
+              }
             ],
             "bonus": {
-              "title": "Sort these words! 🎮",
+              "title": "Sort these words! \ud83c\udfae",
               "type": "premium_categorize",
               "boxes": [
-                { "label": "📗 Needs a Capital Letter", "id": "cap" },
-                { "label": "📄 Does NOT need a Capital Letter", "id": "nocap" }
+                {
+                  "label": "\ud83d\udcd7 Needs a Capital Letter",
+                  "id": "cap"
+                },
+                {
+                  "label": "\ud83d\udcc4 Does NOT need a Capital Letter",
+                  "id": "nocap"
+                }
               ],
               "items": [
-                { "text": "monday", "box": "cap" },
-                { "text": "dog", "box": "nocap" },
-                { "text": "london", "box": "cap" },
-                { "text": "book", "box": "nocap" },
-                { "text": "january", "box": "cap" },
-                { "text": "teacher", "box": "nocap" },
-                { "text": "christmas", "box": "cap" },
-                { "text": "school", "box": "nocap" },
-                { "text": "leo", "box": "cap" },
-                { "text": "pen", "box": "nocap" }
+                {
+                  "text": "monday",
+                  "box": "cap"
+                },
+                {
+                  "text": "dog",
+                  "box": "nocap"
+                },
+                {
+                  "text": "london",
+                  "box": "cap"
+                },
+                {
+                  "text": "book",
+                  "box": "nocap"
+                },
+                {
+                  "text": "january",
+                  "box": "cap"
+                },
+                {
+                  "text": "teacher",
+                  "box": "nocap"
+                },
+                {
+                  "text": "christmas",
+                  "box": "cap"
+                },
+                {
+                  "text": "school",
+                  "box": "nocap"
+                },
+                {
+                  "text": "leo",
+                  "box": "cap"
+                },
+                {
+                  "text": "pen",
+                  "box": "nocap"
+                }
               ]
             }
           },
           "exercises": [
             {
               "type": "circle",
-              "instructions": "Exercise 1 — Circle the letters that should be CAPITALS.",
+              "instructions": "Exercise 1 \u2014 Circle the letters that should be CAPITALS.",
               "items": [
-                { "sentence": "peter and i are good friends.", "targets": [0, 10] },
-                { "sentence": "we are going to chicago during our summer vacation.", "targets": [0, 16] },
-                { "sentence": "there is an interesting football game on sunday.", "targets": [0, 43] },
-                { "sentence": "jason lives on thomson avenue.", "targets": [0, 15, 23] },
-                { "sentence": "january is the first month of the year.", "targets": [0] }
+                {
+                  "sentence": "peter and i are good friends.",
+                  "targets": [
+                    0,
+                    10
+                  ]
+                },
+                {
+                  "sentence": "we are going to chicago during our summer vacation.",
+                  "targets": [
+                    0,
+                    16
+                  ]
+                },
+                {
+                  "sentence": "there is an interesting football game on sunday.",
+                  "targets": [
+                    0,
+                    43
+                  ]
+                },
+                {
+                  "sentence": "jason lives on thomson avenue.",
+                  "targets": [
+                    0,
+                    15,
+                    23
+                  ]
+                },
+                {
+                  "sentence": "january is the first month of the year.",
+                  "targets": [
+                    0
+                  ]
+                }
               ]
             },
             {
               "type": "typing_pair",
-              "instructions": "Exercise 2 — Write the names correctly.",
+              "instructions": "Exercise 2 \u2014 Write the names correctly.",
               "items": [
-                { "from": "hopkins hotel", "answer": "Hopkins Hotel" },
-                { "from": "lincoln school", "answer": "Lincoln School" },
-                { "from": "newton road", "answer": "Newton Road" },
-                { "from": "orchard street", "answer": "Orchard Street" },
-                { "from": "botanic gardens", "answer": "Botanic Gardens" },
-                { "from": "national library", "answer": "National Library" },
-                { "from": "shea stadium", "answer": "Shea Stadium" }
+                {
+                  "from": "hopkins hotel",
+                  "answer": "Hopkins Hotel"
+                },
+                {
+                  "from": "lincoln school",
+                  "answer": "Lincoln School"
+                },
+                {
+                  "from": "newton road",
+                  "answer": "Newton Road"
+                },
+                {
+                  "from": "orchard street",
+                  "answer": "Orchard Street"
+                },
+                {
+                  "from": "botanic gardens",
+                  "answer": "Botanic Gardens"
+                },
+                {
+                  "from": "national library",
+                  "answer": "National Library"
+                },
+                {
+                  "from": "shea stadium",
+                  "answer": "Shea Stadium"
+                }
               ]
             }
           ],
@@ -240,7 +510,10 @@
             {
               "question": "Which is correct?",
               "type": "multiple",
-              "options": ["my name is leo.", "My name is Leo."],
+              "options": [
+                "my name is leo.",
+                "My name is Leo."
+              ],
               "answer": 1
             },
             {
@@ -251,8 +524,19 @@
             {
               "question": "Which words need a capital letter? (Select all that apply)",
               "type": "multiple_select",
-              "options": ["Monday", "dog", "Christmas", "book", "London", "teacher"],
-              "answer": [0, 2, 4]
+              "options": [
+                "Monday",
+                "dog",
+                "Christmas",
+                "book",
+                "London",
+                "teacher"
+              ],
+              "answer": [
+                0,
+                2,
+                4
+              ]
             }
           ]
         }
@@ -278,59 +562,235 @@
           "wordFiles": [
             {
               "title": "People",
-              "words": ["artist", "clown", "acrobat", "actor", "aunt", "baby", "baker", "cook", "dentist", "doctor", "giant", "lawyer", "judge", "man", "nurse", "police officer", "singer", "soldier", "teacher"]
+              "words": [
+                "artist",
+                "clown",
+                "acrobat",
+                "actor",
+                "aunt",
+                "baby",
+                "baker",
+                "cook",
+                "dentist",
+                "doctor",
+                "giant",
+                "lawyer",
+                "judge",
+                "man",
+                "nurse",
+                "police officer",
+                "singer",
+                "soldier",
+                "teacher"
+              ]
             },
             {
               "title": "Animals",
-              "words": ["bird", "cat", "cow", "dog", "fish", "horse", "lion", "rabbit", "sheep", "tiger"]
+              "words": [
+                "bird",
+                "cat",
+                "cow",
+                "dog",
+                "fish",
+                "horse",
+                "lion",
+                "rabbit",
+                "sheep",
+                "tiger"
+              ]
             },
             {
               "title": "Places",
-              "words": ["church", "city", "country", "farm", "garden", "hospital", "house", "library", "market", "park", "school", "store"]
+              "words": [
+                "church",
+                "city",
+                "country",
+                "farm",
+                "garden",
+                "hospital",
+                "house",
+                "library",
+                "market",
+                "park",
+                "school",
+                "store"
+              ]
             },
             {
               "title": "Things",
-              "words": ["ball", "book", "bottle", "brush", "candle", "clock", "coat", "cup", "door", "drum", "flag", "flower", "fork", "glass", "hammer", "key", "knife", "lamp", "pen", "ring", "soap", "spoon", "table", "umbrella", "window"]
+              "words": [
+                "ball",
+                "book",
+                "bottle",
+                "brush",
+                "candle",
+                "clock",
+                "coat",
+                "cup",
+                "door",
+                "drum",
+                "flag",
+                "flower",
+                "fork",
+                "glass",
+                "hammer",
+                "key",
+                "knife",
+                "lamp",
+                "pen",
+                "ring",
+                "soap",
+                "spoon",
+                "table",
+                "umbrella",
+                "window"
+              ]
             }
           ],
           "exercises": [
             {
               "type": "underline",
-              "instructions": "Exercise 1 — Underline the common nouns in these sentences.",
+              "instructions": "Exercise 1 \u2014 Underline the common nouns in these sentences.",
               "items": [
-                { "sentence": "There's a little bird in the garden.", "targets": [3, 6] },
-                { "sentence": "Who is your teacher?", "targets": [3] },
-                { "sentence": "Don't eat that rotten apple.", "targets": [4] },
-                { "sentence": "Kate has a lovely doll.", "targets": [4] },
-                { "sentence": "I like reading stories.", "targets": [3] },
-                { "sentence": "My father is a doctor.", "targets": [1, 4] },
-                { "sentence": "Every child has a dictionary.", "targets": [1, 4] },
-                { "sentence": "Rudy hates bananas.", "targets": [2] },
-                { "sentence": "The phone is ringing.", "targets": [1] },
-                { "sentence": "Here's a book for you.", "targets": [2] }
+                {
+                  "sentence": "There's a little bird in the garden.",
+                  "targets": [
+                    17,
+                    29
+                  ]
+                },
+                {
+                  "sentence": "Who is your teacher?",
+                  "targets": [
+                    12
+                  ]
+                },
+                {
+                  "sentence": "Don't eat that rotten apple.",
+                  "targets": [
+                    22
+                  ]
+                },
+                {
+                  "sentence": "Kate has a lovely doll.",
+                  "targets": [
+                    18
+                  ]
+                },
+                {
+                  "sentence": "I like reading stories.",
+                  "targets": [
+                    15
+                  ]
+                },
+                {
+                  "sentence": "My father is a doctor.",
+                  "targets": [
+                    3,
+                    15
+                  ]
+                },
+                {
+                  "sentence": "Every child has a dictionary.",
+                  "targets": [
+                    6,
+                    18
+                  ]
+                },
+                {
+                  "sentence": "Rudy hates bananas.",
+                  "targets": [
+                    11
+                  ]
+                },
+                {
+                  "sentence": "The phone is ringing.",
+                  "targets": [
+                    4
+                  ]
+                },
+                {
+                  "sentence": "Here's a book for you.",
+                  "targets": [
+                    9
+                  ]
+                }
               ]
             },
             {
               "type": "categorize",
-              "instructions": "Exercise 2 — Put each word under its correct heading.",
-              "columns": ["People", "Animals", "Places", "Things"],
+              "instructions": "Exercise 2 \u2014 Put each word under its correct heading.",
+              "columns": [
+                "People",
+                "Animals",
+                "Places",
+                "Things"
+              ],
               "words": [
-                { "text": "swimmer", "category": "People" },
-                { "text": "snail", "category": "Animals" },
-                { "text": "fire engine", "category": "Things" },
-                { "text": "clown", "category": "People" },
-                { "text": "letters", "category": "Things" },
-                { "text": "flag", "category": "Things" },
-                { "text": "river", "category": "Places" },
-                { "text": "barber", "category": "People" },
-                { "text": "mountain", "category": "Places" },
-                { "text": "fox", "category": "Animals" },
-                { "text": "hotel", "category": "Places" },
-                { "text": "parrot", "category": "Animals" },
-                { "text": "granny", "category": "People" },
-                { "text": "taxi", "category": "Things" },
-                { "text": "gardener", "category": "People" },
-                { "text": "camel", "category": "Animals" }
+                {
+                  "text": "swimmer",
+                  "category": "People"
+                },
+                {
+                  "text": "snail",
+                  "category": "Animals"
+                },
+                {
+                  "text": "fire engine",
+                  "category": "Things"
+                },
+                {
+                  "text": "clown",
+                  "category": "People"
+                },
+                {
+                  "text": "letters",
+                  "category": "Things"
+                },
+                {
+                  "text": "flag",
+                  "category": "Things"
+                },
+                {
+                  "text": "river",
+                  "category": "Places"
+                },
+                {
+                  "text": "barber",
+                  "category": "People"
+                },
+                {
+                  "text": "mountain",
+                  "category": "Places"
+                },
+                {
+                  "text": "fox",
+                  "category": "Animals"
+                },
+                {
+                  "text": "hotel",
+                  "category": "Places"
+                },
+                {
+                  "text": "parrot",
+                  "category": "Animals"
+                },
+                {
+                  "text": "granny",
+                  "category": "People"
+                },
+                {
+                  "text": "taxi",
+                  "category": "Things"
+                },
+                {
+                  "text": "gardener",
+                  "category": "People"
+                },
+                {
+                  "text": "camel",
+                  "category": "Animals"
+                }
               ]
             }
           ],
@@ -338,7 +798,12 @@
             {
               "question": "What is a common noun?",
               "type": "multiple",
-              "options": ["A specific name", "A general naming word", "A verb", "A capital letter"],
+              "options": [
+                "A specific name",
+                "A general naming word",
+                "A verb",
+                "A capital letter"
+              ],
               "answer": 1
             },
             {
@@ -349,7 +814,12 @@
             {
               "question": "Which is a common noun?",
               "type": "multiple",
-              "options": ["Manila", "Leo", "school", "Monday"],
+              "options": [
+                "Manila",
+                "Leo",
+                "school",
+                "Monday"
+              ],
               "answer": 2
             },
             {
@@ -379,73 +849,284 @@
           "wordFiles": [
             {
               "title": "Days",
-              "words": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+              "words": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
             },
             {
               "title": "Months",
-              "words": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+              "words": [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+              ]
             }
           ],
           "exercises": [
             {
               "type": "underline",
-              "instructions": "Exercise 1 — Underline the proper nouns in the following sentences.",
+              "instructions": "Exercise 1 \u2014 Underline the proper nouns in the following sentences.",
               "items": [
-                { "sentence": "July is often the hottest month in summer.", "targets": [0] },
-                { "sentence": "One day Ali Baba saw the forty thieves hiding in a cave.", "targets": [2, 3] },
-                { "sentence": "Shawn and Ashley are going to the beach for a swim.", "targets": [0, 2] },
-                { "sentence": "Mr. Lee is reading a book.", "targets": [1] },
-                { "sentence": "I am your fairy godmother said the old woman to Cinderella.", "targets": [10] },
-                { "sentence": "Uncle Mike is a lawyer.", "targets": [0, 1] },
-                { "sentence": "Next Tuesday is a public holiday.", "targets": [1] },
-                { "sentence": "Many children enjoyed the movie Lion King.", "targets": [6, 7] }
+                {
+                  "sentence": "July is often the hottest month in summer.",
+                  "targets": [
+                    0
+                  ]
+                },
+                {
+                  "sentence": "One day Ali Baba saw the forty thieves hiding in a cave.",
+                  "targets": [
+                    8,
+                    12
+                  ]
+                },
+                {
+                  "sentence": "Shawn and Ashley are going to the beach for a swim.",
+                  "targets": [
+                    0,
+                    10
+                  ]
+                },
+                {
+                  "sentence": "Mr. Lee is reading a book.",
+                  "targets": [
+                    4
+                  ]
+                },
+                {
+                  "sentence": "I am your fairy godmother said the old woman to Cinderella.",
+                  "targets": [
+                    48
+                  ]
+                },
+                {
+                  "sentence": "Uncle Mike is a lawyer.",
+                  "targets": [
+                    0,
+                    6
+                  ]
+                },
+                {
+                  "sentence": "Next Tuesday is a public holiday.",
+                  "targets": [
+                    5
+                  ]
+                },
+                {
+                  "sentence": "Many children enjoyed the movie Lion King.",
+                  "targets": [
+                    6,
+                    7
+                  ]
+                }
               ]
             },
             {
               "type": "categorize",
-              "instructions": "Exercise 2 — Which ones are common nouns and which ones are proper nouns?",
-              "columns": ["Common Nouns", "Proper Nouns"],
+              "instructions": "Exercise 2 \u2014 Which ones are common nouns and which ones are proper nouns?",
+              "columns": [
+                "Common Nouns",
+                "Proper Nouns"
+              ],
               "words": [
-                { "text": "Lisa", "category": "Proper Nouns" },
-                { "text": "bank", "category": "Common Nouns" },
-                { "text": "President Hotel", "category": "Proper Nouns" },
-                { "text": "United Bank", "category": "Proper Nouns" },
-                { "text": "January", "category": "Proper Nouns" },
-                { "text": "beach", "category": "Common Nouns" },
-                { "text": "White Sand Beach", "category": "Proper Nouns" },
-                { "text": "hotel", "category": "Common Nouns" },
-                { "text": "doctor", "category": "Common Nouns" },
-                { "text": "month", "category": "Common Nouns" },
-                { "text": "Dr. Wang", "category": "Proper Nouns" },
-                { "text": "girl", "category": "Common Nouns" }
+                {
+                  "text": "Lisa",
+                  "category": "Proper Nouns"
+                },
+                {
+                  "text": "bank",
+                  "category": "Common Nouns"
+                },
+                {
+                  "text": "President Hotel",
+                  "category": "Proper Nouns"
+                },
+                {
+                  "text": "United Bank",
+                  "category": "Proper Nouns"
+                },
+                {
+                  "text": "January",
+                  "category": "Proper Nouns"
+                },
+                {
+                  "text": "beach",
+                  "category": "Common Nouns"
+                },
+                {
+                  "text": "White Sand Beach",
+                  "category": "Proper Nouns"
+                },
+                {
+                  "text": "hotel",
+                  "category": "Common Nouns"
+                },
+                {
+                  "text": "doctor",
+                  "category": "Common Nouns"
+                },
+                {
+                  "text": "month",
+                  "category": "Common Nouns"
+                },
+                {
+                  "text": "Dr. Wang",
+                  "category": "Proper Nouns"
+                },
+                {
+                  "text": "girl",
+                  "category": "Common Nouns"
+                }
               ]
             },
             {
               "type": "multiple_choice",
-              "instructions": "Exercise 3 — Is it a common (C) or proper (P) noun?",
+              "instructions": "Exercise 3 \u2014 Is it a common (C) or proper (P) noun?",
               "items": [
-                { "sentence": "the White House", "options": ["Common", "Proper"], "answer": 1 },
-                { "sentence": "the green dress", "options": ["Common", "Proper"], "answer": 0 },
-                { "sentence": "the tall building", "options": ["Common", "Proper"], "answer": 0 },
-                { "sentence": "the Empire State Building", "options": ["Common", "Proper"], "answer": 1 },
-                { "sentence": "the Yellow River", "options": ["Common", "Proper"], "answer": 1 },
-                { "sentence": "the muddy river", "options": ["Common", "Proper"], "answer": 0 },
-                { "sentence": "the governor", "options": ["Common", "Proper"], "answer": 0 },
-                { "sentence": "Governor Parker", "options": ["Common", "Proper"], "answer": 1 },
-                { "sentence": "the Oregon Trail", "options": ["Common", "Proper"], "answer": 1 },
-                { "sentence": "the winding trail", "options": ["Common", "Proper"], "answer": 0 }
+                {
+                  "sentence": "the White House",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 1
+                },
+                {
+                  "sentence": "the green dress",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 0
+                },
+                {
+                  "sentence": "the tall building",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 0
+                },
+                {
+                  "sentence": "the Empire State Building",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 1
+                },
+                {
+                  "sentence": "the Yellow River",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 1
+                },
+                {
+                  "sentence": "the muddy river",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 0
+                },
+                {
+                  "sentence": "the governor",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 0
+                },
+                {
+                  "sentence": "Governor Parker",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 1
+                },
+                {
+                  "sentence": "the Oregon Trail",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 1
+                },
+                {
+                  "sentence": "the winding trail",
+                  "options": [
+                    "Common",
+                    "Proper"
+                  ],
+                  "answer": 0
+                }
               ]
             },
             {
               "type": "circle",
-              "instructions": "Exercise 4 — Underline the nouns that should be capitalized.",
+              "instructions": "Exercise 4 \u2014 Underline the nouns that should be capitalized.",
               "items": [
-                { "sentence": "Robert louis Stevenson wrote treasure island.", "targets": [1, 4, 5] },
-                { "sentence": "The Capital of illinois is Springfield.", "targets": [3] },
-                { "sentence": "My Friends and I prefer Glittergums toothpaste.", "targets": [6] },
-                { "sentence": "Their Family visited Yellowstone national Park.", "targets": [4, 5] },
-                { "sentence": "Juan and maria attend kennedy Middle school.", "targets": [2, 4, 5, 6] },
-                { "sentence": "We had a Surprise Party for aunt Helen.", "targets": [6, 7] }
+                {
+                  "sentence": "Robert louis Stevenson wrote treasure island.",
+                  "targets": [
+                    7,
+                    29,
+                    38
+                  ]
+                },
+                {
+                  "sentence": "The Capital of illinois is Springfield.",
+                  "targets": [
+                    15
+                  ]
+                },
+                {
+                  "sentence": "My Friends and I prefer Glittergums toothpaste.",
+                  "targets": [
+                    36
+                  ]
+                },
+                {
+                  "sentence": "Their Family visited Yellowstone national Park.",
+                  "targets": [
+                    33,
+                    42
+                  ]
+                },
+                {
+                  "sentence": "Juan and maria attend kennedy Middle school.",
+                  "targets": [
+                    9,
+                    22,
+                    30,
+                    37
+                  ]
+                },
+                {
+                  "sentence": "We had a Surprise Party for aunt Helen.",
+                  "targets": [
+                    28,
+                    33
+                  ]
+                }
               ]
             }
           ],
@@ -458,7 +1139,12 @@
             {
               "question": "Which is a proper noun?",
               "type": "multiple",
-              "options": ["city", "school", "Manila", "teacher"],
+              "options": [
+                "city",
+                "school",
+                "Manila",
+                "teacher"
+              ],
               "answer": 2
             },
             {
@@ -469,7 +1155,12 @@
             {
               "question": "How many days are in a week?",
               "type": "multiple",
-              "options": ["5", "6", "7", "8"],
+              "options": [
+                "5",
+                "6",
+                "7",
+                "8"
+              ],
               "answer": 2
             },
             {
@@ -491,38 +1182,88 @@
             "Examples: boy, cat, house, book"
           ],
           "examples": [
-            { "title": "1 boy", "subtitle": "Singular", "icon": "boy" },
-            { "title": "1 cat", "subtitle": "Singular", "icon": "pets" },
-            { "title": "1 house", "subtitle": "Singular", "icon": "home" },
-            { "title": "1 book", "subtitle": "Singular", "icon": "menu_book" }
+            {
+              "title": "1 boy",
+              "subtitle": "Singular",
+              "icon": "boy"
+            },
+            {
+              "title": "1 cat",
+              "subtitle": "Singular",
+              "icon": "pets"
+            },
+            {
+              "title": "1 house",
+              "subtitle": "Singular",
+              "icon": "home"
+            },
+            {
+              "title": "1 book",
+              "subtitle": "Singular",
+              "icon": "menu_book"
+            }
           ],
           "exercises": [
             {
               "type": "circle",
-              "instructions": "Activity 1 — Click all the SINGULAR nouns.",
+              "instructions": "Activity 1 \u2014 Click all the SINGULAR nouns.",
               "items": [
-                { "sentence": "boy cats house trees book dogs", "targets": [0, 2, 4] }
+                {
+                  "sentence": "boy cats house trees book dogs",
+                  "targets": [
+                    0,
+                    9,
+                    21
+                  ]
+                }
               ]
             },
             {
               "type": "categorize",
-              "instructions": "Activity 2 — Is it singular or plural?",
-              "columns": ["1️⃣ Singular", "2️⃣ Plural"],
+              "instructions": "Activity 2 \u2014 Is it singular or plural?",
+              "columns": [
+                "1\ufe0f\u20e3 Singular",
+                "2\ufe0f\u20e3 Plural"
+              ],
               "words": [
-                { "text": "boy", "category": "1️⃣ Singular" },
-                { "text": "cats", "category": "2️⃣ Plural" },
-                { "text": "house", "category": "1️⃣ Singular" },
-                { "text": "dogs", "category": "2️⃣ Plural" },
-                { "text": "book", "category": "1️⃣ Singular" },
-                { "text": "trees", "category": "2️⃣ Plural" }
+                {
+                  "text": "boy",
+                  "category": "1\ufe0f\u20e3 Singular"
+                },
+                {
+                  "text": "cats",
+                  "category": "2\ufe0f\u20e3 Plural"
+                },
+                {
+                  "text": "house",
+                  "category": "1\ufe0f\u20e3 Singular"
+                },
+                {
+                  "text": "dogs",
+                  "category": "2\ufe0f\u20e3 Plural"
+                },
+                {
+                  "text": "book",
+                  "category": "1\ufe0f\u20e3 Singular"
+                },
+                {
+                  "text": "trees",
+                  "category": "2\ufe0f\u20e3 Plural"
+                }
               ]
             },
             {
               "type": "blanks",
-              "instructions": "Activity 3 — Fill in the blanks.",
+              "instructions": "Activity 3 \u2014 Fill in the blanks.",
               "items": [
-                { "sentence": "There is one _____ in the garden.", "answer": "flower" },
-                { "sentence": "I see one _____ on the table.", "answer": "book" }
+                {
+                  "sentence": "There is one _____ in the garden.",
+                  "answer": "flower"
+                },
+                {
+                  "sentence": "I see one _____ on the table.",
+                  "answer": "book"
+                }
               ]
             }
           ],
@@ -530,7 +1271,12 @@
             {
               "question": "What does singular mean?",
               "type": "multiple",
-              "options": ["Two", "Many", "One", "Zero"],
+              "options": [
+                "Two",
+                "Many",
+                "One",
+                "Zero"
+              ],
               "answer": 2
             },
             {
@@ -541,7 +1287,12 @@
             {
               "question": "Which is singular?",
               "type": "multiple",
-              "options": ["boys", "cats", "book", "trees"],
+              "options": [
+                "boys",
+                "cats",
+                "book",
+                "trees"
+              ],
               "answer": 2
             },
             {
@@ -572,76 +1323,221 @@
           "wordFiles": [
             {
               "title": "Singular/Plural Pairs",
-              "words": ["bird", "broom", "camel", "desk", "doll", "egg", "flower", "fork", "game", "lamb", "nest", "pen", "photo", "shirt", "spoon"]
+              "words": [
+                "bird",
+                "broom",
+                "camel",
+                "desk",
+                "doll",
+                "egg",
+                "flower",
+                "fork",
+                "game",
+                "lamb",
+                "nest",
+                "pen",
+                "photo",
+                "shirt",
+                "spoon"
+              ]
             },
             {
               "title": "Irregular Plurals",
-              "words": ["child", "tooth", "foot", "mouse", "ox", "leaf", "knife", "wife"]
+              "words": [
+                "child",
+                "tooth",
+                "foot",
+                "mouse",
+                "ox",
+                "leaf",
+                "knife",
+                "wife"
+              ]
             }
           ],
           "exercises": [
             {
               "type": "tf",
-              "instructions": "Exercise 1 — Is it singular or plural?",
+              "instructions": "Exercise 1 \u2014 Is it singular or plural?",
               "items": [
-                { "sentence": "word", "answer": true },
-                { "sentence": "pencils", "answer": false },
-                { "sentence": "books", "answer": false },
-                { "sentence": "fan", "answer": true },
-                { "sentence": "hat", "answer": true },
-                { "sentence": "children", "answer": false },
-                { "sentence": "kites", "answer": false },
-                { "sentence": "people", "answer": false },
-                { "sentence": "crab", "answer": true },
-                { "sentence": "foxes", "answer": false }
+                {
+                  "sentence": "word",
+                  "answer": true
+                },
+                {
+                  "sentence": "pencils",
+                  "answer": false
+                },
+                {
+                  "sentence": "books",
+                  "answer": false
+                },
+                {
+                  "sentence": "fan",
+                  "answer": true
+                },
+                {
+                  "sentence": "hat",
+                  "answer": true
+                },
+                {
+                  "sentence": "children",
+                  "answer": false
+                },
+                {
+                  "sentence": "kites",
+                  "answer": false
+                },
+                {
+                  "sentence": "people",
+                  "answer": false
+                },
+                {
+                  "sentence": "crab",
+                  "answer": true
+                },
+                {
+                  "sentence": "foxes",
+                  "answer": false
+                }
               ]
             },
             {
               "type": "typing_plural",
-              "instructions": "Exercise 2 — Do you add -s or -es?",
+              "instructions": "Exercise 2 \u2014 Do you add -s or -es?",
               "items": [
-                { "singular": "desk", "answer": "desks" },
-                { "singular": "class", "answer": "classes" },
-                { "singular": "comb", "answer": "combs" },
-                { "singular": "mug", "answer": "mugs" },
-                { "singular": "bus", "answer": "buses" },
-                { "singular": "basket", "answer": "baskets" },
-                { "singular": "peach", "answer": "peaches" },
-                { "singular": "belt", "answer": "belts" },
-                { "singular": "taxi", "answer": "taxis" },
-                { "singular": "box", "answer": "boxes" }
+                {
+                  "singular": "desk",
+                  "answer": "desks"
+                },
+                {
+                  "singular": "class",
+                  "answer": "classes"
+                },
+                {
+                  "singular": "comb",
+                  "answer": "combs"
+                },
+                {
+                  "singular": "mug",
+                  "answer": "mugs"
+                },
+                {
+                  "singular": "bus",
+                  "answer": "buses"
+                },
+                {
+                  "singular": "basket",
+                  "answer": "baskets"
+                },
+                {
+                  "singular": "peach",
+                  "answer": "peaches"
+                },
+                {
+                  "singular": "belt",
+                  "answer": "belts"
+                },
+                {
+                  "singular": "taxi",
+                  "answer": "taxis"
+                },
+                {
+                  "singular": "box",
+                  "answer": "boxes"
+                }
               ]
             },
             {
               "type": "typing_plural",
-              "instructions": "Exercise 3 — Do you change -y to -ies, or just add -s?",
+              "instructions": "Exercise 3 \u2014 Do you change -y to -ies, or just add -s?",
               "items": [
-                { "singular": "key", "answer": "keys" },
-                { "singular": "city", "answer": "cities" },
-                { "singular": "butterfly", "answer": "butterflies" },
-                { "singular": "monkey", "answer": "monkeys" },
-                { "singular": "fly", "answer": "flies" },
-                { "singular": "toy", "answer": "toys" },
-                { "singular": "baby", "answer": "babies" },
-                { "singular": "party", "answer": "parties" },
-                { "singular": "chimney", "answer": "chimneys" },
-                { "singular": "lady", "answer": "ladies" }
+                {
+                  "singular": "key",
+                  "answer": "keys"
+                },
+                {
+                  "singular": "city",
+                  "answer": "cities"
+                },
+                {
+                  "singular": "butterfly",
+                  "answer": "butterflies"
+                },
+                {
+                  "singular": "monkey",
+                  "answer": "monkeys"
+                },
+                {
+                  "singular": "fly",
+                  "answer": "flies"
+                },
+                {
+                  "singular": "toy",
+                  "answer": "toys"
+                },
+                {
+                  "singular": "baby",
+                  "answer": "babies"
+                },
+                {
+                  "singular": "party",
+                  "answer": "parties"
+                },
+                {
+                  "singular": "chimney",
+                  "answer": "chimneys"
+                },
+                {
+                  "singular": "lady",
+                  "answer": "ladies"
+                }
               ]
             },
             {
               "type": "typing_plural",
-              "instructions": "Exercise 4 — Add either -s or -es to these -o nouns.",
+              "instructions": "Exercise 4 \u2014 Add either -s or -es to these -o nouns.",
               "items": [
-                { "singular": "video", "answer": "videos" },
-                { "singular": "piano", "answer": "pianos" },
-                { "singular": "mango", "answer": "mangoes" },
-                { "singular": "kangaroo", "answer": "kangaroos" },
-                { "singular": "rhino", "answer": "rhinos" },
-                { "singular": "radio", "answer": "radios" },
-                { "singular": "hippo", "answer": "hippos" },
-                { "singular": "zoo", "answer": "zoos" },
-                { "singular": "zero", "answer": "zeroes" },
-                { "singular": "photo", "answer": "photos" }
+                {
+                  "singular": "video",
+                  "answer": "videos"
+                },
+                {
+                  "singular": "piano",
+                  "answer": "pianos"
+                },
+                {
+                  "singular": "mango",
+                  "answer": "mangoes"
+                },
+                {
+                  "singular": "kangaroo",
+                  "answer": "kangaroos"
+                },
+                {
+                  "singular": "rhino",
+                  "answer": "rhinos"
+                },
+                {
+                  "singular": "radio",
+                  "answer": "radios"
+                },
+                {
+                  "singular": "hippo",
+                  "answer": "hippos"
+                },
+                {
+                  "singular": "zoo",
+                  "answer": "zoos"
+                },
+                {
+                  "singular": "zero",
+                  "answer": "zeroes"
+                },
+                {
+                  "singular": "photo",
+                  "answer": "photos"
+                }
               ]
             }
           ],
@@ -649,13 +1545,23 @@
             {
               "question": "What does plural mean?",
               "type": "multiple",
-              "options": ["One", "Zero", "More than one", "Exactly two"],
+              "options": [
+                "One",
+                "Zero",
+                "More than one",
+                "Exactly two"
+              ],
               "answer": 2
             },
             {
               "question": "What is the plural of \"book\"?",
               "type": "multiple",
-              "options": ["bookes", "books", "bookies", "booksies"],
+              "options": [
+                "bookes",
+                "books",
+                "bookies",
+                "booksies"
+              ],
               "answer": 1
             },
             {
@@ -671,7 +1577,12 @@
             {
               "question": "What is the plural of \"church\"?",
               "type": "multiple",
-              "options": ["churchs", "churches", "churchies", "church"],
+              "options": [
+                "churchs",
+                "churches",
+                "churchies",
+                "church"
+              ],
               "answer": 1
             }
           ]
@@ -691,19 +1602,45 @@
           "wordFiles": [
             {
               "title": "Collective Nouns",
-              "words": ["flock", "herd", "school", "pack", "bunch", "fleet", "team", "choir", "class", "pride"]
+              "words": [
+                "flock",
+                "herd",
+                "school",
+                "pack",
+                "bunch",
+                "fleet",
+                "team",
+                "choir",
+                "class",
+                "pride"
+              ]
             }
           ],
           "exercises": [
             {
               "type": "blanks",
-              "instructions": "Exercise — Write the correct collective noun for each group.",
+              "instructions": "Exercise \u2014 Write the correct collective noun for each group.",
               "items": [
-                { "sentence": "a _____ of geese", "answer": "gaggle" },
-                { "sentence": "a _____ of sheep", "answer": "flock" },
-                { "sentence": "a _____ of cattle", "answer": "herd" },
-                { "sentence": "a _____ of horses", "answer": "herd" },
-                { "sentence": "One day a _____ of coyotes tried to attack.", "answer": "pack" }
+                {
+                  "sentence": "a _____ of geese",
+                  "answer": "gaggle"
+                },
+                {
+                  "sentence": "a _____ of sheep",
+                  "answer": "flock"
+                },
+                {
+                  "sentence": "a _____ of cattle",
+                  "answer": "herd"
+                },
+                {
+                  "sentence": "a _____ of horses",
+                  "answer": "herd"
+                },
+                {
+                  "sentence": "One day a _____ of coyotes tried to attack.",
+                  "answer": "pack"
+                }
               ]
             }
           ],
@@ -711,7 +1648,12 @@
             {
               "question": "What is a collective noun?",
               "type": "multiple",
-              "options": ["A single person", "A word for a group", "A proper name", "A plural noun"],
+              "options": [
+                "A single person",
+                "A word for a group",
+                "A proper name",
+                "A plural noun"
+              ],
               "answer": 1
             },
             {
@@ -727,7 +1669,12 @@
             {
               "question": "What is the collective noun for lions?",
               "type": "multiple",
-              "options": ["pack", "herd", "pride", "flock"],
+              "options": [
+                "pack",
+                "herd",
+                "pride",
+                "flock"
+              ],
               "answer": 2
             },
             {
@@ -752,59 +1699,238 @@
           "wordFiles": [
             {
               "title": "People Pairs",
-              "words": ["boy", "girl", "man", "woman", "king", "queen", "prince", "princess", "brother", "sister", "father", "mother", "uncle", "aunt", "husband", "wife", "son", "daughter", "actor", "actress"]
+              "words": [
+                "boy",
+                "girl",
+                "man",
+                "woman",
+                "king",
+                "queen",
+                "prince",
+                "princess",
+                "brother",
+                "sister",
+                "father",
+                "mother",
+                "uncle",
+                "aunt",
+                "husband",
+                "wife",
+                "son",
+                "daughter",
+                "actor",
+                "actress"
+              ]
             },
             {
               "title": "Animal Pairs",
-              "words": ["rooster", "hen", "bull", "cow", "lion", "lioness", "tiger", "tigress"]
+              "words": [
+                "rooster",
+                "hen",
+                "bull",
+                "cow",
+                "lion",
+                "lioness",
+                "tiger",
+                "tigress"
+              ]
             }
           ],
           "exercises": [
             {
               "type": "table",
-              "instructions": "Exercise 1 — Fill in the blanks with correct masculine or feminine nouns.",
-              "headers": ["Masculine", "Feminine"],
+              "instructions": "Exercise 1 \u2014 Fill in the blanks with correct masculine or feminine nouns.",
+              "headers": [
+                "Masculine",
+                "Feminine"
+              ],
               "rows": [
-                [ { "type": "text", "value": "master" }, { "type": "input", "answer": "mistress" } ],
-                [ { "type": "text", "value": "uncle" }, { "type": "input", "answer": "aunt" } ],
-                [ { "type": "input", "answer": "nephew" }, { "type": "text", "value": "niece" } ],
-                [ { "type": "input", "answer": "lion" }, { "type": "text", "value": "lioness" } ],
-                [ { "type": "text", "value": "tiger" }, { "type": "input", "answer": "tigress" } ],
-                [ { "type": "input", "answer": "emperor" }, { "type": "text", "value": "empress" } ],
-                [ { "type": "text", "value": "husband" }, { "type": "input", "answer": "wife" } ],
-                [ { "type": "text", "value": "son" }, { "type": "input", "answer": "daughter" } ],
-                [ { "type": "input", "answer": "father" }, { "type": "text", "value": "mother" } ],
-                [ { "type": "input", "answer": "sir" }, { "type": "text", "value": "madam" } ]
+                [
+                  {
+                    "type": "text",
+                    "value": "master"
+                  },
+                  {
+                    "type": "input",
+                    "answer": "mistress"
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "value": "uncle"
+                  },
+                  {
+                    "type": "input",
+                    "answer": "aunt"
+                  }
+                ],
+                [
+                  {
+                    "type": "input",
+                    "answer": "nephew"
+                  },
+                  {
+                    "type": "text",
+                    "value": "niece"
+                  }
+                ],
+                [
+                  {
+                    "type": "input",
+                    "answer": "lion"
+                  },
+                  {
+                    "type": "text",
+                    "value": "lioness"
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "value": "tiger"
+                  },
+                  {
+                    "type": "input",
+                    "answer": "tigress"
+                  }
+                ],
+                [
+                  {
+                    "type": "input",
+                    "answer": "emperor"
+                  },
+                  {
+                    "type": "text",
+                    "value": "empress"
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "value": "husband"
+                  },
+                  {
+                    "type": "input",
+                    "answer": "wife"
+                  }
+                ],
+                [
+                  {
+                    "type": "text",
+                    "value": "son"
+                  },
+                  {
+                    "type": "input",
+                    "answer": "daughter"
+                  }
+                ],
+                [
+                  {
+                    "type": "input",
+                    "answer": "father"
+                  },
+                  {
+                    "type": "text",
+                    "value": "mother"
+                  }
+                ],
+                [
+                  {
+                    "type": "input",
+                    "answer": "sir"
+                  },
+                  {
+                    "type": "text",
+                    "value": "madam"
+                  }
+                ]
               ]
             },
             {
               "type": "blanks",
-              "instructions": "Exercise 2 — Fill in each blank with a suitable masculine or feminine noun.",
+              "instructions": "Exercise 2 \u2014 Fill in each blank with a suitable masculine or feminine noun.",
               "items": [
-                { "sentence": "The host and the _____ welcomed their guests.", "answer": "hostess" },
-                { "sentence": "The steward and the _____ look after the passengers.", "answer": "stewardess" },
-                { "sentence": "My uncle and _____ lived in Nebraska.", "answer": "aunt" },
-                { "sentence": "The king and the _____ had two children.", "answer": "queen" },
-                { "sentence": "Ladies and _____ welcome to our party.", "answer": "gentlemen" }
+                {
+                  "sentence": "The host and the _____ welcomed their guests.",
+                  "answer": "hostess"
+                },
+                {
+                  "sentence": "The steward and the _____ look after the passengers.",
+                  "answer": "stewardess"
+                },
+                {
+                  "sentence": "My uncle and _____ lived in Nebraska.",
+                  "answer": "aunt"
+                },
+                {
+                  "sentence": "The king and the _____ had two children.",
+                  "answer": "queen"
+                },
+                {
+                  "sentence": "Ladies and _____ welcome to our party.",
+                  "answer": "gentlemen"
+                }
               ]
             },
             {
               "type": "categorize",
-              "instructions": "Exercise 3 — Write each word under its correct heading.",
-              "columns": ["Masculine", "Feminine", "Common Gender", "Neuter"],
+              "instructions": "Exercise 3 \u2014 Write each word under its correct heading.",
+              "columns": [
+                "Masculine",
+                "Feminine",
+                "Common Gender",
+                "Neuter"
+              ],
               "words": [
-                { "text": "son", "category": "Masculine" },
-                { "text": "witch", "category": "Feminine" },
-                { "text": "doctor", "category": "Common Gender" },
-                { "text": "lamp", "category": "Neuter" },
-                { "text": "king", "category": "Masculine" },
-                { "text": "queen", "category": "Feminine" },
-                { "text": "dancer", "category": "Common Gender" },
-                { "text": "file", "category": "Neuter" },
-                { "text": "father", "category": "Masculine" },
-                { "text": "mother", "category": "Feminine" },
-                { "text": "teacher", "category": "Common Gender" },
-                { "text": "sun", "category": "Neuter" }
+                {
+                  "text": "son",
+                  "category": "Masculine"
+                },
+                {
+                  "text": "witch",
+                  "category": "Feminine"
+                },
+                {
+                  "text": "doctor",
+                  "category": "Common Gender"
+                },
+                {
+                  "text": "lamp",
+                  "category": "Neuter"
+                },
+                {
+                  "text": "king",
+                  "category": "Masculine"
+                },
+                {
+                  "text": "queen",
+                  "category": "Feminine"
+                },
+                {
+                  "text": "dancer",
+                  "category": "Common Gender"
+                },
+                {
+                  "text": "file",
+                  "category": "Neuter"
+                },
+                {
+                  "text": "father",
+                  "category": "Masculine"
+                },
+                {
+                  "text": "mother",
+                  "category": "Feminine"
+                },
+                {
+                  "text": "teacher",
+                  "category": "Common Gender"
+                },
+                {
+                  "text": "sun",
+                  "category": "Neuter"
+                }
               ]
             }
           ],
@@ -812,7 +1938,12 @@
             {
               "question": "What is the feminine of \"king\"?",
               "type": "multiple",
-              "options": ["princess", "queen", "duchess", "lady"],
+              "options": [
+                "princess",
+                "queen",
+                "duchess",
+                "lady"
+              ],
               "answer": 1
             },
             {
@@ -828,7 +1959,12 @@
             {
               "question": "What is the masculine of \"hen\"?",
               "type": "multiple",
-              "options": ["duck", "cock", "rooster", "bull"],
+              "options": [
+                "duck",
+                "cock",
+                "rooster",
+                "bull"
+              ],
               "answer": 2
             },
             {
@@ -842,15 +1978,136 @@
     }
   ],
   "iconMap": {
-    "artist": "brush", "clown": "sentiment_very_satisfied", "acrobat": "sports_gymnastics", "actor": "theater_comedy", "actress": "theater_comedy", "aunt": "woman", "baby": "child_care", "baker": "bakery_dining", "cook": "restaurant", "dentist": "medical_services", "doctor": "stethoscope", "giant": "height", "lawyer": "gavel", "judge": "balance", "man": "person", "nurse": "medical_information", "police officer": "local_police", "singer": "mic", "soldier": "military_tech", "teacher": "school",
-    "bird": "flutter", "cat": "pets", "cow": "agriculture", "dog": "pets", "fish": "set_meal", "horse": "sports_equestrian", "lion": "cruelty_free", "rabbit": "cruelty_free", "sheep": "wool", "tiger": "cruelty_free", "lioness": "cruelty_free", "tigress": "cruelty_free",
-    "church": "church", "city": "location_city", "country": "globe", "farm": "agriculture", "garden": "local_florist", "hospital": "local_hospital", "house": "home", "library": "local_library", "market": "storefront", "park": "park", "school": "school", "store": "store",
-    "ball": "sports_soccer", "book": "menu_book", "bottle": "water_full", "brush": "brush", "candle": "candle", "clock": "schedule", "coat": "checkroom", "cup": "coffee", "door": "door_front", "drum": "music_note", "flag": "flag", "flower": "local_florist", "fork": "restaurant", "glass": "local_bar", "hammer": "hardware", "key": "key", "knife": "kitchen", "lamp": "light", "pen": "edit", "ring": "diamond", "soap": "soap", "spoon": "restaurant", "table": "table_restaurant", "umbrella": "umbrella", "window": "window",
-    "Monday": "calendar_today", "Tuesday": "calendar_today", "Wednesday": "calendar_today", "Thursday": "calendar_today", "Friday": "celebration", "Saturday": "weekend", "Sunday": "wb_sunny",
-    "January": "ac_unit", "February": "favorite", "March": "nature", "April": "local_florist", "May": "yard", "June": "wb_sunny", "July": "beach_access", "August": "wb_sunny", "September": "falling", "October": "nights_stay", "November": "foggy", "December": "celebration",
-    "broom": "cleaning_services", "camel": "cruelty_free", "desk": "desk", "doll": "toys", "egg": "egg", "game": "sports_esports", "lamb": "cruelty_free", "nest": "nest", "photo": "photo_camera", "shirt": "checkroom",
-    "child": "child_care", "tooth": "dentistry", "foot": "footprint", "mouse": "mouse", "ox": "agriculture", "leaf": "eco", "wife": "woman",
-    "flock": "flutter", "herd": "agriculture", "pack": "cruelty_free", "bunch": "local_florist", "fleet": "directions_boat", "team": "groups", "choir": "queue_music", "class": "school", "pride": "cruelty_free",
-    "boy": "boy", "girl": "girl", "king": "crown", "queen": "crown", "prince": "boy", "princess": "girl", "brother": "boy", "sister": "girl", "father": "man", "mother": "woman", "uncle": "man", "husband": "man", "son": "boy", "daughter": "girl", "rooster": "cruelty_free", "hen": "cruelty_free", "bull": "agriculture"
+    "artist": "brush",
+    "clown": "sentiment_very_satisfied",
+    "acrobat": "sports_gymnastics",
+    "actor": "theater_comedy",
+    "actress": "theater_comedy",
+    "aunt": "woman",
+    "baby": "child_care",
+    "baker": "bakery_dining",
+    "cook": "restaurant",
+    "dentist": "medical_services",
+    "doctor": "stethoscope",
+    "giant": "height",
+    "lawyer": "gavel",
+    "judge": "balance",
+    "man": "person",
+    "nurse": "medical_information",
+    "police officer": "local_police",
+    "singer": "mic",
+    "soldier": "military_tech",
+    "teacher": "school",
+    "bird": "flutter",
+    "cat": "pets",
+    "cow": "agriculture",
+    "dog": "pets",
+    "fish": "set_meal",
+    "horse": "sports_equestrian",
+    "lion": "cruelty_free",
+    "rabbit": "cruelty_free",
+    "sheep": "wool",
+    "tiger": "cruelty_free",
+    "lioness": "cruelty_free",
+    "tigress": "cruelty_free",
+    "church": "church",
+    "city": "location_city",
+    "country": "globe",
+    "farm": "agriculture",
+    "garden": "local_florist",
+    "hospital": "local_hospital",
+    "house": "home",
+    "library": "local_library",
+    "market": "storefront",
+    "park": "park",
+    "school": "school",
+    "store": "store",
+    "ball": "sports_soccer",
+    "book": "menu_book",
+    "bottle": "water_full",
+    "brush": "brush",
+    "candle": "candle",
+    "clock": "schedule",
+    "coat": "checkroom",
+    "cup": "coffee",
+    "door": "door_front",
+    "drum": "music_note",
+    "flag": "flag",
+    "flower": "local_florist",
+    "fork": "restaurant",
+    "glass": "local_bar",
+    "hammer": "hardware",
+    "key": "key",
+    "knife": "kitchen",
+    "lamp": "light",
+    "pen": "edit",
+    "ring": "diamond",
+    "soap": "soap",
+    "spoon": "restaurant",
+    "table": "table_restaurant",
+    "umbrella": "umbrella",
+    "window": "window",
+    "Monday": "calendar_today",
+    "Tuesday": "calendar_today",
+    "Wednesday": "calendar_today",
+    "Thursday": "calendar_today",
+    "Friday": "celebration",
+    "Saturday": "weekend",
+    "Sunday": "wb_sunny",
+    "January": "ac_unit",
+    "February": "favorite",
+    "March": "nature",
+    "April": "local_florist",
+    "May": "yard",
+    "June": "wb_sunny",
+    "July": "beach_access",
+    "August": "wb_sunny",
+    "September": "falling",
+    "October": "nights_stay",
+    "November": "foggy",
+    "December": "celebration",
+    "broom": "cleaning_services",
+    "camel": "cruelty_free",
+    "desk": "desk",
+    "doll": "toys",
+    "egg": "egg",
+    "game": "sports_esports",
+    "lamb": "cruelty_free",
+    "nest": "nest",
+    "photo": "photo_camera",
+    "shirt": "checkroom",
+    "child": "child_care",
+    "tooth": "dentistry",
+    "foot": "footprint",
+    "mouse": "mouse",
+    "ox": "agriculture",
+    "leaf": "eco",
+    "wife": "woman",
+    "flock": "flutter",
+    "herd": "agriculture",
+    "pack": "cruelty_free",
+    "bunch": "local_florist",
+    "fleet": "directions_boat",
+    "team": "groups",
+    "choir": "queue_music",
+    "class": "school",
+    "pride": "cruelty_free",
+    "boy": "boy",
+    "girl": "girl",
+    "king": "crown",
+    "queen": "crown",
+    "prince": "boy",
+    "princess": "girl",
+    "brother": "boy",
+    "sister": "girl",
+    "father": "man",
+    "mother": "woman",
+    "uncle": "man",
+    "husband": "man",
+    "son": "boy",
+    "daughter": "girl",
+    "rooster": "cruelty_free",
+    "hen": "cruelty_free",
+    "bull": "agriculture"
   }
 }

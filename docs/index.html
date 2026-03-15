@@ -286,38 +286,40 @@
             </div>
 
             <!-- Book View -->
-            <div id="book-view" class="hidden h-full flex flex-col items-center p-8 overflow-auto">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
-                        <button id="prev-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
-                            <span class="material-symbols-outlined font-bold">chevron_left</span>
-                        </button>
-                        <div class="px-6 font-bold text-slate-700 min-w-[140px] text-center select-none text-sm uppercase tracking-widest">
-                            <span id="page-info">Page 1 / 159</span>
-                        </div>
-                        <button id="next-page" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90">
-                            <span class="material-symbols-outlined font-bold">chevron_right</span>
-                        </button>
-                    </div>
+            <div id="book-view" class="hidden relative h-full flex flex-col items-center overflow-x-auto overflow-y-auto">
+                <!-- Navigation Arrows -->
+                <button id="prev-page" class="fixed left-[calc(280px+2rem)] top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-white border border-slate-200 shadow-xl flex items-center justify-center hover:bg-slate-50 transition-all text-slate-600 active:scale-90 group" title="Previous Page">
+                    <span class="material-symbols-outlined font-black text-3xl group-hover:-translate-x-1 transition-transform">chevron_left</span>
+                </button>
+                <button id="next-page" class="fixed right-8 top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-white border border-slate-200 shadow-xl flex items-center justify-center hover:bg-slate-50 transition-all text-slate-600 active:scale-90 group" title="Next Page">
+                    <span class="material-symbols-outlined font-black text-3xl group-hover:translate-x-1 transition-transform">chevron_right</span>
+                </button>
 
-                    <div class="flex items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
-                        <button id="zoom-out" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90" title="Zoom Out (Ctrl+Minus)">
+                <!-- Zoom Toolbar (Fixed at Top Center) -->
+                <div class="sticky top-4 z-40 mb-8">
+                    <div class="flex items-center gap-1 bg-white/90 backdrop-blur border border-slate-200 rounded-2xl p-1.5 shadow-2xl">
+                        <button id="zoom-out" class="p-2 rounded-xl hover:bg-slate-100 transition-all text-slate-600 active:scale-90" title="Zoom Out (Ctrl+Minus)">
                             <span class="material-symbols-outlined font-bold">zoom_out</span>
                         </button>
-                        <div id="zoom-level" class="px-4 font-bold text-slate-700 min-w-[70px] text-center select-none text-sm uppercase tracking-widest">
+                        <div id="zoom-level" class="px-3 font-black text-primary min-w-[60px] text-center select-none text-xs uppercase tracking-widest border-x border-slate-100">
                             100%
                         </div>
-                        <button id="zoom-in" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90" title="Zoom In (Ctrl+Plus)">
+                        <button id="zoom-in" class="p-2 rounded-xl hover:bg-slate-100 transition-all text-slate-600 active:scale-90" title="Zoom In (Ctrl+Plus)">
                             <span class="material-symbols-outlined font-bold">zoom_in</span>
                         </button>
-                        <div class="h-6 w-px bg-slate-200 mx-1"></div>
-                        <button id="zoom-reset" class="p-2 rounded-lg hover:bg-slate-50 transition-all text-slate-600 active:scale-90" title="Reset Zoom (Ctrl+0)">
+                        <div class="w-px h-6 bg-slate-200 mx-1"></div>
+                        <button id="zoom-reset" class="p-2 rounded-xl hover:bg-slate-100 transition-all text-slate-600 active:scale-90" title="Reset Zoom (Ctrl+0)">
                             <span class="material-symbols-outlined font-bold">restart_alt</span>
                         </button>
+                        <div class="w-px h-6 bg-slate-200 mx-1"></div>
+                        <div id="page-info" class="px-4 font-black text-slate-400 text-[10px] uppercase tracking-widest whitespace-nowrap">
+                            Page 1 / 159
+                        </div>
                     </div>
                 </div>
-                <div class="origin-top transition-transform duration-200" id="book-zoom-wrapper">
-                    <div class="grammar-page-container border border-slate-200 rounded-lg" id="book-page-content">
+
+                <div class="origin-top transition-transform duration-200 pb-12" id="book-zoom-wrapper">
+                    <div class="grammar-page-container border border-slate-100 shadow-2xl" id="book-page-content">
                         <!-- PDF content -->
                     </div>
                 </div>
@@ -414,6 +416,7 @@
         let tocData = null;
         let currentView = 'lesson';
         let currentLessonId = '1.1';
+        let currentLesson = null;
         let currentPageNum = 1;
         let currentZoom = 100;
         let xp = 0;
@@ -494,8 +497,7 @@
 
         function updateZoom(val) {
             currentZoom = Math.max(50, Math.min(200, val));
-            const wrapper = document.getElementById('book-zoom-wrapper');
-            if (wrapper) wrapper.style.transform = `scale(${currentZoom / 100})`;
+            renderBookPage(currentPageNum);
             const levelDisp = document.getElementById('zoom-level');
             if (levelDisp) levelDisp.textContent = `${currentZoom}%`;
             saveState();
@@ -506,6 +508,15 @@
             const btnText = document.getElementById('view-toggle-text');
             const btnIcon = document.getElementById('view-toggle-icon');
             btnIcon.classList.add('hidden');
+
+            const mainContent = document.getElementById('main-content');
+            if (currentView === 'book') {
+                mainContent.classList.remove('max-w-4xl');
+                mainContent.classList.add('max-w-full');
+            } else {
+                mainContent.classList.remove('max-w-full');
+                mainContent.classList.add('max-w-4xl');
+            }
 
             renderSidebar();
             if (currentView === 'book') {
@@ -539,7 +550,12 @@
             const nav = document.getElementById('sidebar-nav');
             nav.innerHTML = '';
 
+            const prevPageBtn = document.getElementById('prev-page');
+            const nextPageBtn = document.getElementById('next-page');
+
             if (currentView === 'lesson') {
+                if (prevPageBtn) prevPageBtn.style.display = 'none';
+                if (nextPageBtn) nextPageBtn.style.display = 'none';
                 lessonsData.chapters.forEach(chapter => {
                     const div = document.createElement('div');
                     div.className = 'mb-6';
@@ -560,6 +576,8 @@
                     nav.appendChild(div);
                 });
             } else {
+                if (prevPageBtn) prevPageBtn.style.display = 'flex';
+                if (nextPageBtn) nextPageBtn.style.display = 'flex';
                 tocData.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'mb-1';
@@ -619,6 +637,7 @@
             let lesson = null; let chapter = null;
             lessonsData.chapters.some(ch => { lesson = ch.lessons.find(l => l.id === id); if (lesson) { chapter = ch; return true; } return false; });
             if (!lesson) return;
+            currentLesson = lesson;
 
             document.getElementById('breadcrumb').innerHTML = `
                 <span class="uppercase tracking-widest text-[10px] font-black text-slate-400">Chapter ${chapter.id}</span>
@@ -1031,7 +1050,7 @@
         function renderExercises(exs) {
             if (!exs) return '';
             return exs.map((ex, idx) => `
-                <div class="card p-8 mb-8 shadow-md rounded-2xl border-2 border-slate-100" id="premium-exercises">
+                <div class="card p-8 mb-8 shadow-md rounded-2xl border-2 border-slate-100 exercise-card">
                     <div class="flex items-center justify-between mb-8">
                         <div class="flex items-center gap-4">
                             <div class="icon-box bg-primary/10"><span class="material-symbols-outlined">edit_note</span></div>
@@ -1069,31 +1088,43 @@
                 ex.rows.forEach(row => row.forEach(cell => { if (cell.type === 'input') count++; }));
                 return count;
             }
-            if (ex.type === 'circle' || ex.type === 'underline') return ex.items.length;
+            if (ex.type === 'circle' || ex.type === 'underline') {
+                return ex.items.reduce((acc, it) => acc + (it.targets ? it.targets.length : 0), 0);
+            }
             if (ex.type === 'tf' || ex.type === 'multiple_choice') return ex.items.length;
             return 0;
         }
 
         function renderCircle(ex, idx) {
-            return `<div class="space-y-6">${ex.items.map((it, i) => `
+            return `<div class="space-y-6">${ex.items.map((it, i) => {
+                const wordsArr = it.sentence.split(' ');
+                return `
                 <div class="flex flex-wrap items-center gap-2 p-4 bg-slate-50 rounded-xl" id="ex-${idx}-item-${i}">
                     <span class="text-slate-300 font-black mr-2">${i+1}.</span>
-                    ${it.sentence.split(' ').map((word, wIdx) => {
-                        const isTarget = it.targets.includes(wIdx);
-                        return `<span class="px-2 py-1 rounded-lg cursor-pointer hover:bg-slate-200 transition-all font-medium" onclick="handleWordClick(this, ${idx}, ${i}, ${isTarget})">${word}</span>`;
+                    ${wordsArr.map((word, wIdx) => {
+                        let offset = 0;
+                        for(let k=0; k<wIdx; k++) offset += wordsArr[k].length + 1;
+                        const isTarget = it.targets && it.targets.some(t => t >= offset && t < offset + word.length);
+                        return `<span class="px-2 py-1 rounded-lg cursor-pointer hover:bg-slate-200 transition-all font-medium" onclick="handleWordClick(this, ${idx}, ${i}, ${isTarget}, ${wIdx})">${word}</span>`;
                     }).join(' ')}
-                </div>`).join('')}</div>`;
+                </div>`;
+            }).join('')}</div>`;
         }
 
         function renderUnderline(ex, idx) {
-            return `<div class="space-y-6">${ex.items.map((it, i) => `
+            return `<div class="space-y-6">${ex.items.map((it, i) => {
+                const wordsArr = it.sentence.split(' ');
+                return `
                 <div class="flex flex-wrap items-center gap-2 p-4 bg-slate-50 rounded-xl" id="ex-${idx}-item-${i}">
                     <span class="text-slate-300 font-black mr-2">${i+1}.</span>
-                    ${it.sentence.split(' ').map((word, wIdx) => {
-                        const isTarget = it.targets.includes(wIdx);
-                        return `<span class="px-1 cursor-pointer hover:bg-slate-200 transition-all font-medium border-b-2 border-transparent" onclick="handleUnderlineClick(this, ${idx}, ${i}, ${isTarget})">${word}</span>`;
+                    ${wordsArr.map((word, wIdx) => {
+                        let offset = 0;
+                        for(let k=0; k<wIdx; k++) offset += wordsArr[k].length + 1;
+                        const isTarget = it.targets && it.targets.some(t => t >= offset && t < offset + word.length);
+                        return `<span class="px-1 cursor-pointer hover:bg-slate-200 transition-all font-medium border-b-2 border-transparent" onclick="handleUnderlineClick(this, ${idx}, ${i}, ${isTarget}, ${wIdx})">${word}</span>`;
                     }).join(' ')}
-                </div>`).join('')}</div>`;
+                </div>`;
+            }).join('')}</div>`;
         }
 
         function renderTF(ex, idx) {
@@ -1366,15 +1397,29 @@
             const item = items.find(el => el.innerText === t && el.classList.contains('opacity-40'));
 
             if (item) {
-                e.currentTarget.appendChild(item);
+                const dropZone = e.currentTarget;
+                dropZone.appendChild(item);
                 item.classList.remove('opacity-40');
-                // Check order
-                const currentOrder = Array.from(e.currentTarget.children).map(c => c.innerText);
+
                 const poolItems = Array.from(document.getElementById(`ex-${exIdx}-pool`).children);
                 if (poolItems.length === 0) {
-                    // All items dropped, could check final order here
-                    e.currentTarget.classList.add('correct');
-                    if (awardXP(`ex-${exIdx}-complete`)) updateExScore(exIdx);
+                    const currentOrder = Array.from(dropZone.children).map(c => c.innerText.trim()).join(' ');
+                    const correctSentence = currentLesson.exercises[exIdx].sentence;
+
+                    if (currentOrder === correctSentence) {
+                        dropZone.classList.add('correct', 'border-green-500', 'bg-green-50');
+                        if (awardXP(`ex-${exIdx}-complete`)) updateExScore(exIdx);
+                    } else {
+                        dropZone.classList.add('animate-shake', 'border-red-500');
+                        setTimeout(() => {
+                            dropZone.classList.remove('animate-shake', 'border-red-500');
+                            const pool = document.getElementById(`ex-${exIdx}-pool`);
+                            Array.from(dropZone.children).forEach(child => {
+                                child.classList.add('opacity-40');
+                                pool.appendChild(child);
+                            });
+                        }, 800);
+                    }
                 }
             }
         }
@@ -1419,7 +1464,7 @@
         function updateExScore(exIdx) {
             const exContainer = document.querySelector(`[id^="ex-${exIdx}-content"]`);
             if (!exContainer) return;
-            const correctCount = exContainer.querySelectorAll('.input-correct, .draggable-item.correct, span.correct, span.underline-correct, button.bg-green-100').length;
+            const correctCount = exContainer.querySelectorAll('.input-correct, .draggable-item.correct, span.correct, span.underline-correct, button.bg-green-100, .drop-zone.correct').length;
             const scoreEl = document.getElementById(`ex-${exIdx}-score`);
             if (scoreEl) {
                 scoreEl.textContent = correctCount;
@@ -1440,8 +1485,8 @@
             }
         }
 
-        function handleWordClick(el, exIdx, itemIdx, isTarget) {
-            const id = `ex-${exIdx}-item-${itemIdx}`;
+        function handleWordClick(el, exIdx, itemIdx, isTarget, wordIdx) {
+            const id = `ex-${exIdx}-item-${itemIdx}-word-${wordIdx}`;
             if (isTarget) {
                 if (!el.classList.contains('correct')) {
                     el.classList.add('correct', 'animate-pop', 'bg-green-100', 'text-green-700', 'font-bold');
@@ -1453,11 +1498,11 @@
             }
         }
 
-        function handleUnderlineClick(el, exIdx, itemIdx, isTarget) {
-            const id = `ex-${exIdx}-item-${itemIdx}`;
+        function handleUnderlineClick(el, exIdx, itemIdx, isTarget, wordIdx) {
+            const id = `ex-${exIdx}-item-${itemIdx}-word-${wordIdx}`;
             if (isTarget) {
                 if (!el.classList.contains('underline-correct')) {
-                    el.classList.add('underline-correct', 'border-green-500', 'text-green-700', 'font-bold');
+                    el.classList.add('underline-correct', 'border-green-500', 'text-green-700', 'font-bold', 'border-b-2');
                     if (awardXP(id)) updateExScore(exIdx);
                 }
             } else {
@@ -1530,7 +1575,11 @@
             const p = bookData[num - 1]; const container = document.getElementById('book-page-content');
             const ratio = p.width / p.height;
             container.style.aspectRatio = ratio.toString();
-            container.style.width = ratio > 1 ? '100%' : (ratio * 70) + 'vh';
+
+            let baseWidth = ratio > 1 ? 1000 : 800;
+            container.style.width = `${(baseWidth * currentZoom) / 100}px`;
+            container.style.maxWidth = 'none';
+
             container.innerHTML = '';
             document.getElementById('page-info').innerText = `Page ${num} / ${bookData.length}`;
             const frag = document.createDocumentFragment();
