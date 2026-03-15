@@ -105,7 +105,7 @@
             background-color: rgba(47, 127, 123, 0.05);
             min-width: 50px;
         }
-        .input-blank:focus { @apply bg-white border-primary shadow-sm; }
+        .input-blank:focus { @apply bg-white border-2 border-solid border-green-500 shadow-sm ring-2 ring-green-500/20; }
         .input-correct { @apply border-green-500 bg-green-50 text-green-700 !important; }
         .input-incorrect { @apply border-red-500 bg-red-50 text-red-700 !important; }
 
@@ -113,8 +113,10 @@
             @apply border-2 border-dashed border-slate-200 rounded-xl p-4 min-h-[100px] flex flex-wrap gap-2 transition-colors bg-slate-50/50;
         }
         .drop-zone.drag-over { border-color: #2f7f7b; background-color: rgba(47, 127, 123, 0.1); }
+        .drop-zone.correct { @apply border-solid border-green-500 bg-green-50/50; }
+
         .draggable-item {
-            @apply bg-white border border-slate-200 p-2 px-4 rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:border-primary transition-all select-none font-medium text-sm;
+            @apply bg-white border border-slate-200 p-2 px-4 rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:border-green-500 hover:shadow-md transition-all select-none font-medium text-sm;
         }
 
         .word-card {
@@ -416,6 +418,7 @@
         let currentZoom = 100;
         let xp = 0;
         let completedLessons = [];
+        let awardedItems = new Set();
         let laserActive = false;
         let quizUserAnswers = {};
 
@@ -478,10 +481,16 @@
                 currentLessonId = state.currentLessonId || '1.1';
                 currentPageNum = state.currentPageNum || 1;
                 currentZoom = state.currentZoom || 100;
+                awardedItems = new Set(state.awardedItems || []);
                 updateZoom(currentZoom);
             }
         }
-        function saveState() { localStorage.setItem('grammar_v4_state', JSON.stringify({ xp, completedLessons, currentLessonId, currentPageNum, currentZoom })); }
+        function saveState() {
+            localStorage.setItem('grammar_v4_state', JSON.stringify({
+                xp, completedLessons, currentLessonId, currentPageNum, currentZoom,
+                awardedItems: Array.from(awardedItems)
+            }));
+        }
 
         function updateZoom(val) {
             currentZoom = Math.max(50, Math.min(200, val));
@@ -713,6 +722,16 @@
                         </div>
                         ${renderPremiumGame(lesson.game)}
                     </section>
+                    ${lesson.exercises && lesson.exercises.length > 0 ? `
+                    <section id="premium-exercises">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="icon-box bg-blue-100"><span class="material-symbols-outlined text-blue-600">edit_document</span></div>
+                            <h2 class="text-4xl font-black tracking-tight text-slate-800">📝 Book Exercises</h2>
+                        </div>
+                        ${renderExercises(lesson.exercises)}
+                    </section>
+                    ` : ''}
+
                     <section id="premium-quiz">
                         <div class="flex items-center gap-4 mb-8">
                             <div class="icon-box bg-primary/10"><span class="material-symbols-outlined text-primary">verified</span></div>
@@ -1012,13 +1031,16 @@
         function renderExercises(exs) {
             if (!exs) return '';
             return exs.map((ex, idx) => `
-                <div class="card p-8">
-                    ${ex.instructions ? `
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="icon-box"><span class="material-symbols-outlined">edit_note</span></div>
-                        <h3 class="font-black text-xl text-slate-800">${ex.instructions}</h3>
+                <div class="card p-8 mb-8 shadow-md rounded-2xl border-2 border-slate-100" id="premium-exercises">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-4">
+                            <div class="icon-box bg-primary/10"><span class="material-symbols-outlined">edit_note</span></div>
+                            <h3 class="font-black text-xl text-slate-800">${ex.instructions}</h3>
+                        </div>
+                        <div class="bg-slate-100 px-4 py-2 rounded-xl font-black text-primary text-sm uppercase tracking-widest">
+                            Score: <span id="ex-${idx}-score">0</span> / ${getExTotalItems(ex)}
+                        </div>
                     </div>
-                    ` : ''}
                     <div id="ex-${idx}-content">
                         ${ex.type === 'categorize' ? renderCategorize(ex, idx) :
                           ex.type === 'blanks' ? renderBlanks(ex, idx) :
@@ -1027,10 +1049,78 @@
                           ex.type === 'matching' ? renderMatching(ex, idx) :
                           ex.type === 'typing_pair' ? renderTypingPair(ex, idx) :
                           ex.type === 'matching_pairs' ? renderMatchingPairs(ex, idx) :
-                          ex.type === 'table' ? renderTable(ex, idx) : ''}
+                          ex.type === 'table' ? renderTable(ex, idx) :
+                          ex.type === 'circle' ? renderCircle(ex, idx) :
+                          ex.type === 'underline' ? renderUnderline(ex, idx) :
+                          ex.type === 'tf' ? renderTF(ex, idx) :
+                          ex.type === 'multiple_choice' ? renderMultipleChoice(ex, idx) : ''}
                     </div>
                 </div>
             `).join('');
+        }
+
+        function getExTotalItems(ex) {
+            if (ex.type === 'blanks' || ex.type === 'typing_plural' || ex.type === 'typing_pair') return ex.items.length;
+            if (ex.type === 'categorize') return ex.words.length;
+            if (ex.type === 'ordering') return 1;
+            if (ex.type === 'matching' || ex.type === 'matching_pairs') return ex.pairs.length;
+            if (ex.type === 'table') {
+                let count = 0;
+                ex.rows.forEach(row => row.forEach(cell => { if (cell.type === 'input') count++; }));
+                return count;
+            }
+            if (ex.type === 'circle' || ex.type === 'underline') return ex.items.length;
+            if (ex.type === 'tf' || ex.type === 'multiple_choice') return ex.items.length;
+            return 0;
+        }
+
+        function renderCircle(ex, idx) {
+            return `<div class="space-y-6">${ex.items.map((it, i) => `
+                <div class="flex flex-wrap items-center gap-2 p-4 bg-slate-50 rounded-xl" id="ex-${idx}-item-${i}">
+                    <span class="text-slate-300 font-black mr-2">${i+1}.</span>
+                    ${it.sentence.split(' ').map((word, wIdx) => {
+                        const isTarget = it.targets.includes(wIdx);
+                        return `<span class="px-2 py-1 rounded-lg cursor-pointer hover:bg-slate-200 transition-all font-medium" onclick="handleWordClick(this, ${idx}, ${i}, ${isTarget})">${word}</span>`;
+                    }).join(' ')}
+                </div>`).join('')}</div>`;
+        }
+
+        function renderUnderline(ex, idx) {
+            return `<div class="space-y-6">${ex.items.map((it, i) => `
+                <div class="flex flex-wrap items-center gap-2 p-4 bg-slate-50 rounded-xl" id="ex-${idx}-item-${i}">
+                    <span class="text-slate-300 font-black mr-2">${i+1}.</span>
+                    ${it.sentence.split(' ').map((word, wIdx) => {
+                        const isTarget = it.targets.includes(wIdx);
+                        return `<span class="px-1 cursor-pointer hover:bg-slate-200 transition-all font-medium border-b-2 border-transparent" onclick="handleUnderlineClick(this, ${idx}, ${i}, ${isTarget})">${word}</span>`;
+                    }).join(' ')}
+                </div>`).join('')}</div>`;
+        }
+
+        function renderTF(ex, idx) {
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">${ex.items.map((it, i) => `
+                <div class="premium-card !p-6" id="ex-${idx}-item-${i}">
+                    <p class="font-bold text-slate-700 mb-4">${it.sentence}</p>
+                    <div class="flex gap-4">
+                        <button onclick="handleTFClick(this, ${idx}, ${i}, true, ${it.answer === true})" class="flex-1 py-3 rounded-xl border-2 border-slate-100 font-black uppercase tracking-widest hover:border-primary transition-all">True</button>
+                        <button onclick="handleTFClick(this, ${idx}, ${i}, false, ${it.answer === false})" class="flex-1 py-3 rounded-xl border-2 border-slate-100 font-black uppercase tracking-widest hover:border-primary transition-all">False</button>
+                    </div>
+                </div>`).join('')}</div>`;
+        }
+
+        function renderMultipleChoice(ex, idx) {
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">${ex.items.map((it, i) => `
+                <div class="premium-card !p-6" id="ex-${idx}-item-${i}">
+                    <p class="font-bold text-slate-700 mb-4">${it.sentence}</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        ${it.options.map((opt, oIdx) => `
+                            <button onclick="handleMCClick(this, ${idx}, ${i}, ${oIdx === it.answer})" class="w-full p-3 rounded-xl border-2 border-slate-100 text-left font-medium hover:border-primary transition-all flex items-center justify-between group">
+                                <span>${opt}</span>
+                                <div class="w-6 h-6 rounded-full border-2 border-slate-200 group-hover:border-primary flex items-center justify-center">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-primary scale-0 transition-transform"></div>
+                                </div>
+                            </button>`).join('')}
+                    </div>
+                </div>`).join('')}</div>`;
         }
 
         function renderTable(ex, idx) {
@@ -1049,7 +1139,7 @@
                                         <td class="p-4">
                                             ${cell.type === 'text' ?
                                                 `<span class="font-bold text-slate-700">${cell.value}</span>` :
-                                                `<input type="text" class="input-blank w-full !text-left !px-4" data-answer="${cell.answer}" onchange="checkBlank(this)" placeholder="...">`
+                                                `<input type="text" class="input-blank w-full !text-left !px-4" data-answer="${cell.answer}" onchange="checkBlank(this, ${idx}, 'table-${rIdx}-${cIdx}')" placeholder="...">`
                                             }
                                         </td>
                                     `).join('')}
@@ -1064,7 +1154,7 @@
         function renderCategorize(ex, idx) {
             return `
                 <div class="flex flex-wrap gap-3 mb-10 bg-slate-50 p-6 rounded-xl border border-slate-100" id="ex-${idx}-pool">
-                    ${ex.words.map(w => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${w.text}')">${w.text}</div>`).sort(() => 0.5 - Math.random()).join('')}
+                    ${ex.words.map((w, wIdx) => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${w.text}', ${idx}, ${wIdx})" data-category="${w.category}">${w.text}</div>`).sort(() => 0.5 - Math.random()).join('')}
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     ${ex.columns.map(col => `
@@ -1082,7 +1172,7 @@
                 const pts = it.sentence.split('_____');
                 return `<div class="text-lg font-bold text-slate-600 flex flex-wrap items-center gap-3">
                     <span class="text-slate-300 font-black text-sm">${i+1}.</span><span>${pts[0]}</span>
-                    <input type="text" class="input-blank" data-answer="${it.answer}" onchange="checkBlank(this)">
+                    <input type="text" class="input-blank" data-answer="${it.answer}" onchange="checkBlank(this, ${idx}, ${i})">
                     <span>${pts[1] || ''}</span></div>`;
             }).join('')}</div>`;
         }
@@ -1090,45 +1180,45 @@
         function renderOrdering(ex, idx) {
             return `<div class="drop-zone min-h-[60px] mb-6 bg-teal-50/20 border-primary/20" id="ex-${idx}-zone" ondragover="handleDragOver(event)" ondrop="handleDropOrdering(event, ${idx})"></div>
                 <div class="flex flex-wrap gap-2 p-4 bg-slate-50 rounded-xl border border-slate-100" id="ex-${idx}-pool">
-                ${ex.words.map(w => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${w}')">${w}</div>`).sort(() => 0.5 - Math.random()).join('')}</div>`;
+                ${ex.words.map((w, wIdx) => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${w}', ${idx}, ${wIdx})" data-answer="${wIdx}">${w}</div>`).sort(() => 0.5 - Math.random()).join('')}</div>`;
         }
 
         function renderTypingPlural(ex, idx) {
-            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">${ex.items.map(it => `
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">${ex.items.map((it, i) => `
                 <div class="flex items-center gap-4 border-b border-slate-100 pb-2">
                     <span class="font-black text-primary w-28 uppercase tracking-tighter">${it.singular}</span>
                     <span class="material-symbols-outlined text-slate-200">arrow_forward</span>
-                    <input type="text" class="input-blank flex-1 text-left !min-w-0" data-answer="${it.answer}" onchange="checkBlank(this)">
+                    <input type="text" class="input-blank flex-1 text-left !min-w-0" data-answer="${it.answer}" onchange="checkBlank(this, ${idx}, ${i})">
                 </div>`).join('')}</div>`;
         }
 
         function renderMatching(ex, idx) {
-            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-12"><div class="space-y-4">${ex.pairs.map(p => `
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-12"><div class="space-y-4">${ex.pairs.map((p, i) => `
                 <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
                     <span class="font-black text-slate-500 uppercase tracking-tighter">${p.group}</span>
-                    <div class="drop-zone w-32 min-h-[44px] !p-1 bg-white shadow-inner" data-match="${p.collective}" ondragover="handleDragOver(event)" ondrop="handleDropMatching(event, ${idx})"></div>
+                    <div class="drop-zone w-32 min-h-[44px] !p-1 bg-white shadow-inner" data-match="${p.collective}" ondragover="handleDragOver(event)" ondrop="handleDropMatching(event, ${idx}, ${i})"></div>
                 </div>`).join('')}</div>
                 <div><p class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-4">Word Pool</p>
-                <div class="flex flex-wrap gap-2" id="ex-${idx}-pool">${ex.pairs.map(p => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${p.collective}')">${p.collective}</div>`).sort(() => 0.5 - Math.random()).join('')}</div></div></div>`;
+                <div class="flex flex-wrap gap-2" id="ex-${idx}-pool">${ex.pairs.map((p, i) => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${p.collective}', ${idx}, ${i})">${p.collective}</div>`).sort(() => 0.5 - Math.random()).join('')}</div></div></div>`;
         }
 
         function renderTypingPair(ex, idx) {
-            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">${ex.items.map(it => `
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">${ex.items.map((it, i) => `
                 <div class="flex items-center gap-4 border-b border-slate-100 pb-2">
                     <span class="font-black text-primary w-28 uppercase tracking-tighter">${it.from}</span>
                     <span class="material-symbols-outlined text-slate-200">sync</span>
-                    <input type="text" class="input-blank flex-1 text-left !min-w-0" data-answer="${it.answer}" onchange="checkBlank(this)">
+                    <input type="text" class="input-blank flex-1 text-left !min-w-0" data-answer="${it.answer}" onchange="checkBlank(this, ${idx}, ${i})">
                 </div>`).join('')}</div>`;
         }
 
         function renderMatchingPairs(ex, idx) {
-            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-12"><div class="space-y-4">${ex.pairs.map(p => `
+            return `<div class="grid grid-cols-1 md:grid-cols-2 gap-12"><div class="space-y-4">${ex.pairs.map((p, i) => `
                 <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
                     <span class="font-black text-slate-500 uppercase tracking-tighter">${p[0]}</span>
-                    <div class="drop-zone w-32 min-h-[44px] !p-1 bg-white shadow-inner" data-match="${p[1]}" ondragover="handleDragOver(event)" ondrop="handleDropMatching(event, ${idx})"></div>
+                    <div class="drop-zone w-32 min-h-[44px] !p-1 bg-white shadow-inner" data-match="${p[1]}" ondragover="handleDragOver(event)" ondrop="handleDropMatching(event, ${idx}, ${i})"></div>
                 </div>`).join('')}</div>
                 <div><p class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-4">Word Pool</p>
-                <div class="flex flex-wrap gap-2" id="ex-${idx}-pool">${ex.pairs.map(p => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${p[1]}')">${p[1]}</div>`).sort(() => 0.5 - Math.random()).join('')}</div></div></div>`;
+                <div class="flex flex-wrap gap-2" id="ex-${idx}-pool">${ex.pairs.map((p, i) => `<div class="draggable-item" draggable="true" ondragstart="handleDragStart(event, '${p[1]}', ${idx}, ${i})">${p[1]}</div>`).sort(() => 0.5 - Math.random()).join('')}</div></div></div>`;
         }
 
         function renderQuiz(quiz) {
@@ -1231,30 +1321,181 @@
              if (idx > 0) { renderLesson(flat[idx-1]); document.getElementById('main-content').scrollTop = 0; }
         }
 
-        function handleDragStart(e, t) { e.dataTransfer.setData('text/plain', t); e.target.classList.add('opacity-40'); }
+        function handleDragStart(e, t, exIdx, itemIdx) {
+            e.dataTransfer.setData('text/plain', t);
+            e.dataTransfer.setData('exIdx', exIdx);
+            e.dataTransfer.setData('itemIdx', itemIdx);
+            e.target.classList.add('opacity-40');
+        }
         function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
         function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-        function handleDrop(e, idx) {
+        function handleDrop(e, exIdx) {
             e.preventDefault(); e.currentTarget.classList.remove('drag-over');
             const t = e.dataTransfer.getData('text/plain');
-            const item = Array.from(document.querySelectorAll('.draggable-item')).find(el => el.innerText === t);
-            if (item) { e.currentTarget.appendChild(item); item.classList.remove('opacity-40'); }
+            const itemExIdx = e.dataTransfer.getData('exIdx');
+            const itemIdx = e.dataTransfer.getData('itemIdx');
+            if (itemExIdx != exIdx) return;
+
+            const items = Array.from(document.querySelectorAll('.draggable-item'));
+            const item = items.find(el => el.innerText === t && el.classList.contains('opacity-40'));
+
+            if (item) {
+                const targetCategory = e.currentTarget.dataset.category;
+                const correctCategory = item.dataset.category;
+                if (targetCategory === correctCategory) {
+                    e.currentTarget.appendChild(item);
+                    item.classList.remove('opacity-40');
+                    item.classList.add('correct', '!border-green-500', 'bg-green-100', 'animate-pop');
+                    item.draggable = false;
+                    // e.currentTarget.classList.add('correct'); // Avoid double count
+                    if (awardXP(`ex-${exIdx}-item-${itemIdx}`)) updateExScore(exIdx);
+                } else {
+                    item.classList.remove('opacity-40');
+                    item.classList.add('animate-shake', '!border-red-500');
+                    setTimeout(() => item.classList.remove('animate-shake', '!border-red-500'), 400);
+                }
+            }
         }
-        function handleDropOrdering(e, idx) {
-            e.preventDefault();
+        function handleDropOrdering(e, exIdx) {
+            e.preventDefault(); e.currentTarget.classList.remove('drag-over');
             const t = e.dataTransfer.getData('text/plain');
-            const item = Array.from(document.querySelectorAll('.draggable-item')).find(el => el.innerText === t);
-            if (item) { e.currentTarget.appendChild(item); item.classList.remove('opacity-40'); }
+            const itemExIdx = e.dataTransfer.getData('exIdx');
+            if (itemExIdx != exIdx) return;
+
+            const items = Array.from(document.querySelectorAll('.draggable-item'));
+            const item = items.find(el => el.innerText === t && el.classList.contains('opacity-40'));
+
+            if (item) {
+                e.currentTarget.appendChild(item);
+                item.classList.remove('opacity-40');
+                // Check order
+                const currentOrder = Array.from(e.currentTarget.children).map(c => c.innerText);
+                const poolItems = Array.from(document.getElementById(`ex-${exIdx}-pool`).children);
+                if (poolItems.length === 0) {
+                    // All items dropped, could check final order here
+                    e.currentTarget.classList.add('correct');
+                    if (awardXP(`ex-${exIdx}-complete`)) updateExScore(exIdx);
+                }
+            }
         }
-        function handleDropMatching(e, idx) {
-            e.preventDefault(); const zone = e.currentTarget;
-            if (zone.children.length > 0) document.getElementById(`ex-${idx}-pool`).appendChild(zone.children[0]);
+        function handleDropMatching(e, exIdx, iIdx) {
+            e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+            const zone = e.currentTarget;
             const t = e.dataTransfer.getData('text/plain');
-            const item = Array.from(document.querySelectorAll('.draggable-item')).find(el => el.innerText === t);
-            if (item) { zone.appendChild(item); item.classList.remove('opacity-40'); }
+            const itemExIdx = e.dataTransfer.getData('exIdx');
+            const itemIdx = e.dataTransfer.getData('itemIdx');
+            if (itemExIdx != exIdx) return;
+
+            const items = Array.from(document.querySelectorAll('.draggable-item'));
+            const item = items.find(el => el.innerText === t && el.classList.contains('opacity-40'));
+
+            if (item) {
+                if (zone.dataset.match === t) {
+                    if (zone.children.length > 0) document.getElementById(`ex-${exIdx}-pool`).appendChild(zone.children[0]);
+                    zone.appendChild(item);
+                    item.classList.remove('opacity-40');
+                    item.classList.add('correct', '!border-green-500', 'bg-green-100', 'animate-pop');
+                    item.draggable = false;
+                    // zone.classList.add('correct'); // Avoid double count
+                    if (awardXP(`ex-${exIdx}-item-${iIdx}`)) updateExScore(exIdx);
+                } else {
+                    item.classList.remove('opacity-40');
+                    item.classList.add('animate-shake', '!border-red-500');
+                    setTimeout(() => item.classList.remove('animate-shake', '!border-red-500'), 400);
+                }
+            }
         }
-        function checkBlank(inp) {
+        function awardXP(id) {
+            if (!awardedItems.has(id)) {
+                awardedItems.add(id);
+                xp += 10;
+                updateXPDisplay();
+                saveState();
+                return true;
+            }
+            return false;
+        }
+
+        function updateExScore(exIdx) {
+            const exContainer = document.querySelector(`[id^="ex-${exIdx}-content"]`);
+            if (!exContainer) return;
+            const correctCount = exContainer.querySelectorAll('.input-correct, .draggable-item.correct, span.correct, span.underline-correct, button.bg-green-100').length;
+            const scoreEl = document.getElementById(`ex-${exIdx}-score`);
+            if (scoreEl) {
+                scoreEl.textContent = correctCount;
+                const totalText = scoreEl.parentElement.textContent.split('/')[1];
+                const total = parseInt(totalText);
+                if (correctCount >= total && total > 0 && !exContainer.querySelector('.success-msg')) {
+                    exContainer.insertAdjacentHTML('beforeend', `
+                        <div class="success-msg mt-8 p-6 bg-green-50 border-2 border-green-200 rounded-2xl flex flex-col items-center justify-center gap-2 animate-pop">
+                            <div class="flex items-center gap-4">
+                                <span class="text-3xl">🎉</span>
+                                <p class="font-black text-green-700 uppercase tracking-widest">Exercise Complete!</p>
+                                <span class="text-3xl">🎉</span>
+                            </div>
+                            <p class="font-bold text-primary">Final Score: ${correctCount} / ${total}</p>
+                        </div>
+                    `);
+                }
+            }
+        }
+
+        function handleWordClick(el, exIdx, itemIdx, isTarget) {
+            const id = `ex-${exIdx}-item-${itemIdx}`;
+            if (isTarget) {
+                if (!el.classList.contains('correct')) {
+                    el.classList.add('correct', 'animate-pop', 'bg-green-100', 'text-green-700', 'font-bold');
+                    if (awardXP(id)) updateExScore(exIdx);
+                }
+            } else {
+                el.classList.add('animate-shake', 'bg-red-100', 'text-red-700');
+                setTimeout(() => el.classList.remove('animate-shake', 'bg-red-100', 'text-red-700'), 400);
+            }
+        }
+
+        function handleUnderlineClick(el, exIdx, itemIdx, isTarget) {
+            const id = `ex-${exIdx}-item-${itemIdx}`;
+            if (isTarget) {
+                if (!el.classList.contains('underline-correct')) {
+                    el.classList.add('underline-correct', 'border-green-500', 'text-green-700', 'font-bold');
+                    if (awardXP(id)) updateExScore(exIdx);
+                }
+            } else {
+                el.classList.add('animate-shake', 'border-red-500', 'text-red-700');
+                setTimeout(() => el.classList.remove('animate-shake', 'border-red-500', 'text-red-700'), 400);
+            }
+        }
+
+        function handleTFClick(btn, exIdx, itemIdx, val, isCorrect) {
+            const id = `ex-${exIdx}-item-${itemIdx}`;
+            const container = btn.parentElement;
+            if (isCorrect) {
+                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-700', 'animate-pop');
+                Array.from(container.children).forEach(b => b.disabled = true);
+                if (awardXP(id)) updateExScore(exIdx);
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-700', 'animate-shake');
+                setTimeout(() => btn.classList.remove('animate-shake'), 400);
+            }
+        }
+
+        function handleMCClick(btn, exIdx, itemIdx, isCorrect) {
+            const id = `ex-${exIdx}-item-${itemIdx}`;
+            const container = btn.parentElement;
+            if (isCorrect) {
+                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-700', 'animate-pop');
+                btn.querySelector('.w-2.5').classList.remove('scale-0');
+                Array.from(container.children).forEach(b => b.disabled = true);
+                if (awardXP(id)) updateExScore(exIdx);
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-700', 'animate-shake');
+                setTimeout(() => btn.classList.remove('animate-shake'), 400);
+            }
+        }
+
+        function checkBlank(inp, exIdx, itemIdx) {
             const v = inp.value.trim().toLowerCase();
+            const id = `ex-${exIdx}-item-${itemIdx}`;
             inp.classList.remove('input-correct', 'input-incorrect', 'animate-pop', 'animate-shake');
 
             const existingEmoji = inp.nextElementSibling;
@@ -1268,6 +1509,7 @@
             if (isCorrect) {
                 inp.classList.add('input-correct', 'animate-pop');
                 inp.insertAdjacentHTML('afterend', '<span class="feedback-emoji ml-1 animate-pop">✅</span>');
+                if (awardXP(id)) updateExScore(exIdx);
             } else {
                 inp.classList.add('input-incorrect', 'animate-shake');
                 inp.insertAdjacentHTML('afterend', '<span class="feedback-emoji ml-1">❌</span>');
